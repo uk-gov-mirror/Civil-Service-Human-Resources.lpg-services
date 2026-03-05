@@ -1,6 +1,6 @@
 {% macro courseCardHeading(params) %}
     <div class="discite__main {{ params.classes }}">
-        {% set headingTag = params.headingTag if params.headingTag != null else "h2" %}
+        {% set headingTag = params.headingTag if params.headingTag != null else "h3" %}
         <{{ headingTag }} class="heading discite__heading lpg-course-name">
             <a {% if params.link.newTab %} target="_blank" {% endif %} class="lpg-course-link" href="/courses/{{ params.link.courseId }}">{{ params.link.courseTitle }}</a>
         </{{ headingTag  }}>
