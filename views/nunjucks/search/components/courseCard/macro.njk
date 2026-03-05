@@ -58,7 +58,8 @@
                 <span>Already in your learning plan</span>
             {% else %}
                 {{ addToLearningPlanLink({
-                    "courseId": params.id
+                    "courseId": params.id,
+                    "courseTitle": params.title
                 }) }}
             {% endif %}
         {% endset %}

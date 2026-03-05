@@ -36,12 +36,21 @@
 {% endmacro %}
 
 {% macro addToLearningPlanLink(params) %}
+    {% set html %}
+        Add to learning plan <span class="visually-hidden">: {{ params.courseTitle }}</span>
+    {% endset %}
     {{ ctaLink({
         "href": "/suggestions-for-you/add/" + params.courseId + "?ref=search",
-        "text": "Add to learning plan"
+        "html": html
     }) }}
 {% endmacro %}
 
 {% macro ctaLink(params) %}
-    <a class="discite__action-link--main" href="{{ params.href }}">{{ params.text }}</a>
+    <a class="discite__action-link--main" href="{{ params.href }}">
+        {% if params.html %}
+            {{ params.html | safe }}
+        {% else %}
+            {{ params.text }}
+        {% endif %}
+    </a>
 {% endmacro %}

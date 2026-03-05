@@ -1,9 +1,9 @@
 <div class="tile">
-	<h3 class="heading-small">
+	<h2 class="heading-small">
 		<a href="/courses/{course.id}">
 			{course.title}
 		</a>
-	</h3>
+	</h2>
 	{#if home}
 	<p class="tile__attribution">{isLast ? 'Department:' : 'Work area: '}
 	{#if isLast}
@@ -37,7 +37,7 @@
 	</p>
 	<p class="tile__actions">
 		<a href="/suggestions-for-you/add/{course.id}{home ? '?ref=home' :''}">
-			Add <span class="visually-hidden">{course.title}</span> to learning plan
+			Add to learning plan<span class="visually-hidden">: {course.title}</span>
 		</a>
 		<a href="/suggestions-for-you?delete={course.id}{home ? '?ref=home' :''}">
 			Remove <span class="visually-hidden">{course.title} from suggested learning list</span>
