@@ -1,4 +1,3 @@
 {% macro navbarLink(url, href, text) %}
-    {% set isActive = url.includes(href) %}
-    <li {% if isActive %}class="active"{% endif %}><a href="{{ href }}" {% if isActive %}aria-current="page"{% endif %}>{{ text }}</a></li>
+    <li {% if url.includes(href) %}class="active"{% endif %}><a href="{{ href }}" {% if url.includes(href) %}aria-current="page"{% endif %}>{{ text }}</a></li>
 {% endmacro %}
