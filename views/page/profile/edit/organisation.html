@@ -14,7 +14,9 @@
                     </Error>
                 {/if}
                 <form autocomplete="off" method="post" action="/profile/organisation">
-                    <TypeAhead {options} inputName="organisation" label="{$i18n('profile_department_label')}" lede="{$i18n('register_organisation_label_hint')}" />
+                    <div class="form-group">
+                        <TypeAhead {options} inputName="organisation" label="{$i18n('profile_department_label')}" lede="{$i18n('register_organisation_label_hint')}" />
+                    </div>
                     <input type="hidden" name="_csrf" value="{_csrf}">
                     <button type="submit" class="button">Save changes</button>
                 </form>
