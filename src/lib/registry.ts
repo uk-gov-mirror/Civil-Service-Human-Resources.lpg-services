@@ -28,8 +28,8 @@ export class AreaOfWork implements KeyValue, SearchFilterable {
 
 	getAsSearchFilter(): SearchLabel {
 		return {
-			id: this.name,
-			value: this.name,
+			id: `area-of-work-${this.id}`,
+			value: this.getValue(),
 			label: this.name,
 		}
 	}
@@ -60,7 +60,7 @@ export class Interest implements KeyValue, SearchFilterable {
 
 	getAsSearchFilter(): SearchLabel {
 		return {
-			id: this.name,
+			id: `interest-${this.id}`,
 			value: this.name,
 			label: this.name,
 		}
