@@ -111,7 +111,7 @@ export async function getCoursePage(user: User, course: Course): Promise<BasicCo
 		logger.debug(`hasFaceToFaceModule: ${hasFaceToFaceModule}`)
 		if (course.record.isCompleted() || hasFaceToFaceModule) {
 			basicCoursePage.isInLearningPlan = undefined
-		} else basicCoursePage.isInLearningPlan = course.record.state !== 'ARCHIVED';
+		} else basicCoursePage.isInLearningPlan = course.record.state !== 'ARCHIVED'
 	}
 	return basicCoursePage
 }
