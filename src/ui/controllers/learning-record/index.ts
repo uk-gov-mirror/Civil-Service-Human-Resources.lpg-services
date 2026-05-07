@@ -89,12 +89,12 @@ export function getRequiredLearningStatusMessage(
 	let message
 	if (numberOfTotalRequiredCourses > 0) {
 		if (numberOfCompletedRequiredCourses === numberOfTotalRequiredCourses) {
-			message = 'You have completed all of your required learning for this reporting year.'
+			message = 'You have completed all of your required learning in this learning period.'
 		} else {
 			message =
 				numberOfCompletedRequiredCourses === 0
 					? `You haven't completed any of your required courses.`
-					: `You haven't completed all of your required learning for this reporting year.`
+					: `You haven't completed all of your required learning in this learning period.`
 		}
 	} else {
 		message = 'There is no required learning for your department.'
