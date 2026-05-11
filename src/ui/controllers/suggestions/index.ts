@@ -1,17 +1,19 @@
 import {Request} from 'express'
 import * as express from 'express'
+import {ICourse} from '../../../lib/model'
 import * as model from '../../../lib/model'
 import {fetchSuggestedLearning} from '../../../lib/service/catalog/suggestedLearning/suggestedLearningService'
 import {Suggestion} from '../../../lib/service/catalog/suggestedLearning/suggestion'
-import {SuggestionsMap} from '../../../lib/service/catalog/suggestedLearning/suggestionMap'
 import * as cslService from '../../../lib/service/cslService/cslServiceClient'
 import {BasicCourse} from '../../../lib/service/cslService/models/learning/learningPlan/basicCourse'
-import {ActionBanner} from '../home'
+import {ActionBanner, generateNotificationBanner} from '../home'
 
-function generateActionBanner(request: Request, suggestionMap: SuggestionsMap): ActionBanner | null {
+function generateActionBanner(request: Request, learningPlan: ICourse[]): ActionBanner | null {
 	const courseId: string | undefined = request.query.delete
 	if (courseId) {
-		const course = suggestionMap.getCourse(courseId)
+		const course = learningPlan.find(c => {
+			return c.id === courseId
+		})
 		if (course) {
 			return {
 				title: request.__('suggestions_delete_title', course.title),
@@ -98,12 +100,15 @@ export async function suggestionsPage(req: express.Request, res: express.Respons
 		})
 	})
 
-	const banner = generateActionBanner(req, map)
+	const allCourses = map.getAllCourses()
+	const notificationBanner = await generateNotificationBanner(req, allCourses)
+	const actionBanner = generateActionBanner(req, allCourses)
 
 	res.render('suggestions-for-you/index.njk', {
 		sections,
 		banners: {
-			action: banner,
+			notification: notificationBanner,
+			action: actionBanner,
 		},
 	})
 }
