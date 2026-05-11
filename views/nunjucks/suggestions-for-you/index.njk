@@ -4,7 +4,7 @@
 
 {% set pageTitle = i18n('suggestions_page_title') %}
 
-{% macro sectionRow(params, index) %}
+{% macro sectionRow(params) %}
     {% if params.courses | length > 0 %}
         <div class='grid-row'>
             <div class='column-full'>
@@ -86,7 +86,7 @@
                 </div>
                 {{ renderBanners(banners) }}
                 {% for section in sections %}
-                    {{ sectionRow(section, loop.index0) }}
+                    {{ sectionRow(section) }}
                 {% endfor %}
             </div>
         </div>
