@@ -100,8 +100,6 @@ export async function suggestionsPage(req: express.Request, res: express.Respons
 
 	const banner = generateActionBanner(req, map)
 
-	console.log(banner)
-
 	res.render('suggestions-for-you/index.njk', {
 		sections,
 		banners: {
