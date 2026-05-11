@@ -1,12 +1,12 @@
 import {Request} from 'express'
 import * as express from 'express'
-import * as model from '../../lib/model'
-import {fetchSuggestedLearning} from '../../lib/service/catalog/suggestedLearning/suggestedLearningService'
-import {Suggestion} from '../../lib/service/catalog/suggestedLearning/suggestion'
-import {SuggestionsMap} from '../../lib/service/catalog/suggestedLearning/suggestionMap'
-import * as cslService from '../../lib/service/cslService/cslServiceClient'
-import * as template from '../../lib/ui/template'
-import {ActionBanner} from './home'
+import * as model from '../../../lib/model'
+import {fetchSuggestedLearning} from '../../../lib/service/catalog/suggestedLearning/suggestedLearningService'
+import {Suggestion} from '../../../lib/service/catalog/suggestedLearning/suggestion'
+import {SuggestionsMap} from '../../../lib/service/catalog/suggestedLearning/suggestionMap'
+import * as cslService from '../../../lib/service/cslService/cslServiceClient'
+import {BasicCourse} from '../../../lib/service/cslService/models/learning/learningPlan/basicCourse'
+import {ActionBanner} from '../home'
 
 function generateActionBanner(request: Request, suggestionMap: SuggestionsMap): ActionBanner | null {
 	const courseId: string | undefined = request.query.delete
@@ -61,23 +61,51 @@ export async function removeFromSuggestions(req: express.Request, res: express.R
 export async function suggestionsPage(req: express.Request, res: express.Response) {
 	const user = req.user as model.User
 	const map = await fetchSuggestedLearning(user, res.locals.departmentHierarchyCodes)
+	type section = {
+		title: string
+		url: string
+		courses: BasicCourse[]
+	}
+	const sections: section[] = []
 
-	const department = map.getMapping(Suggestion.DEPARTMENT)
-	const areaOfWork = map.getMapping(Suggestion.AREA_OF_WORK)
-	const otherAreasOfWork = map.getMapping(Suggestion.OTHER_AREAS_OF_WORK)
-	const interests = map.getMapping(Suggestion.INTERESTS)
+	sections.push({
+		title: user.organisationalUnit!.name,
+		url: `/search?department=${user.organisationalUnit!.code}`,
+		courses: map.getMapping(Suggestion.DEPARTMENT).get(user.organisationalUnit!.code) || [],
+	})
+
+	map.getMapping(Suggestion.AREA_OF_WORK).forEach((value, key) => {
+		sections.push({
+			title: key,
+			url: `/search?areaOfWork=${key}`,
+			courses: value,
+		})
+	})
+
+	map.getMapping(Suggestion.OTHER_AREAS_OF_WORK).forEach((value, key) => {
+		sections.push({
+			title: key,
+			url: `/search?areaOfWork=${key}`,
+			courses: value,
+		})
+	})
+
+	map.getMapping(Suggestion.INTERESTS).forEach((value, key) => {
+		sections.push({
+			title: key,
+			url: `/search?interest=${key}`,
+			courses: value,
+		})
+	})
 
 	const banner = generateActionBanner(req, map)
 
-	res.send(
-		template.render('suggested', req, res, {
-			banner,
-			areaOfWork,
-			department,
-			interests,
-			otherAreasOfWork,
-			successMessage: req.flash('successMessage')[0],
-			successTitle: req.flash('successTitle')[0],
-		})
-	)
+	console.log(banner)
+
+	res.render('suggestions-for-you/index.njk', {
+		sections,
+		banners: {
+			action: banner,
+		},
+	})
 }

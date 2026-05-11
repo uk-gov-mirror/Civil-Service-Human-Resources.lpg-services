@@ -1,7 +1,9 @@
-import {Course, User} from '../../../model'
+import {plainToInstance} from 'class-transformer'
+import {User} from '../../../model'
 import * as client from '../../catalog/courseCatalogueClient'
 
 import {getFullRecord} from '../../cslService/courseRecord/client'
+import {BasicCourse} from '../../cslService/models/learning/learningPlan/basicCourse'
 import {GetCoursesParams} from '../models/getCoursesParams'
 import {Suggestion} from './suggestion'
 import {SuggestionsMap} from './suggestionMap'
@@ -31,7 +33,7 @@ export async function fetchSuggestedLearning(user: User, departmentHierarchyCode
 
 	await Promise.all(
 		params.map(async s => {
-			let courses: Course[] = []
+			let courses: BasicCourse[] = []
 			if (s.params) {
 				courses = await getSuggestions(s.params, courseIdsInLearningPlan, user)
 			}
@@ -121,15 +123,25 @@ export async function getSuggestions(
 	params: GetCoursesParams,
 	courseIdsInPlan: string[],
 	user: User
-): Promise<Course[]> {
-	const newSuggestions: Course[] = []
+): Promise<BasicCourse[]> {
+	const newSuggestions: BasicCourse[] = []
 	let hasMore = true
 
 	while (newSuggestions.length <= RECORD_COUNT_TO_DISPLAY && hasMore) {
 		const page = await client.getCoursesV2(params, user)
 		page.results.map(course => {
 			if (newSuggestions.length < RECORD_COUNT_TO_DISPLAY && !courseIdsInPlan.includes(course.id)) {
-				newSuggestions.push(course)
+				const basicCourse = plainToInstance(BasicCourse, {
+					id: course.id,
+					title: course.title,
+					shortDescription: course.shortDescription,
+					type: course.getType(),
+					duration: course.getDuration(),
+					moduleCount: course.modules.length,
+					costInPounds: course.getCost(),
+					status: course.status,
+				})
+				newSuggestions.push(basicCourse)
 			}
 		})
 		hasMore = page.totalResults > page.size * (page.page + 1)
