@@ -60,12 +60,12 @@ describe('Learning record controller tests', () => {
 
 			it('should return not all required learning completed if required learning count is 10 and completed required learning is 5', () => {
 				const message: string = learningRecordIndex.getRequiredLearningStatusMessage(5, 10)
-				expect(message).to.eql("You haven't completed all of your required learning for this reporting year.")
+				expect(message).to.eql("You haven't completed all of your required learning in this learning period.")
 			})
 
 			it('should return all required learning completed if required learning count is 10 and completed required learning is 10', () => {
 				const message: string = learningRecordIndex.getRequiredLearningStatusMessage(10, 10)
-				expect(message).to.eql('You have completed all of your required learning for this reporting year.')
+				expect(message).to.eql('You have completed all of your required learning in this learning period.')
 			})
 		})
 
