@@ -53,7 +53,7 @@
                 {% endfor %}
             </div>
         {% endfor %}
-        {% if params.courses | length > 6 %}
+        {% if params.courses | length >= 6 %}
             <p><a href="{{ params.url }}">Show all suggestions from {{ params.title }}</a></p>
         {% endif %}
     {% endif %}
