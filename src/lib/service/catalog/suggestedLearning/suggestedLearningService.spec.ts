@@ -195,16 +195,16 @@ describe('suggestedLearningService tests', () => {
 			const otherAreasOfWork = map.getMapping(Suggestion.OTHER_AREAS_OF_WORK)
 			const interests = map.getMapping(Suggestion.INTERESTS)
 
-			expect(department.ORG).to.eql([])
+			expect(department.get('ORG')).to.eql([])
 
-			expect(areaOfWork.Analysis).to.eql([])
+			expect(areaOfWork.get('Analysis')).to.eql([])
 
-			expect(otherAreasOfWork.Communications).to.eql([])
-			expect(otherAreasOfWork.DDaT).to.eql([])
-			expect(otherAreasOfWork["I don't know"]).to.eql([])
+			expect(otherAreasOfWork.get('Communications')).to.eql([])
+			expect(otherAreasOfWork.get('DDaT')).to.eql([])
+			expect(otherAreasOfWork.get("I don't know")).to.eql([])
 
-			expect(interests.Commercial).to.eql([])
-			expect(interests.EU).to.eql([])
+			expect(interests.get('Commercial')).to.eql([])
+			expect(interests.get('EU')).to.eql([])
 
 			expect(courseCatalogueClientStub.getCoursesV2.getCalls().length).to.eql(6)
 		})

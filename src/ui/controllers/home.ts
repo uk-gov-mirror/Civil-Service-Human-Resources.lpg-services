@@ -108,7 +108,6 @@ export async function home(req: express.Request, res: express.Response, next: ex
 			},
 		})
 	} catch (e) {
-		console.error("Error building user's home page", e)
 		next(e)
 	}
 }

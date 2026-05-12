@@ -48,7 +48,7 @@ import * as profileController from './ui/controllers/profile'
 import {ProfileEndpoint} from './ui/controllers/profile/pages/common'
 import * as searchController from './ui/controllers/search'
 import * as skillsController from './ui/controllers/skills'
-import * as suggestionController from './ui/controllers/suggestion'
+import * as suggestionController from './ui/controllers/suggestions/index'
 import {completeVideoModule} from './ui/controllers/video'
 
 export let appInsightsStarted = false
