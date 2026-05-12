@@ -4,10 +4,10 @@ import {BasicCourse} from '../../../../lib/service/cslService/models/learning/le
 export class SuggestionSection {
 	public title: string
 	@Type(() => BasicCourse)
-	public course: BasicCourse[]
+	public courses: BasicCourse[]
 
 	constructor(title: string, course: BasicCourse[]) {
 		this.title = title
-		this.course = course
+		this.courses = course
 	}
 }

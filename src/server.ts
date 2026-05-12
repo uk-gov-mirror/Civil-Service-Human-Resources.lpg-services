@@ -294,7 +294,6 @@ app.get(
 	asyncHandler(suggestionController.suggestionsPage)
 )
 app.get('/suggestions-for-you/add/:courseId', asyncHandler(suggestionController.addToPlan))
-app.get('/suggestions-for-you/remove/:courseId', asyncHandler(suggestionController.removeFromSuggestions))
 
 app.get('/skills', asyncHandler(skillsController.introduction))
 app.get('/skills/choose-quiz', asyncHandler(skillsController.chooseQuiz))

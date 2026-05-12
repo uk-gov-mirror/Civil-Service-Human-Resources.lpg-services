@@ -1,6 +1,11 @@
 import {plainToInstance} from 'class-transformer'
 import {client} from './baseConfig'
-import {HOMEPAGE_COMPLETE_REQUIRED_COURSES, HOMEPAGE_COMPLETE_LEARNING_PLAN_COURSES} from '../../config'
+import {
+	HOMEPAGE_COMPLETE_REQUIRED_COURSES,
+	HOMEPAGE_COMPLETE_LEARNING_PLAN_COURSES,
+	SUGGESTIONS_MAX_COURSES,
+	SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES,
+} from '../../config'
 import {User} from '../../model'
 import {LearningPlanCache} from './cache/LearningPlanCache'
 import {LearningRecordCache} from './cache/learningRecordCache'
@@ -21,6 +26,7 @@ import {LearningPlan} from './models/learning/learningPlan/learningPlan'
 import {LearningRecord} from './models/learning/learningRecord/learningRecord'
 import {RequiredLearning} from './models/learning/requiredLearning/requiredLearning'
 import {Grades} from './models/grades'
+import {ProfileSuggestionsResponse} from './models/learning/suggestions/profileSuggestionsResponse'
 
 export let learningRecordCache: LearningRecordCache
 export let requiredLearningCache: RequiredLearningCache
@@ -226,6 +232,20 @@ export async function getLearningPlan(user: User): Promise<LearningPlan> {
 		await learningPlanCache.setObject(learningPlan)
 	}
 	return learningPlan
+}
+
+export async function getProfileSuggestions(user: User): Promise<ProfileSuggestionsResponse> {
+	const resp = await client._get(
+		{
+			url: '/learning/catalogue/suggestions',
+			params: {
+				size: SUGGESTIONS_MAX_COURSES,
+				excludeLearningPlanCourses: SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES
+			},
+		},
+		user
+	)
+	return plainToInstance(ProfileSuggestionsResponse, resp)
 }
 
 export async function getAreasOfWork(user: User) {

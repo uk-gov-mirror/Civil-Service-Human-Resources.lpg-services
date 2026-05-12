@@ -1,0 +1,49 @@
+{% from components + "/courseCard/actions/macro.njk" import courseCardActions, startLink, addToLearningPlanLink %}
+{% from components + "/courseCard/description/macro.njk" import courseCardDescription %}
+{% from components + "/courseCard/heading/macro.njk" import courseCardHeading %}
+{% from components + "/courseCard/properties/macro.njk" import basicProperties %}
+
+{% macro suggestionsCard(params) %}
+    <div class="discite__item u-clearfix discite__item--home">
+        {# Heading #}
+        {{ courseCardHeading({
+            "classes": "discite__main--home",
+            "link": {
+                "newTab": params.type == "link",
+                "courseId": params.id,
+                "courseTitle": params.title
+            }
+        }) }}
+
+        {# Properties #}
+        {{ basicProperties(params) }}
+
+        {# Description #}
+        {{ courseCardDescription({
+            "moduleCount": params.moduleCount,
+            "shortDescription": {
+                "classes": "discite__desc--home",
+                "text": params.shortDescription
+            }
+        }) }}
+
+        {# CTA #}
+        {% set primary %}
+            {% if params.status == 'IN_PROGRESS' %}
+                <span>Already in your learning plan</span>
+            {% else %}
+                {{ addToLearningPlanLink({
+                    "courseId": params.id,
+                    "courseTitle": params.title,
+                    "ref": "suggestions"
+                }) }}
+            {% endif %}
+        {% endset %}
+        {{ courseCardActions({
+            "classes": "discite__action--home",
+            "actions": {
+                "primary": primary
+            }
+        }) }}
+    </div>
+{% endmacro %}
