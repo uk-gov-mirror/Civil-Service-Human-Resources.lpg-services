@@ -229,7 +229,7 @@ export async function getProfileSuggestions(user: User): Promise<ProfileSuggesti
 			url: '/learning/catalogue/suggestions',
 			params: {
 				size: SUGGESTIONS_MAX_COURSES,
-				excludeLearningPlanCourses: SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES
+				excludeLearningPlanCourses: SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES,
 			},
 		},
 		user
