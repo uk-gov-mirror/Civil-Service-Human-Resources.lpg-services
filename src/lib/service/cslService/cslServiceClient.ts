@@ -325,9 +325,12 @@ export async function setFullName(user: User, fullName: string, newProfile: bool
  * @param user
  */
 export async function clearUserCache(user: User) {
-	await client._get({
-		url: `/reset-cache/user/${user.id}`
-	}, user)
+	await client._get(
+		{
+			url: `/reset-cache/user/${user.id}`,
+		},
+		user
+	)
 }
 
 export async function getAllOrganisationsDropdown(user: User) {
