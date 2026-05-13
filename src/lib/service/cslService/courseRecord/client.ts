@@ -8,17 +8,6 @@ const logger = getLogger('LearnerRecordAPI/client.ts')
 
 const URL = '/course_records'
 
-export async function getFullRecord(user: model.User): Promise<CourseRecord[]> {
-	const resp = await client._get<CourseRecordResponse>(
-		{
-			url: URL,
-		},
-		user
-	)
-	const courseRecords = plainToClass(CourseRecordResponse, resp)
-	return await Promise.all(courseRecords.courseRecords.map(c => plainToClass(CourseRecord, c)))
-}
-
 export async function getCourseRecords(courseIds: string[], user: model.User): Promise<CourseRecord[]> {
 	const resp = await client.makeRequest<CourseRecordResponse>(
 		{

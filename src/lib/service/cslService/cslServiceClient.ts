@@ -320,6 +320,16 @@ export async function setFullName(user: User, fullName: string, newProfile: bool
 	)
 }
 
+/**
+ * @TODO: Migrate all profile updates into csl-service and manually update the user cache there so that this isn't necessary
+ * @param user
+ */
+export async function clearUserCache(user: User) {
+	await client._get({
+		url: `/reset-cache/user/${user.id}`
+	}, user)
+}
+
 export async function getAllOrganisationsDropdown(user: User) {
 	return await getOrganisationsDropdown(user, new GetOrganisationsFormattedParams())
 }
