@@ -1,6 +1,7 @@
 import {expect} from 'chai'
 import * as sinon from 'sinon'
 import * as fileHelpers from '../../../../lib/filehelpers'
+import * as courseRecord from '../../../../lib/service/cslService/courseRecord/client'
 import {Course, Event, Module, User} from '../../../../lib/model'
 import {CourseRecord} from '../../../../lib/service/cslService/models/courseRecord'
 import {ModuleRecord} from '../../../../lib/service/cslService/models/moduleRecord'
@@ -18,6 +19,7 @@ import {F2FModuleCard, FileModuleCard} from './moduleCard'
 describe('Course page model tests', () => {
 	const sandbox = sinon.createSandbox()
 	let fileHelperStub: sinon.SinonStubbedInstance<typeof fileHelpers>
+	let courseRecordStub: sinon.SinonStubbedInstance<typeof courseRecord>
 
 	const user = new User('user-id', ['LEARNER'], 'access-token', 'user@email.com', 'user-id')
 	const event = new Event(new Date(), new Date(), [], 'Bristol', 10, 10, 'Active', 'event-id')
@@ -38,6 +40,8 @@ describe('Course page model tests', () => {
 
 	beforeEach(() => {
 		fileHelperStub = sandbox.stub(fileHelpers)
+		courseRecordStub = sandbox.stub(courseRecord)
+		courseRecordStub.getCourseRecord.resolves(undefined)
 		fileHelperStub.extensionAndSize.returns('pdf, 10KB')
 		fileHelperStub.fileName.returns('filename')
 	})
