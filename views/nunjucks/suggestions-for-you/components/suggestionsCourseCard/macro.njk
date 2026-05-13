@@ -1,49 +1,39 @@
-{% from components + "/courseCard/actions/macro.njk" import courseCardActions, startLink, addToLearningPlanLink %}
-{% from components + "/courseCard/description/macro.njk" import courseCardDescription %}
-{% from components + "/courseCard/heading/macro.njk" import courseCardHeading %}
-{% from components + "/courseCard/properties/macro.njk" import basicProperties %}
+{% import components + "/learningCard/actions/macro.njk" as learningCardActions %}
+{% import components + "/learningCard/details/macro.njk" as learningCardDetails %}
+{% import components + "/learningCard/header/macro.njk" as learningCardHeader %}
+{% import components + "/learningCard/content/macro.njk" as learningCardContent %}
 
 {% macro suggestionsCard(params) %}
-    <div class="discite__item u-clearfix discite__item--home">
-        {# Heading #}
-        {{ courseCardHeading({
-            "classes": "discite__main--home",
-            "link": {
-                "newTab": params.type == "link",
+    <div class="learning-card">
+        <div class='learning-card__header'>
+            {{ learningCardHeader.courseCardHeader({
+                "type": params.type,
                 "courseId": params.id,
                 "courseTitle": params.title
-            }
-        }) }}
-
-        {# Properties #}
-        {{ basicProperties(params) }}
-
-        {# Description #}
-        {{ courseCardDescription({
+            }) }}
+            {{ learningCardDetails.basicDetails({
+                type: params.type,
+                duration: params.duration,
+                cost: params.costInPounds
+            }) }}
+        </div>
+        {{ learningCardContent.learningCardContent({
             "moduleCount": params.moduleCount,
-            "shortDescription": {
-                "classes": "discite__desc--home",
-                "text": params.shortDescription
-            }
+            "shortDescription": params.shortDescription
         }) }}
-
-        {# CTA #}
         {% set primary %}
             {% if params.status == 'IN_PROGRESS' %}
-                <span>Already in your learning plan</span>
+                {{ learningCardActions.alreadyInLearningPlan() }}
             {% else %}
-                {{ addToLearningPlanLink({
+                {{ learningCardActions.addToLearningPlan({
                     "courseId": params.id,
                     "courseTitle": params.title,
                     "ref": "suggestions"
                 }) }}
             {% endif %}
         {% endset %}
-        {{ courseCardActions({
-            "classes": "discite__action--home",
-            "actions": {
-                "primary": primary
-            }
+        {{ learningCardActions.learningCardActions({
+            "primary": primary
         }) }}
     </div>
 {% endmacro %}

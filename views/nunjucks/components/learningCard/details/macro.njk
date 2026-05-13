@@ -1,0 +1,59 @@
+{#Generic elements#}
+
+{% macro learningCardDetailsListItem(params) %}
+    {% if params.html %}
+        {{ params.html | safe }}
+    {% else %}
+        <li class="learning-card__details_item">{{ params.key }}: <span class="learning-card__details_value">{{ params.value }}</span> </li>
+    {% endif %}
+{% endmacro %}
+
+{% macro learningCardDetails(params) %}
+    <div class="learning-card__details">
+        <ul class="learning-card__details_list">
+            {% for detail in params.items %}
+                {{ learningCardDetailsListItem(detail) }}
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}
+
+{#Specific elements#}
+
+{% macro learningType(params) %}
+    {{ learningCardDetailsListItem({
+        key: "Type",
+        value: i18n(params.type)
+    }) }}
+{% endmacro %}
+
+{% macro learningDuration(params) %}
+    {{ learningCardDetailsListItem({
+        key: "Duration",
+        value: params.duration | formatDuration
+    }) }}
+{% endmacro %}
+
+{% macro learningCost(params) %}
+    {% set cost = "Free" if params.cost === 0 else "£" + params.cost + " (ex VAT)" %}
+    {{ learningCardDetailsListItem({
+        key: "Cost",
+        value: cost
+    }) }}
+{% endmacro %}
+
+{% macro basicDetails(params) %}
+    {{ learningCardDetails({
+        items: [
+            {
+                html: learningType(params)
+            },
+            {
+                html: learningDuration(params)
+            },
+            {
+                html: learningCost(params)
+            }
+        ]
+    }) }}
+{% endmacro %}

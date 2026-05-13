@@ -1,0 +1,21 @@
+{% macro learningCardHeader(params) %}
+    {% set headingTag = params.headingTag if params.headingTag != null else "h3" %}
+    <div>
+        <{{ headingTag }} class="learning-card__heading">
+            <a {% if params.link.newTab %} target="_blank" {% endif %} href="{{ params.link.href }}">{{ params.link.text }}</a>
+        </{{ headingTag }}>
+    </div>
+
+{% endmacro %}
+
+{% macro courseCardHeader(params) %}
+    {{ learningCardHeader({
+        "link": {
+            "newTab": params.type === 'link',
+            "href": "/courses/" + params.courseId,
+            "text": params.courseTitle
+        },
+        "moduleCount": params.moduleCount,
+        "description": params.shortDescription
+    }) }}
+{% endmacro %}

@@ -1,0 +1,18 @@
+{% macro learningCardActions(params) %}
+    <div class="learning-card__actions">
+        {{ params.primary | safe }}
+        {% if params.secondary %}
+            {{ params.secondary | safe }}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro addToLearningPlan(params) %}
+    <a href="/suggestions-for-you/add/{{ params.courseId }}?ref={{ params.ref }}">
+        Add to learning plan <span class="visually-hidden">: {{ params.courseTitle }}</span>
+    </a>
+{% endmacro %}
+
+{% macro alreadyInLearningPlan(params) %}
+    <span>Already in your learning plan</span>
+{% endmacro %}

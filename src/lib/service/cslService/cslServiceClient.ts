@@ -102,17 +102,6 @@ export async function addCourseToLearningPlan(courseId: string, user: User): Pro
 	return plainToInstance(CourseActionResponse, resp)
 }
 
-export async function removeCourseFromSuggestions(courseId: string, user: User): Promise<CourseActionResponse> {
-	const resp = await client._post(
-		{
-			url: `/courses/${courseId}/remove_from_suggestions`,
-		},
-		undefined,
-		user
-	)
-	return plainToInstance(CourseActionResponse, resp)
-}
-
 export async function bookEvent(
 	courseId: string,
 	moduleId: string,
