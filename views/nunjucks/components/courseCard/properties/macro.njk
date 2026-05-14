@@ -75,3 +75,23 @@
         value: i18n(params.type)
     }) }}
 {% endmacro %}
+
+{% macro basicProperties(params) %}
+    {{ courseCardProperties({
+        "classes": "discite__properties--home",
+        "list": {
+            "classes": "discite__property--home",
+            "items": [
+                courseCardType({
+                    "type": params.type
+                }),
+                courseCardDuration({
+                    "duration": params.duration
+                }),
+                courseCardCost({
+                    "cost": params.costInPounds
+                })
+            ]
+        }
+    }) }}
+{% endmacro %}

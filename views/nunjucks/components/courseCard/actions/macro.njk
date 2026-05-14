@@ -40,7 +40,7 @@
         Add to learning plan <span class="visually-hidden">: {{ params.courseTitle }}</span>
     {% endset %}
     {{ ctaLink({
-        "href": "/suggestions-for-you/add/" + params.courseId + "?ref=search",
+        "href": "/suggestions-for-you/add/" + params.courseId + "?ref=" + params.ref,
         "html": html
     }) }}
 {% endmacro %}

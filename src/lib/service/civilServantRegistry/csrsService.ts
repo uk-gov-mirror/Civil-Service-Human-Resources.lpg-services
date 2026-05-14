@@ -126,6 +126,7 @@ export async function patchCivilServant(user: User, patch: PatchCivilServant) {
 	profile.updateWithPatch(patch)
 	await updateProfileCache(profile)
 	user.updateWithProfile(profile)
+	await cslService.clearUserCache(user)
 }
 
 export async function patchCivilServantLineManager(user: User, lineManagerEmail: string) {
@@ -135,6 +136,7 @@ export async function patchCivilServantLineManager(user: User, lineManagerEmail:
 	profile.lineManagerName = updatedrofile.lineManagerName
 	await updateProfileCache(profile)
 	user.updateWithProfile(profile)
+	await cslService.clearUserCache(user)
 }
 
 export async function getAreasOfWork(user: User): Promise<AreasOfWork> {

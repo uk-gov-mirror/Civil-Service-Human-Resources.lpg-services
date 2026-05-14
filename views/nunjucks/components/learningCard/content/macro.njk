@@ -1,0 +1,8 @@
+{% macro learningCardContent(params) %}
+    <div class='learning-card__content'>
+        {% if params.moduleCount > 1 %}
+            <div class='learning-card__content_section'>This course has {{ params.moduleCount }} modules</div>
+        {% endif %}
+        <div class='learning-card__content_section'>{{ params.shortDescription }}</div>
+    </div>
+{% endmacro %}
