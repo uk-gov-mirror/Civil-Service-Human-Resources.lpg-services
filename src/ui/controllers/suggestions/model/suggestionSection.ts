@@ -6,8 +6,8 @@ export class SuggestionSection {
 	@Type(() => BasicCourse)
 	public courses: BasicCourse[]
 
-	constructor(title: string, course: BasicCourse[]) {
+	constructor(title: string, courses: BasicCourse[]) {
 		this.title = title
-		this.courses = course
+		this.courses = courses
 	}
 }
