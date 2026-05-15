@@ -8,7 +8,7 @@
 {% endmacro %}
 
 {% macro addToLearningPlan(params) %}
-    <a href="/course-catalogue/profile-preferences/add/{{ params.courseId }}?ref={{ params.ref }}">
+    <a href="/course-catalogue/profile-preferences/add/{{ params.courseId }}">
         Add to learning plan <span class="visually-hidden">: {{ params.courseTitle }}</span>
     </a>
 {% endmacro %}
