@@ -9,6 +9,12 @@
         "shortDescription": params.shortDescription
     }) }}
     {% set primary %}
+        {{ learningCardActions.start({
+            "courseId": params.id,
+            "courseTitle": params.title
+        }) }}
+    {% endset %}
+    {% set secondary %}
         {% if params.status == 'IN_PROGRESS' %}
             {{ learningCardActions.alreadyInLearningPlan() }}
         {% else %}
@@ -19,7 +25,8 @@
         {% endif %}
     {% endset %}
     {{ learningCardActions.learningCardActions({
-        "primary": primary
+        "primary": primary,
+        "secondary": secondary
     }) }}
 {% endmacro %}
 

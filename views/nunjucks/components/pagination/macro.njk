@@ -1,0 +1,32 @@
+{% macro pagination(params) %}
+    <div class="grid-row">
+        <div class="column-one-third">
+            <div class="pager__summary">Showing {{ params.start }} – {{ params.end }} of {{ params.total }} items</div>
+        </div>
+        <div class="column-two-thirds">
+            <div class="pager__controls">
+                {% if params.prevLink %}
+                    <a class="pager__prev" href="{{ params.prevLink }}">Previous<span class="visuallyhidden"> page</span></a>
+                {% endif %}
+                {% if params.numberedPages.length > 0 %}
+                    <ul class="pager__list">
+                        {% for numberedPage in params.numberedPages %}
+                            <li>
+                                {% if numberedPage.link %}
+                                    <a aria-label="Page {{ numberedPage.number }}" href="{{ numberedPage.link }}">{{ numberedPage.number }}</a>
+                                {% elseif numberedPage.ellipses %}
+                                    ...
+                                {% else %}
+                                    <span aria-label="Page {{ numberedPage.number }}">{{ numberedPage.number }}</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if params.nextLink %}
+                    <a class="pager__next" href="{{ params.nextLink }}">Next<span class="visuallyhidden"> page</span></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
