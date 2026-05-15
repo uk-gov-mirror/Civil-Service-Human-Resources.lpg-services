@@ -16,6 +16,19 @@ describe('Dynamic back link tests', () => {
 		})
 		expect(response.locals.backLink).to.eql('/search?q=test')
 	})
+	it('Should set the back link on a course catalogue endpoint', () => {
+		const mw = getMiddleware(['/course-catalogue'])
+		const request = mockReq({
+			headers: {
+				referer: 'http://localhost:3001/course-catalogue/a-z/c?p=1',
+			},
+		})
+		const response = mockRes()
+		mw(request, response, (): void => {
+			return
+		})
+		expect(response.locals.backLink).to.eql('/course-catalogue/a-z/c?p=1')
+	})
 	it('Should NOT set the back link on an endpoint that does not have a valid back link', () => {
 		const mw = getMiddleware(['/learning-record'])
 		const request = mockReq({
