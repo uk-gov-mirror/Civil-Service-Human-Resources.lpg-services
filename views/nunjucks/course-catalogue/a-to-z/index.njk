@@ -1,0 +1,53 @@
+{% extends '../layout.njk' %}
+{% import "../components/suggestionsCourseCard/macro.njk" as suggestionsCard %}
+
+{% set anchor = letter %}
+{% block catalogueContent %}
+    <h2 class='heading heading-medium'>From Browse courses A to Z</h2>
+    <div class='grid-row'>
+        <div class='column-one-tenth'>
+            <h3 class='section-heading'><span class='visually-hidden'>Courses beginning with the letter</span> {{ letter.toUpperCase() }}</h3>
+        </div>
+        <div class='column-nine-tenths'>
+            {% if results | length > 0 %}
+                {% for course in results %}
+                    {{ suggestionsCard.aToZSuggestionsCard(course) }}
+                {% endfor %}
+            {% else %}
+                <p class='govuk-body'>There are no suggested courses for this section at this time.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% if pagination.total > 0 %}
+        <div class="grid-row">
+            <div class="column-one-third">
+                <div class="pager__summary">Showing {{ pagination.start }} – {{ pagination.end }} of {{ pagination.total }} items</div>
+            </div>
+            <div class="column-two-thirds">
+                <div class="pager__controls">
+                    {% if pagination.prevLink %}
+                        <a class="pager__prev" href="{{ pagination.prevLink }}">Previous<span class="visuallyhidden"> page</span></a>
+                    {% endif %}
+                    {% if pagination.numberedPages.length > 0 %}
+                        <ul class="pager__list">
+                            {% for numberedPage in pagination.numberedPages %}
+                                <li>
+                                    {% if numberedPage.link %}
+                                        <a aria-label="Page {{ numberedPage.number }}" href="{{ numberedPage.link }}">{{ numberedPage.number }}</a>
+                                    {% elseif numberedPage.ellipses %}
+                                        ...
+                                    {% else %}
+                                        <span aria-label="Page {{ numberedPage.number }}">{{ numberedPage.number }}</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if pagination.nextLink %}
+                        <a class="pager__next" href="{{ pagination.nextLink }}">Next<span class="visuallyhidden"> page</span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

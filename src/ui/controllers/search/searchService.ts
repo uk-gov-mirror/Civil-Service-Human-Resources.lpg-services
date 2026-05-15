@@ -3,21 +3,14 @@ import * as model from '../../../lib/model'
 import {Course} from '../../../lib/model'
 import {courseSearch} from '../../../lib/service/catalog/courseCatalogueClient'
 import {buildParams, typesType} from '../../../lib/service/catalog/models/courseSearchParams'
-import {CourseSearchResponse} from '../../../lib/service/catalog/models/courseSearchResponse'
 import {getAreasOfWork, getInterests} from '../../../lib/service/civilServantRegistry/csrsService'
 import * as csrsService from '../../../lib/service/civilServantRegistry/csrsService'
 import * as courseRecordClient from '../../../lib/service/cslService/courseRecord/client'
 import {CourseRecord} from '../../../lib/service/cslService/models/courseRecord'
 import {RecordState} from '../../../lib/service/cslService/models/record'
+import {getPagination} from '../../../lib/utils/search'
 import {CourseSearchQuery} from './models/courseSearchQuery'
-import {
-	SearchFilter,
-	Pagination,
-	PaginationNumberedPage,
-	SearchPageModel,
-	SearchCourse,
-	SearchFilterable,
-} from './models/searchPageModel'
+import {SearchFilter, SearchPageModel, SearchCourse, SearchFilterable} from './models/searchPageModel'
 
 export async function searchForCourses(params: CourseSearchQuery, req: Request, departmentHierarchyCodes: string[]) {
 	const user = req.user
@@ -83,53 +76,6 @@ export function getFormattedCourses(results: Course[], courseRecords: Map<string
 			inLearningPlan,
 		}
 	})
-}
-
-export function getPagination(params: CourseSearchQuery, searchResults: CourseSearchResponse): Pagination {
-	let prevLink: string | undefined
-	let nextLink: string | undefined
-	const numberedPages: PaginationNumberedPage[] = []
-	let fePage = 1
-	const pages = Math.ceil(searchResults.totalResults / searchResults.size)
-	if (searchResults.totalResults > 0) {
-		fePage = searchResults.page + 1
-		if (fePage > 1) {
-			prevLink = params.getAsUrlParams(fePage - 1)
-		}
-		if (pages > 1) {
-			let skip = false
-			let skipped = false
-			for (let i = 1; i <= pages; i++) {
-				skip = i > 1 && Math.abs(i - fePage) > 1 && i !== pages
-				if (skip && !skipped) {
-					numberedPages.push({ellipses: true})
-					skipped = true
-				}
-				if (!skip) {
-					skipped = false
-					let link: string | undefined
-					if (i !== fePage) {
-						link = params.getAsUrlParams(i)
-					}
-					numberedPages.push({link, number: i})
-				}
-			}
-		}
-
-		if (fePage !== pages) {
-			nextLink = params.getAsUrlParams(fePage + 1)
-		}
-	}
-	return {
-		nextLink,
-		prevLink,
-		numberedPages,
-		currentPage: fePage,
-		totalPages: pages,
-		start: searchResults.page * searchResults.size + 1,
-		end: searchResults.page * searchResults.size + searchResults.results.length,
-		total: searchResults.totalResults,
-	}
 }
 
 interface FilterResult {

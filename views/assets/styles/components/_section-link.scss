@@ -1,3 +1,23 @@
+.section-panel {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+
+}
+
+.section-heading {
+  font-size: 30px;
+  line-height: 6.4rem;
+  background-color: $alt-color;
+  display: inline-block;
+  width: 6rem;
+  height: 6rem;
+  text-align: center;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
 a.section-link {
   @extend .govuk-body;
   display: inline-block;
@@ -23,6 +43,14 @@ a.section-link {
 
   @include m(active) {
     @include active;
+  }
+
+  @include m(letter) {
+    width: 4rem;
+    height: 4rem;
+    text-align: center;
+    padding: 0;
+    line-height: 4rem;
   }
 
   &:focus {

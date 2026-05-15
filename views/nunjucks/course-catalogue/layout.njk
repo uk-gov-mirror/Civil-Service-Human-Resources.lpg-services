@@ -1,0 +1,42 @@
+{% extends baseLayout %}
+{% from components + "/search/macro.njk" import searchHeader %}
+{% from components + "/banner/macro.njk" import renderBanners %}
+
+{% set pageTitle = i18n('course_catalogue_page_title') %}
+
+{% block content %}
+    <div class="container container--main">
+        <div class="grid-row ">
+            <div class="column-full no-border">
+                {% set header %}
+                    <h1 class="heading heading-large heading--flush">
+                        {{ pageTitle }}
+                    </h1>
+                {% endset %}
+                {{ searchHeader({
+                    "headerHtml": header
+                }) }}
+                <p class='govuk-body'>
+                    The A to Z catalogue is your comprehensive guide to all available learning.
+                    <br>
+                    Your suggestions are more accurate when you have an updated profile.
+                </p>
+                <div class="change-settings-container">
+                    <p class="govuk-body">You can change the preferences in <a href="/profile">your profile page</a>.</p>
+                </div>
+                <h2 class='heading heading-medium'>Browse courses</h2>
+                <div class='section-panel'>
+                    <a class='section-link {% if anchor === 'profile-preferences' %}section-link--active{% endif %}' href='/course-catalogue/profile-preferences'>Profile preferences</a>
+                </div>
+                <div class='section-panel'>
+                    {% for letter in AtoZ() %}
+                        <a class='section-link section-link--letter {% if anchor === letter %}section-link--active{% endif %}' href='/course-catalogue/a-z/{{ letter }}'>{{ letter.toUpperCase() }}</a>
+                    {% endfor %}
+                </div>
+                {{ renderBanners(banners) }}
+                {% block catalogueContent %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

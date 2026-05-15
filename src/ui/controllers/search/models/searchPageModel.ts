@@ -1,24 +1,8 @@
 import {BasicCourse} from '../../../../lib/service/cslService/models/learning/learningPlan/basicCourse'
+import {Pagination} from '../../../../lib/utils/search'
 
 export class SearchCourse extends BasicCourse {
 	public inLearningPlan: boolean
-}
-
-export interface PaginationNumberedPage {
-	number?: number
-	link?: string
-	ellipses?: boolean
-}
-
-export interface Pagination {
-	start: number
-	end: number
-	total: number
-	currentPage: number
-	totalPages: number
-	prevLink?: string
-	nextLink?: string
-	numberedPages: PaginationNumberedPage[]
 }
 
 export interface SearchFilter extends SearchLabel {

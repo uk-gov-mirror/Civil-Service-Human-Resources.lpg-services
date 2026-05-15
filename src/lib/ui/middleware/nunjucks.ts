@@ -14,7 +14,7 @@ const baseLayout = `${viewsRoot}/root/baseLayout.njk`
 const components = `${viewsRoot}/components`
 const partials = `${viewsRoot}/partials`
 
-const nunjucksEndpoints = ['/courses/:courseId', '/learning-record', '/', '/home', '/search', '/suggestions-for-you']
+const nunjucksEndpoints = ['/courses/:courseId', '/learning-record', '/', '/home', '/search', '/course-catalogue*']
 
 const logger = getLogger(`nunjucks`)
 
@@ -50,6 +50,10 @@ export const register = (app: Express) => {
 			}
 		}
 		return i18nConfig.__(text)
+	})
+
+	env.addGlobal('AtoZ', () => {
+		return 'abcdefghijklmnopqrstuvwxyz'.split('')
 	})
 
 	// Custom filters
