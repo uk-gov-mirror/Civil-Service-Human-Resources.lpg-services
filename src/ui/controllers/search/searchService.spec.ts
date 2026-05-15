@@ -2,9 +2,10 @@ import {range} from 'lodash'
 import {Course} from '../../../lib/model'
 import {assert} from 'chai'
 import {CourseSearchResponse} from '../../../lib/service/catalog/models/courseSearchResponse'
+import {getPagination} from '../../../lib/utils/search'
 import {CourseSearchQuery} from './models/courseSearchQuery'
 import {SearchFilterable, SearchLabel} from './models/searchPageModel'
-import {getPagination, processFilters} from './searchService'
+import {processFilters} from './searchService'
 
 describe('searchService tests', () => {
 	describe('processFilters', () => {

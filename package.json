@@ -14,6 +14,7 @@
 		"nuke": "rm -rf dist node_modules",
 		"js": "esbuild views/assets/js/main.js --bundle --minify --sourcemap --outfile=views/assets/js/main-bundle.min.js",
 		"watch-js": "npm run js -- --watch",
+		"precommit": "npm run build && npm run test && npm run fix-lint",
 		"sass": "sass views/assets/styles/main.scss:views/assets/styles/main.css --style compressed",
 		"start": "node dist/server.js",
 		"start:build": "npm run build && npm run start",
