@@ -151,7 +151,6 @@
 	"banner_course_removed_text": "The course has successfully been removed from your learning plan",
 	"search_results_page_title": "Search results",
 	"search_results_page_intro": "There were X results for search_term",
-	"top_nav_suggestions_page": "Suggestions for you",
 	"top_nav_learning_record": "Learning record",
 	"top_nav_learning_plan": "Learning plan",
 	"top_nav_profile": "Profile",
@@ -245,10 +244,6 @@
 	"action_BOOK": "Book",
 	"action_DOWNLOAD": "Download document",
 	"action_CANCEL": "Cancel",
-	"suggestions_delete_title": "Are you sure you want to remove %s?",
-	"suggestions_delete_message": "If you remove this course, it will be deleted from your suggestions for you",
-	"suggestions_delete_yes_option": "Yes, remove course now",
-	"suggestions_delete_no_option": "No, keep it",
 	"learning_added_to_plan_title": "%s",
 	"learning_added_to_plan_message": "This has been added to your learning plan",
 	"learning_removed_from_plan_title": "%s",
@@ -356,7 +351,6 @@
 	"otherAreaOfWork": "otherAreaOfWork",
 	"department": "department",
 	"primary-area-of-work": "primary-area-of-work",
-	"learning_removed_from_suggestions": "This has been removed from your suggested courses.",
 	"given-name": "given-name",
 	"profile": {
 		"lineManager": {
