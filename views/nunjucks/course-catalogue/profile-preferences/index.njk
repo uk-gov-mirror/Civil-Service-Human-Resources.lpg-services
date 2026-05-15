@@ -6,7 +6,7 @@
     <div class='grid-row'>
         <div class='column-full'>
             {% for section in sections %}
-                <h2 class='heading heading-medium {% if loop.index0 == 0 %}heading--no-margin-top{% endif %}'>From {{ section.title }}</h2>
+                <h2 class='heading heading-medium'>From {{ section.title }}</h2>
                 {% if section.courses | length > 0 %}
                     {% for course in section.courses %}
                         {{ suggestionsCard.profileSuggestionsCard(course) }}
