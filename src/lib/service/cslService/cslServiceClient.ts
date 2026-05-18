@@ -6,6 +6,7 @@ import {
 	SUGGESTIONS_MAX_COURSES,
 	SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES,
 	COURSE_CATALOGUE_A_Z_MAX_COURSES,
+	POPULAR_COURSES_MAX_COURSES,
 } from '../../config'
 import {User} from '../../model'
 import {LearningPlanCache} from './cache/LearningPlanCache'
@@ -225,6 +226,21 @@ export async function getLearningPlan(user: User): Promise<LearningPlan> {
 	return learningPlan
 }
 
+export async function getPopularCoursesForProfession(user: User, from: string, to: string) {
+	const resp = await client._get(
+		{
+			url: '/learning/catalogue/popular/area-of-work',
+			params: {
+				from,
+				to,
+				maxResults: POPULAR_COURSES_MAX_COURSES
+			},
+		},
+		user
+	)
+	return plainToInstance(BasicCourseResponse, resp)
+}
+
 export async function getProfileSuggestions(user: User): Promise<ProfileSuggestionsResponse> {
 	const resp = await client._get(
 		{
@@ -239,7 +255,7 @@ export async function getProfileSuggestions(user: User): Promise<ProfileSuggesti
 	return plainToInstance(ProfileSuggestionsResponse, resp)
 }
 
-export async function getAtoZ(letter: string, page: number, user: any) {
+export async function getAtoZ(letter: string, page: number, user: User) {
 	const resp = await client._get(
 		{
 			url: `/learning/catalogue/a-z/${letter}`,

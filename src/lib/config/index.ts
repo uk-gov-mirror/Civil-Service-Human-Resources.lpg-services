@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv'
 import * as path from 'path'
 import 'reflect-metadata'
+import {getDayJs} from '../utils/datetime'
 
 export const ONE_YEAR_IN_SECONDS = 31536000
 
@@ -160,6 +161,17 @@ export const HOMEPAGE_COMPLETE_LEARNING_PLAN_COURSES = env.HOMEPAGE_COMPLETE_LEA
 export const SUGGESTIONS_MAX_COURSES = env.SUGGESTIONS_MAX_COURSES || null
 export const SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES = env.SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES || false
 export const COURSE_CATALOGUE_A_Z_MAX_COURSES = Number(env.COURSE_CATALOGUE_A_Z_MAX_COURSES) || 20
+export const POPULAR_COURSES_MAX_COURSES = Number(env.POPULAR_COURSES_MAX_COURSES) || 10
+
+const loadDuration = (val: string, fallback: string) => {
+	if (!getDayJs().isDuration(val)) {
+		console.log(`Error formatting "${val}" to ISO 8601 duration. Falling back to ${fallback}`)
+		val = fallback
+	}
+	return getDayJs().duration(val)
+}
+
+export const POPULAR_COURSES_DURATION = loadDuration(env.POPULAR_COURSES_DURATION, 'P1Y')
 
 export const GRADE_PRIORITY_ORDER_ENABLED = env.GRADE_PRIORITY_ORDER_ENABLED === 'true'
 export const GRADE_PRIORITY_ORDER = env.GRADE_PRIORITY_ORDER.split(',') || 'AA,AO,EO,HEO,SEO,G7,G6,PB1,PB2,PB3,PS'

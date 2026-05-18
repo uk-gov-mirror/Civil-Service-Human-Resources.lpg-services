@@ -294,6 +294,7 @@ app.get('/suggestions-for-you', (req, res) => {
 })
 app.get('/course-catalogue', asyncHandler(catalogueController.renderCourseCatalogue))
 app.get('/course-catalogue/a-z/:letter', asyncHandler(catalogueController.renderAtoZ))
+app.get('/course-catalogue/popular-courses/area-of-work', asyncHandler(catalogueController.renderPopularProfession))
 app.get('/course-catalogue/profile-preferences', asyncHandler(catalogueController.profilePreferencesPage))
 app.get('/course-catalogue/profile-preferences/add/:courseId', asyncHandler(catalogueController.addToPlan))
 
