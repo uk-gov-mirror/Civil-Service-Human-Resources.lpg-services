@@ -233,7 +233,7 @@ export async function getPopularCoursesForProfession(user: User, from: string, t
 			params: {
 				from,
 				to,
-				maxResults: POPULAR_COURSES_MAX_COURSES
+				maxResults: POPULAR_COURSES_MAX_COURSES,
 			},
 		},
 		user
