@@ -19,17 +19,17 @@
 
 {% macro addToLearningPlan(params) %}
     {% set html %}
-        Add to learning plan <span class="visually-hidden">: {{ params.courseTitle }}</span>
+        Add to learning plan<span class="visually-hidden">: {{ params.courseTitle }}</span>
     {% endset %}
     {{ learningCardActionLink({
-        "link": "/course-catalogue/profile-preferences/add/" + params.courseId,
+        "link": "/course-catalogue/add/" + params.courseId,
         "html": html
     }) }}
 {% endmacro %}
 
 {% macro start(params) %}
     {% set html %}
-        Start <span class="visually-hidden"> {{ params.courseTitle }}</span>
+        Start <span class="visually-hidden">{{ params.courseTitle }}</span>
     {% endset %}
     {{ learningCardActionLink({
         "link": "/courses/" + params.courseId,

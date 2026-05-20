@@ -296,7 +296,7 @@ app.get('/course-catalogue', asyncHandler(catalogueController.renderCourseCatalo
 app.get('/course-catalogue/a-z/:letter', asyncHandler(catalogueController.renderAtoZ))
 app.get('/course-catalogue/popular-courses/area-of-work', asyncHandler(catalogueController.renderPopularProfession))
 app.get('/course-catalogue/profile-preferences', asyncHandler(catalogueController.profilePreferencesPage))
-app.get('/course-catalogue/profile-preferences/add/:courseId', asyncHandler(catalogueController.addToPlan))
+app.get('/course-catalogue/add/:courseId', asyncHandler(catalogueController.addToPlan))
 
 app.get('/skills', asyncHandler(skillsController.introduction))
 app.get('/skills/choose-quiz', asyncHandler(skillsController.chooseQuiz))

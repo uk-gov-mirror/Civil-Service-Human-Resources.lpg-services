@@ -5,7 +5,7 @@
             {% if params.isInLearningPlan %}
                 <a href="/courses/{{ params.courseId }}?delete={{ params.courseId }}">Remove from Learning Plan</a>
             {% else %}
-                <a href="/course-catalogue/profile-preferences/add/{{ params.courseId }}?ref=course">Add to Learning Plan</a>
+                <a href="/course-catalogue/add/{{ params.courseId }}?ref=course">Add to Learning Plan</a>
             {% endif %}
         </aside>
     {% endif %}
