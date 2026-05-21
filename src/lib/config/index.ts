@@ -3,6 +3,10 @@ import * as path from 'path'
 import 'reflect-metadata'
 import {getDayJs} from '../utils/datetime'
 
+export const  durationRegex = new RegExp(
+	'^P(?!$)(\\d+(?:\\.\\d+)?Y)?(\\d+(?:\\.\\d+)?M)?(\\d+(?:\\.\\d+)?W)?(\\d+(?:\\.\\d+)?D)?(T(?=\\d)(\\d+(?:\\.\\d+)?H)?(\\d+(?:\\.\\d+)?M)?(\\d+(?:\\.\\d+)?S)?)?$'
+)
+
 export const ONE_YEAR_IN_SECONDS = 31536000
 
 export const ENV = process.env.NODE_ENV || 'development'
@@ -164,7 +168,9 @@ export const COURSE_CATALOGUE_A_Z_MAX_COURSES = Number(env.COURSE_CATALOGUE_A_Z_
 export const POPULAR_COURSES_MAX_COURSES = Number(env.POPULAR_COURSES_MAX_COURSES) || 10
 
 const loadDuration = (val: string, fallback: string) => {
-	if (!getDayJs().isDuration(val)) {
+	if (
+		!durationRegex.test(val)
+	) {
 		console.log(`Error formatting "${val}" to ISO 8601 duration. Falling back to ${fallback}`)
 		val = fallback
 	}
