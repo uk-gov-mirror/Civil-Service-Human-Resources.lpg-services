@@ -65,9 +65,9 @@ export const assertModuleCard = (elem: HTMLElement, expValue: ModuleCardAssertio
 	}
 
 	const {cta} = expValue
-	if (cta.type == 'button' || cta.type == 'link') {
+	if (cta.type === 'button' || cta.type === 'link') {
 		const ctaLink = card.getByRole(cta.type, {name: cta.text})
-		if (cta.type == 'link') {
+		if (cta.type === 'link') {
 			expect(ctaLink.getAttribute('href')).to.eql(cta.href)
 
 			if (cta.openInNewTab) {
