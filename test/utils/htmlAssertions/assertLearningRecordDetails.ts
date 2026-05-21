@@ -1,5 +1,6 @@
+import {within} from '@testing-library/dom'
+import {expect} from 'chai'
 import {JSDOM} from 'jsdom'
-import {assertDocMultiple, HtmlAssertion, TextContentAsserter} from '../htmlUtils'
 
 export interface CourseDetailsAssertion {
 	expType: string
@@ -10,44 +11,47 @@ export interface CourseDetailsAssertion {
 	expCost: string | null
 }
 
-export const getDetailsRowAssertion = (expHeading: string, expText: string): HtmlAssertion[] => {
-	return [
-		{
-			querySelector: 'th.lpg-related-items__th',
-			expected: {
-				content: new TextContentAsserter(expHeading),
-			},
-		},
-		{
-			querySelector: 'td.lpg-related-items__td',
-			expected: {
-				content: new TextContentAsserter(expText),
-			},
-		},
-	]
+const assertTableRow = (tableContainer: HTMLElement, heading: string, expectedText: string) => {
+	const table = within(tableContainer)
+	const thElement = table.getByRole('columnheader', {name: heading})
+	const rowElement = thElement.closest('tr')
+	within(rowElement as HTMLElement).getByRole('cell', {name: expectedText})
 }
+
+const assertTableRowList = (tableContainer: HTMLElement, heading: string, expectedList: string[]) => {
+	const table = within(tableContainer)
+	const thElement = table.getByRole('columnheader', {name: heading})
+	const rowElement = thElement.closest('tr')
+	expectedList.forEach(li => {
+		within(rowElement as HTMLElement).getByText(li)
+	})
+}
+
 export const assertCourseDetails = (html: string, expValues: CourseDetailsAssertion) => {
 	const doc = new JSDOM(html).window.document
-	const assertions: [HtmlAssertion[]] = [getDetailsRowAssertion('Course type', expValues.expType)]
+
+	const tableElement = doc.querySelector('table') as HTMLElement
+	expect(tableElement).to.not.eql(null)
+
+	assertTableRow(tableElement, 'Course type', expValues.expType)
+
 	if (expValues.expDuration) {
-		assertions.push(getDetailsRowAssertion('Duration', expValues.expDuration))
+		assertTableRow(tableElement, 'Duration', expValues.expDuration)
 	}
+
 	if (expValues.expAreasOfWork) {
-		assertions.push(getDetailsRowAssertion('Key area', expValues.expAreasOfWork.join(', ')))
+		assertTableRow(tableElement, 'Key area', expValues.expAreasOfWork.join(', '))
 	}
+
 	if (expValues.expLocation) {
-		assertions.push(getDetailsRowAssertion('Location', expValues.expLocation))
+		assertTableRow(tableElement, 'Location', expValues.expLocation)
 	}
+
 	if (expValues.expGrades) {
-		assertions.push(getDetailsRowAssertion('Level', expValues.expGrades.join(',')))
+		assertTableRowList(tableElement, 'Level', expValues.expGrades)
 	}
+
 	if (expValues.expCost) {
-		assertions.push(getDetailsRowAssertion('Cost', expValues.expCost))
-	}
-	const elems = doc.querySelectorAll('tr')
-	for (let i = 0; i < elems.length; i++) {
-		const elem = elems[i]
-		const assertion = assertions[i]
-		assertDocMultiple(elem, assertion)
+		assertTableRow(tableElement, 'Cost', expValues.expCost)
 	}
 }

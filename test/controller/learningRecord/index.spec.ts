@@ -7,25 +7,19 @@ import {LearningRecordCache} from '../../../src/lib/service/cslService/cache/lea
 import {setCaches} from '../../../src/lib/service/cslService/cslServiceClient'
 import * as learningRecordIndex from '../../../src/ui/controllers/learning-record/index'
 import {assertTables, TableAssertion} from '../../utils/htmlAssertions/assertTable'
-import {TextContentAsserter} from '../../utils/htmlUtils'
 import {getApp} from '../../utils/testApp'
 
 const getLearningPlanTableAssertion = (
 	courseDetails: {title: string; type: string; duration: string; completionDate: string}[]
 ): TableAssertion => {
 	return {
-		heading: [
-			new TextContentAsserter('Course title'),
-			new TextContentAsserter('Type'),
-			new TextContentAsserter('Duration'),
-			new TextContentAsserter('Date completed'),
-		],
+		heading: ['Course title', 'Type', 'Duration', 'Date completed',],
 		rows: [
 			...courseDetails.map(cd => [
-				new TextContentAsserter(cd.title),
-				new TextContentAsserter(cd.type),
-				new TextContentAsserter(cd.duration),
-				new TextContentAsserter(cd.completionDate),
+				cd.title,
+				cd.type,
+				cd.duration,
+				cd.completionDate,
 			]),
 		],
 	}

@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import * as asyncHandler from 'express-async-handler'
+import {JSDOM} from 'jsdom'
 import * as sinon from 'sinon'
 import * as request from 'supertest'
 import * as catalog from '../../../src/lib/service/catalog'
@@ -14,22 +15,12 @@ import {
 import * as coursePageModelFactory from '../../../src/ui/controllers/course/models/factory'
 import {BaseModuleCard, F2FModuleCard, FileModuleCard} from '../../../src/ui/controllers/course/models/moduleCard'
 import {assertCourseDetails} from '../../utils/htmlAssertions/assertLearningRecordDetails'
+import {assertModuleCards} from '../../utils/htmlAssertions/assertModuleCard'
 import {
-	assertModuleCard,
-	getCTAAssertion,
-	getCTALinkButtonAssertion,
-	getLinkCTAAssertion,
-} from '../../utils/htmlAssertions/assertModuleCard'
-import {
-	assertH1,
-	assertHtml,
-	classAssertion,
-	getAssertNotificationBanner,
-	getBackLinkAssertion,
-	idAssertion,
-	TextContainsAsserter,
-	TextContentAsserter,
-	titleAssertion,
+	assertBackLink,
+	assertButton,
+	assertH1AndTitle,
+	assertNotificationBanner,
 } from '../../utils/htmlUtils'
 import {getApp} from '../../utils/testApp'
 
@@ -87,7 +78,7 @@ describe('Course controller tests', () => {
 			}
 			it('Should render the base course overview layout', async () => {
 				const res = await makeRequest(noModuleCoursePage)
-				assertHtml(res.text, [assertH1('Test title'), titleAssertion('Test title')])
+				assertH1AndTitle(res.text, 'Test title', 'Test title')
 				expect(res.text).contain('Test description').contain('Test Learning outcomes')
 			})
 			it('Should exclude the learning outcomes header when there are no learning outcomes', async () => {
@@ -96,7 +87,7 @@ describe('Course controller tests', () => {
 					...basicCourseData,
 					learningOutcomes: '',
 				})
-				assertHtml(res.text, [idAssertion('learning-outcomes', null)])
+				expect(new JSDOM(res.text).window.document.body.querySelector('#learning-outcomes')).to.eql(null)
 			})
 			it('Should Show the notification banner when the course is archived', async () => {
 				const res = await makeRequest({
@@ -104,17 +95,15 @@ describe('Course controller tests', () => {
 					...basicCourseData,
 					status: 'Archived',
 				})
-				assertHtml(
+				assertNotificationBanner(
 					res.text,
-					getAssertNotificationBanner(
-						'This course is no longer available.',
-						"You can't start or resume this course. Previously completed courses will appear in your learning record."
-					)
+					'This course is no longer available.',
+					"You can't start or resume this course. Previously completed courses will appear in your learning record."
 				)
 			})
 			it('Should show "Find another course" as a default backlink', async () => {
 				const res = await makeRequest(noModuleCoursePage)
-				assertHtml(res.text, [getBackLinkAssertion('/course-catalogue', 'Find another course')])
+				assertBackLink(res.text, '/course-catalogue', 'Find another course')
 			})
 			it('Should show "Back" as a backlink when a custom backlink is provided', async () => {
 				const searchUrl = '/search?q=XYZ'
@@ -127,7 +116,7 @@ describe('Course controller tests', () => {
 				const res = await request(app)
 					.get('/courses/courseId')
 					.set({roles: 'LEARNER', locals: `backLink:${searchUrl}`})
-				assertHtml(res.text, [getBackLinkAssertion(searchUrl, 'Back')])
+				assertBackLink(res.text, searchUrl, 'Back')
 			})
 		})
 
@@ -157,7 +146,7 @@ describe('Course controller tests', () => {
 					},
 				}
 				const res = await makeRequest(singleModuleCoursePage)
-				assertHtml(res.text, [getCTALinkButtonAssertion(`/courses/courseID/moduleID`, 'Start this learning')])
+				assertButton(res.text, 'Start this learning', `/courses/courseID/moduleID`)
 			})
 			describe('Face-to-face single module course page tests', () => {
 				it('Should show the cancel link when the user is booked', async () => {
@@ -182,7 +171,7 @@ describe('Course controller tests', () => {
 					expect(res.text).contains('/cancel')
 					expect(res.text).contains('Do you wish to cancel your booking?')
 					expect(res.text).not.contains('View availability')
-					assertHtml(res.text, [idAssertion('govuk-notification-banner-title', null), classAssertion(['notice'], null)])
+					assertNotificationBanner(res.text, null, null)
 				})
 
 				it('Should show a notification banner if the course cannot be booked', async () => {
@@ -201,10 +190,7 @@ describe('Course controller tests', () => {
 						moduleDetails,
 					}
 					const res = await makeRequest(singleModuleCoursePage)
-					assertHtml(
-						res.text,
-						getAssertNotificationBanner('Important', 'Unfortunately there are no bookable sessions at this time.')
-					)
+					assertNotificationBanner(res.text, 'Important', 'Unfortunately there are no bookable sessions at this time.')
 				})
 
 				it('Should show the launch link if the course can be booked', async () => {
@@ -223,7 +209,7 @@ describe('Course controller tests', () => {
 						moduleDetails,
 					}
 					const res = await makeRequest(singleModuleCoursePage)
-					assertHtml(res.text, [getCTALinkButtonAssertion(`/courses/courseID/moduleID`, 'View availability')])
+					assertButton(res.text, 'View availability', `/courses/courseID/moduleID`)
 				})
 			})
 
@@ -265,9 +251,13 @@ describe('Course controller tests', () => {
 						},
 					}
 					const res = await makeRequest(singleModuleCoursePage)
-					assertModuleCard(res.text, [
+					assertModuleCards(res.text, [
 						{
-							ctaElem: getLinkCTAAssertion('/courses/courseID/moduleID', 'Module title'),
+							cta: {
+								text: 'Module title',
+								href: '/courses/courseID/moduleID',
+								openInNewTab: true
+							},
 							expDescription: 'Module description',
 							expOptional: true,
 							expTitle: 'Module title',
@@ -332,16 +322,13 @@ describe('Course controller tests', () => {
 						],
 					}
 					const res = await makeRequest(blendedCourse)
-					assertModuleCard(res.text, [
+					assertModuleCards(res.text, [
 						{
 							expTitle: 'Link module',
 							expDescription: 'Module description',
 							expOptional: true,
-							ctaElem: {
-								querySelector: `p[style="display: inline-block"]`,
-								expected: {
-									content: new TextContentAsserter('Available on confirmation of a booking'),
-								},
+							cta: {
+								text: 'Available on confirmation of a booking',
 							},
 							details: {
 								expState: null,
@@ -354,7 +341,10 @@ describe('Course controller tests', () => {
 							expTitle: 'Face to Face module',
 							expDescription: 'Module description',
 							expOptional: false,
-							ctaElem: getCTAAssertion('/book', 'Book', 'Face to Face module'),
+							cta: {
+								text: 'Book Face to Face module',
+								href: '/book',
+							},
 							details: {
 								expState: 'Requested',
 								expDuration: '2 hours',
@@ -382,12 +372,15 @@ describe('Course controller tests', () => {
 					],
 				}
 				const res = await makeRequest(blendedCourse)
-				assertModuleCard(res.text, [
+				assertModuleCards(res.text, [
 					{
 						expTitle: 'File module',
 						expDescription: 'Module description',
 						expOptional: false,
-						ctaElem: getCTAAssertion('/launch', 'Download', 'File module'),
+						cta: {
+							text: 'Download File module',
+							href: '/launch'
+						},
 						details: {
 							expState: null,
 							expDuration: '2 hours',
@@ -416,16 +409,13 @@ describe('Course controller tests', () => {
 					],
 				}
 				const res = await makeRequest(blendedCourse)
-				assertModuleCard(res.text, [
+				assertModuleCards(res.text, [
 					{
 						expTitle: 'Face to Face module',
 						expDescription: 'Module description',
 						expOptional: false,
-						ctaElem: {
-							querySelector: 'div.discite__action.discite__action--module',
-							expected: {
-								content: new TextContainsAsserter('Unfortunately there are no bookable sessions at this time.'),
-							},
+						cta: {
+							text: 'Unfortunately there are no bookable sessions at this time.',
 						},
 						details: {
 							expState: null,
@@ -454,7 +444,7 @@ describe('Course controller tests', () => {
 				assertCourseDetails(res.text, {
 					expCost: '£100 (ex VAT)',
 					expDuration: '1 hour',
-					expGrades: ['Grade 7,\n        \n            Grade 6.'],
+					expGrades: ['Grade 7,', 'Grade 6.'],
 					expLocation: 'London',
 					expAreasOfWork: ['Analysis', 'Policy'],
 					expType: 'Link',

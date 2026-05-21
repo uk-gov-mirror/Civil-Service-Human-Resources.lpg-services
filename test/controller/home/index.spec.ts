@@ -11,9 +11,9 @@ import {LearningPlanCourse} from '../../../src/lib/service/cslService/models/lea
 import {RequiredLearning} from '../../../src/lib/service/cslService/models/learning/requiredLearning/requiredLearning'
 import * as index from '../../../src/ui/controllers/home'
 import {assertBanner} from '../../utils/htmlAssertions/assertBanner'
+import {assertCourseCards} from '../../utils/htmlAssertions/assertLearningCard'
 
-import {assertCourseCards} from '../../utils/htmlAssertions/assertCourseCard'
-import {assertH1, assertHtml, titleAssertion} from '../../utils/htmlUtils'
+import {assertH1AndTitle} from '../../utils/htmlUtils'
 import {fakeCache} from '../../utils/mocks'
 import {getApp} from '../../utils/testApp'
 
@@ -65,7 +65,7 @@ describe('Homepage controller tests', () => {
 	const makeRequest = async () => {
 		const res = await request(app).get('/home').set({roles: 'LEARNER'})
 		expect(res.statusCode).to.equal(200)
-		assertHtml(res.text, [assertH1('Your learning'), titleAssertion('Your learning')])
+		assertH1AndTitle(res.text, 'Your learning', 'Your learning')
 		return res
 	}
 

@@ -1,18 +1,19 @@
+import {within} from '@testing-library/dom'
+import {expect} from 'chai'
 import {JSDOM} from 'jsdom'
-import {
-	assertHtml,
-	classAssertion,
-	HtmlAssertion,
-	MultipleContentAsserter,
-	TextContainsAsserter,
-	TextContentAsserter,
-} from '../htmlUtils'
+
+export interface ModuleCardCta {
+	text: string
+	href?: string
+	screenReaderText?: string
+	openInNewTab?: boolean
+}
 
 export interface ModuleCardAssertion {
 	expTitle: string
 	expDescription: string
 	expOptional: boolean
-	ctaElem: HtmlAssertion
+	cta: ModuleCardCta
 	details?: {
 		expType: string
 		expDuration?: string
@@ -21,94 +22,63 @@ export interface ModuleCardAssertion {
 	}
 }
 
-export const assertModuleCard = (html: string, expValues: ModuleCardAssertion[]) => {
+export const assertModuleCards = (html: string, expValues: ModuleCardAssertion[]) => {
 	const page = new JSDOM(html).window.document
 	const cardHtmls = page.getElementsByClassName('discite__item u-clearfix discite__item--module')
+	for (let i = 0; i < cardHtmls.length; i++) {
+		console.log(cardHtmls[i].outerHTML)
+	}
+	expect(cardHtmls.length).to.eql(expValues.length)
+
 	for (let i = 0; i < expValues.length; i++) {
-		const expValue = expValues[i]
-		const assertions: HtmlAssertion[] = [
-			classAssertion(['heading', 'bold-small', 'heading--text'], {
-				content: new TextContentAsserter(expValue.expTitle),
-			}),
-			classAssertion(['discite__description'], {
-				content: new TextContentAsserter(expValue.expDescription),
-			}),
-		]
-		if (expValue.expOptional) {
-			assertions.push(
-				classAssertion(['discite__optional'], {
-					content: new TextContentAsserter('This module is optional'),
-				})
-			)
-		}
-		assertions.push(expValue.ctaElem)
-		const details = expValue.details
-		if (details) {
-			assertions.push({
-				querySelector: 'span.lpg-course-type',
-				expected: {content: new TextContentAsserter(details.expType)},
-			})
-			if (details.expCost !== undefined) {
-				if (details.expCost !== null) {
-					assertions.push({
-						querySelector: 'span.lpg-course-cost',
-						expected: {content: new TextContentAsserter(`£${details.expCost}`)},
-					})
-				} else {
-					assertions.push({querySelector: 'span.lpg-course-cost', expected: null})
-				}
-			}
-			if (details.expDuration) {
-				assertions.push({
-					querySelector: 'span.lpg-course-duration',
-					expected: {content: new TextContentAsserter(details.expDuration)},
-				})
-			}
-			if (details.expState !== undefined) {
-				if (details.expState === null) {
-					assertions.push({querySelector: 'div.discite__status', expected: null})
-				} else {
-					assertions.push({
-						querySelector: 'span.badge.badge--info',
-						expected: {content: new TextContentAsserter(details.expState)},
-					})
-				}
-			}
-			assertHtml(cardHtmls[i].outerHTML, assertions)
-		}
+		assertModuleCard(cardHtmls[i] as HTMLElement, expValues[i])
 	}
 }
-export const getLinkCTAAssertion = (expLaunchLink: string, expModuleTitle: string): HtmlAssertion => {
-	const assertion = getCTAAssertion(expLaunchLink, 'Start', expModuleTitle)
-	assertion.expected!.attributes!.target = '_blank'
-	return assertion
-}
-export const getCTAAssertion = (
-	expLaunchLink: string,
-	expModuleActionText: string,
-	expModuleTitle: string
-): HtmlAssertion => {
-	return {
-		querySelector: '.discite__link-button--main',
-		expected: {
-			content: new MultipleContentAsserter([
-				new TextContainsAsserter(expModuleActionText),
-				new TextContainsAsserter(expModuleTitle),
-			]),
-			attributes: {
-				href: expLaunchLink,
-			},
-		},
+
+export const assertModuleCard = (elem: HTMLElement, expValue: ModuleCardAssertion) => {
+	const card = within(elem)
+
+	card.getByRole('heading', {name: expValue.expTitle})
+	card.getByText(expValue.expDescription)
+
+	if (expValue.expOptional) {
+		card.getByText('This module is optional')
 	}
-}
-export const getCTALinkButtonAssertion = (expHref: string, expText: string): HtmlAssertion => {
-	return {
-		querySelector: `.button`,
-		expected: {
-			content: new TextContentAsserter(expText),
-			attributes: {
-				href: expHref,
-			},
-		},
+
+	const details = expValue.details
+	if (details) {
+		card.getByText(details.expType)
+
+		if (details.expCost !== undefined) {
+			if (details.expCost !== null) {
+				card.getByText(`£${details.expCost}`)
+			} else {
+				expect(elem.querySelector('span.lpg-course-cost')).to.eql(null)
+			}
+		}
+
+		if (details.expDuration) {
+			card.getByText(details.expDuration)
+		}
+
+		if (details.expState !== undefined) {
+			if (details.expState === null) {
+				expect(elem.querySelector('div.discite__status')).to.eql(null)
+			} else {
+				card.getByText(details.expState)
+			}
+		}
+	}
+
+	const {cta} = expValue
+	if (cta.href) {
+		const ctaLink = card.getByRole('link', {name: cta.text})
+		expect(ctaLink.getAttribute('href')).to.eql(cta.href)
+
+		if (cta.openInNewTab) {
+			expect(ctaLink.getAttribute('target')).to.eql('_blank')
+		}
+	} else {
+		card.getByText(cta.text)
 	}
 }

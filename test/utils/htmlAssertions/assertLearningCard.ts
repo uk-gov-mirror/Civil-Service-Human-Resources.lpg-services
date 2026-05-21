@@ -1,7 +1,46 @@
 import {within} from '@testing-library/dom'
 import {expect} from 'chai'
 import {JSDOM} from 'jsdom'
-import {CourseCardAssertion} from './assertCourseCard'
+
+export interface CourseCardAssertion {
+	expTitle: {
+		text: string
+		href: string
+	}
+	properties: {
+		type: string
+		duration: string
+		cost?: string
+		statusBadge?: string
+	}
+	moduleCount: number
+	expDescription: string
+	dueBy?: string
+	cta: {
+		primary: {
+			href: string
+			text: string
+		}
+		secondary?: {
+			text: string
+			href?: string
+		}
+	}
+	eventModule?: {
+		title: {
+			text: string
+			href: string
+		}
+		status: string
+		type: string
+		dates: string[]
+		cta?: {
+			text: string
+			href: string
+		}
+	}
+}
+
 
 export const assertLearningCard = (cardElement: HTMLElement, expValue: CourseCardAssertion) => {
 	const card = within(cardElement)
@@ -30,6 +69,14 @@ export const assertLearningCard = (cardElement: HTMLElement, expValue: CourseCar
 		} else {
 			card.getByText(expValue.cta.secondary.text)
 		}
+	}
+}
+
+export const assertCourseCards = (html: string, expValues: CourseCardAssertion[]) => {
+	const page = new JSDOM(html).window.document
+	const cardHtmls = page.getElementsByClassName('discite__item')
+	for (let i = 0; i < expValues.length; i++) {
+		assertLearningCard(cardHtmls[i] as HTMLElement, expValues[i])
 	}
 }
 
