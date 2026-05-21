@@ -1,6 +1,5 @@
 import {within} from '@testing-library/dom'
 import {expect} from 'chai'
-import {JSDOM} from 'jsdom'
 
 export interface CourseCardAssertion {
 	expTitle: {
@@ -72,17 +71,15 @@ export const assertLearningCard = (cardElement: HTMLElement, expValue: CourseCar
 	}
 }
 
-export const assertCourseCards = (html: string, expValues: CourseCardAssertion[]) => {
-	const page = new JSDOM(html).window.document
-	const cardHtmls = page.getElementsByClassName('discite__item')
+export const assertCourseCards = (html: HTMLElement, expValues: CourseCardAssertion[]) => {
+	const cardHtmls = html.getElementsByClassName('discite__item')
 	for (let i = 0; i < expValues.length; i++) {
 		assertLearningCard(cardHtmls[i] as HTMLElement, expValues[i])
 	}
 }
 
-export const assertLearningCards = (html: string, expValues: CourseCardAssertion[]) => {
-	const page = new JSDOM(html).window.document
-	const cardHtmls = page.getElementsByClassName('learning-card')
+export const assertLearningCards = (html: HTMLElement, expValues: CourseCardAssertion[]) => {
+	const cardHtmls = html.getElementsByClassName('learning-card')
 	for (let i = 0; i < expValues.length; i++) {
 		assertLearningCard(cardHtmls[i] as HTMLElement, expValues[i])
 	}

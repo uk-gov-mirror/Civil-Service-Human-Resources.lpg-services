@@ -15,7 +15,7 @@
                     {{ suggestionsCard.aToZSuggestionsCard(course) }}
                 {% endfor %}
             {% else %}
-                <p class='govuk-body'>There are no suggested courses for this section at this time.</p>
+                <p class='govuk-body'>There are no courses beginning with the letter “{{ letter.toUpperCase() }}” at this time.</p>
             {% endif %}
         </div>
     </div>

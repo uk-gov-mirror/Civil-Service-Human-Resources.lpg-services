@@ -1,6 +1,5 @@
 import {within} from '@testing-library/dom'
 import {expect} from 'chai'
-import {JSDOM} from 'jsdom'
 
 export interface ModuleCardCta {
 	type: 'button' | 'link' | 'text',
@@ -23,9 +22,8 @@ export interface ModuleCardAssertion {
 	}
 }
 
-export const assertModuleCards = (html: string, expValues: ModuleCardAssertion[]) => {
-	const page = new JSDOM(html).window.document
-	const cardHtmls = page.getElementsByClassName('discite__item u-clearfix discite__item--module')
+export const assertModuleCards = (html: HTMLElement, expValues: ModuleCardAssertion[]) => {
+	const cardHtmls = html.getElementsByClassName('discite__item u-clearfix discite__item--module')
 	for (let i = 0; i < expValues.length; i++) {
 		assertModuleCard(cardHtmls[i] as HTMLElement, expValues[i])
 	}

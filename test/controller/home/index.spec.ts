@@ -1,7 +1,7 @@
+import {within} from '@testing-library/dom'
 import {expect} from 'chai'
 import * as asyncHandler from 'express-async-handler'
 import * as sinon from 'sinon'
-import * as request from 'supertest'
 import {client} from '../../../src/lib/service/cslService/baseConfig'
 import {HOMEPAGE_COMPLETE_REQUIRED_COURSES, HOMEPAGE_COMPLETE_LEARNING_PLAN_COURSES} from '../../../src/lib/config'
 import {setCaches} from '../../../src/lib/service/cslService/cslServiceClient'
@@ -12,10 +12,9 @@ import {RequiredLearning} from '../../../src/lib/service/cslService/models/learn
 import * as index from '../../../src/ui/controllers/home'
 import {assertBanner} from '../../utils/htmlAssertions/assertBanner'
 import {assertCourseCards} from '../../utils/htmlAssertions/assertLearningCard'
-
-import {assertH1AndTitle} from '../../utils/htmlUtils'
 import {fakeCache} from '../../utils/mocks'
 import {getApp} from '../../utils/testApp'
+import {getDOM} from '../helpers'
 
 describe('Homepage controller tests', () => {
 	const sandbox = sinon.createSandbox()
@@ -63,10 +62,7 @@ describe('Homepage controller tests', () => {
 	setCaches(fakeCache as any, fakeCache as any, fakeCache as any, fakeCache as any)
 
 	const makeRequest = async () => {
-		const res = await request(app).get('/home').set({roles: 'LEARNER'})
-		expect(res.statusCode).to.equal(200)
-		assertH1AndTitle(res.text, 'Your learning', 'Your learning')
-		return res
+		return await getDOM(app, '/home', undefined, {title: 'Your learning'})
 	}
 
 	describe('Required learning', () => {
@@ -89,7 +85,7 @@ describe('Homepage controller tests', () => {
 				],
 			})
 			const res = await makeRequest()
-			assertCourseCards(res.text, [
+			assertCourseCards(res, [
 				{
 					dueBy: '01 Jan 2025',
 					cta: {
@@ -115,7 +111,7 @@ describe('Homepage controller tests', () => {
 		it('should render the correct messaging when the user has no required learning', async () => {
 			stubGetRequiredLearning({userId: 'userId', courses: [], getId: (): string => 'userId'})
 			const res = await makeRequest()
-			expect(res.text).to.contain('<p>You have completed all your required learning.</p>')
+			within(res).getByText('You have completed all your required learning.')
 		})
 	})
 	describe('Learning plan', () => {
@@ -151,13 +147,11 @@ describe('Homepage controller tests', () => {
 					},
 				],
 			})
-			const res = await request(app)
-				.get('/home')
-				.set({
-					roles: 'LEARNER',
-					flashes: ['successTitle:Learning plan Course 2', 'successId:learningplan2', 'successMessage:success'],
-				})
-			assertCourseCards(res.text, [
+			const res = await getDOM(app, '/home', {
+				roles: 'LEARNER',
+				flashes: ['successTitle:Learning plan Course 2', 'successId:learningplan2', 'successMessage:success'],
+			})
+			assertCourseCards(res, [
 				{
 					cta: {
 						primary: {
@@ -207,7 +201,7 @@ describe('Homepage controller tests', () => {
 					expDescription: 'Short description of learning plan 2',
 				},
 			])
-			assertBanner(res.text, {
+			assertBanner(res, {
 				title: 'Learning plan Course 2',
 				message: 'success',
 			})
@@ -243,7 +237,7 @@ describe('Homepage controller tests', () => {
 				],
 			})
 			const res = await makeRequest()
-			assertCourseCards(res.text, [
+			assertCourseCards(res, [
 				{
 					cta: {
 						primary: {
@@ -288,10 +282,10 @@ describe('Homepage controller tests', () => {
 				bookedCourses: [],
 			})
 			const res = await makeRequest()
-			expect(res.text).to.contain('<p class="govuk-body">There is currently no learning in your plan.</p>')
-			expect(res.text).to.contain(
-				'<p class="govuk-body">You can add learning by checking <a href="/course-catalogue">the course catalogue</a> or <a href="/search?q=">searching for a specific course</a>.</p>'
-			)
+			within(res).getByText('There is currently no learning in your plan.')
+			console.log(res.outerHTML)
+			expect(within(res).getByRole('link', {name: 'the course catalogue'}).getAttribute('href')).to.eql('/course-catalogue')
+			expect(within(res).getByRole('link', {name: 'searching for a specific course'}).getAttribute('href')).to.eql('/search?q=')
 		})
 		it('Should prompt the user to confirm when they remove a course from the learning plan', async () => {
 			stubGetLearningPlan({
@@ -314,8 +308,8 @@ describe('Homepage controller tests', () => {
 					},
 				],
 			})
-			const res = await request(app).get('/home?delete=learningplan1').set({roles: 'LEARNER'})
-			assertBanner(res.text, {
+			const res = await getDOM(app, '/home?delete=learningplan1')
+			assertBanner(res, {
 				title: 'Are you sure you want to remove Learning plan Course 1?',
 				message: 'If you remove this course, it will be deleted from your learning plan',
 				actions: [
@@ -364,8 +358,8 @@ describe('Homepage controller tests', () => {
 					})
 				})
 				it('Should display Move / skip CTAs to the user when a course can be moved to the learning plan', async () => {
-					const res = await request(app).get('/home').set({roles: 'LEARNER'})
-					assertCourseCards(res.text, [
+					const res = await getDOM(app, '/home')
+					assertCourseCards(res, [
 						{
 							cta: {
 								primary: {
@@ -438,8 +432,8 @@ describe('Homepage controller tests', () => {
 					})
 				})
 				it('Should prompt the user to confirm when they move a face-to-face course to their learning record', async () => {
-					const res = await request(app).get('/home?move=bookedLearning1,moduleId,eventId').set({roles: 'LEARNER'})
-					assertBanner(res.text, {
+					const res = await getDOM(app, '/home?move=bookedLearning1,moduleId,eventId')
+					assertBanner(res, {
 						title: 'Are you sure you want to add Booked learning Course 1 to your learning record?',
 						message: 'You should only add it to your learning record if you attended it.',
 						actions: [
@@ -455,8 +449,8 @@ describe('Homepage controller tests', () => {
 					})
 				})
 				it('Should prompt the user to confirm when they skip a face-to-face course', async () => {
-					const res = await request(app).get('/home?skip=bookedLearning1,moduleId,eventId').set({roles: 'LEARNER'})
-					assertBanner(res.text, {
+					const res = await getDOM(app, '/home?skip=bookedLearning1,moduleId,eventId')
+					assertBanner(res, {
 						title: 'Are you sure you want to say you did not attend Booked learning Course 1?',
 						message: 'Are you sure you did not attend? This will remove it from your learning plan',
 						actions: [

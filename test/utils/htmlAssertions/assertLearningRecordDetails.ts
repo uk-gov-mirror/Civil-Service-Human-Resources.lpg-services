@@ -1,6 +1,5 @@
 import {within} from '@testing-library/dom'
 import {expect} from 'chai'
-import {JSDOM} from 'jsdom'
 
 export interface CourseDetailsAssertion {
 	expType: string
@@ -27,10 +26,8 @@ const assertTableRowList = (tableContainer: HTMLElement, heading: string, expect
 	})
 }
 
-export const assertCourseDetails = (html: string, expValues: CourseDetailsAssertion) => {
-	const doc = new JSDOM(html).window.document
-
-	const tableElement = doc.querySelector('table') as HTMLElement
+export const assertCourseDetails = (html: HTMLElement, expValues: CourseDetailsAssertion) => {
+	const tableElement = html.querySelector('table') as HTMLElement
 	expect(tableElement).to.not.eql(null)
 
 	assertTableRow(tableElement, 'Course type', expValues.expType)

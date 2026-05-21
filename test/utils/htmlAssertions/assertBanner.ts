@@ -1,6 +1,5 @@
 import {within} from '@testing-library/dom'
 import {expect} from 'chai'
-import {JSDOM} from 'jsdom'
 
 export interface BannerAssertion {
 	title: string
@@ -11,9 +10,8 @@ export interface BannerAssertion {
 	}[]
 }
 
-export const assertBanner = (html: string, expectedBanner: BannerAssertion) => {
-	const doc = new JSDOM(html).window.document
-	const bannerHtml = doc.getElementsByClassName('banner')[0] as HTMLElement
+export const assertBanner = (html: HTMLElement, expectedBanner: BannerAssertion) => {
+	const bannerHtml = html.getElementsByClassName('banner')[0] as HTMLElement
 	expect(bannerHtml).to.not.eql(null)
 
 	const banner = within(bannerHtml)
