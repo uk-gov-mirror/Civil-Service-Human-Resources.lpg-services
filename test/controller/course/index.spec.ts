@@ -15,11 +15,7 @@ import * as coursePageModelFactory from '../../../src/ui/controllers/course/mode
 import {BaseModuleCard, F2FModuleCard, FileModuleCard} from '../../../src/ui/controllers/course/models/moduleCard'
 import {assertCourseDetails} from '../../utils/htmlAssertions/assertLearningRecordDetails'
 import {assertModuleCards} from '../../utils/htmlAssertions/assertModuleCard'
-import {
-	assertBackLink,
-	assertButton,
-	assertNotificationBanner,
-} from '../../utils/htmlUtils'
+import {assertBackLink, assertButton, assertNotificationBanner} from '../../utils/htmlUtils'
 import {getApp} from '../../utils/testApp'
 import {getDOM} from '../helpers'
 
@@ -230,7 +226,9 @@ describe('Course controller tests', () => {
 					const res = await makeRequest(singleModuleCoursePage)
 					const withinRes = within(res)
 					withinRes.getByRole('heading', {name: 'Download document'})
-					expect(withinRes.getByRole('link', {name: 'someFile.pdf'}).getAttribute('href')).to.eql('/courses/courseID/moduleID')
+					expect(withinRes.getByRole('link', {name: 'someFile.pdf'}).getAttribute('href')).to.eql(
+						'/courses/courseID/moduleID'
+					)
 					withinRes.getByText('(pdf, 1KB)')
 				})
 			})
@@ -254,7 +252,7 @@ describe('Course controller tests', () => {
 							cta: {
 								type: 'button',
 								text: 'Start module Module title',
-								href: '/courses/courseID/moduleID'
+								href: '/courses/courseID/moduleID',
 							},
 							expDescription: 'Module description',
 							expOptional: true,
@@ -380,7 +378,7 @@ describe('Course controller tests', () => {
 						cta: {
 							type: 'button',
 							text: 'Download document module File module',
-							href: '/launch'
+							href: '/launch',
 						},
 						details: {
 							expState: null,

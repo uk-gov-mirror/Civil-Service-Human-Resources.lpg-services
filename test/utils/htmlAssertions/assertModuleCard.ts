@@ -2,7 +2,7 @@ import {within} from '@testing-library/dom'
 import {expect} from 'chai'
 
 export interface ModuleCardCta {
-	type: 'button' | 'link' | 'text',
+	type: 'button' | 'link' | 'text'
 	text: string
 	href?: string
 	screenReaderText?: string

@@ -284,8 +284,12 @@ describe('Homepage controller tests', () => {
 			const res = await makeRequest()
 			within(res).getByText('There is currently no learning in your plan.')
 			console.log(res.outerHTML)
-			expect(within(res).getByRole('link', {name: 'the course catalogue'}).getAttribute('href')).to.eql('/course-catalogue')
-			expect(within(res).getByRole('link', {name: 'searching for a specific course'}).getAttribute('href')).to.eql('/search?q=')
+			expect(within(res).getByRole('link', {name: 'the course catalogue'}).getAttribute('href')).to.eql(
+				'/course-catalogue'
+			)
+			expect(within(res).getByRole('link', {name: 'searching for a specific course'}).getAttribute('href')).to.eql(
+				'/search?q='
+			)
 		})
 		it('Should prompt the user to confirm when they remove a course from the learning plan', async () => {
 			stubGetLearningPlan({

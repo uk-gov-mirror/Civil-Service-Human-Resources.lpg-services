@@ -13,15 +13,8 @@ const getLearningPlanTableAssertion = (
 	courseDetails: {title: string; type: string; duration: string; completionDate: string}[]
 ): TableAssertion => {
 	return {
-		heading: ['Course title', 'Type', 'Duration', 'Date completed',],
-		rows: [
-			...courseDetails.map(cd => [
-				cd.title,
-				cd.type,
-				cd.duration,
-				cd.completionDate,
-			]),
-		],
+		heading: ['Course title', 'Type', 'Duration', 'Date completed'],
+		rows: [...courseDetails.map(cd => [cd.title, cd.type, cd.duration, cd.completionDate])],
 	}
 }
 

@@ -18,7 +18,10 @@ export const assertButton = (body: HTMLElement, expText: string, expHref: string
 }
 
 export const assertNotificationBanner = (body: HTMLElement, expTitle: string | null, expContent: string | null) => {
-	const exp = [['govuk-notification-banner-title', expTitle], ['govuk-notification-banner-content', expContent]]
+	const exp = [
+		['govuk-notification-banner-title', expTitle],
+		['govuk-notification-banner-content', expContent],
+	]
 	exp.forEach(e => {
 		const elem = body.querySelector(`#${e[0]}`)
 		if (e[1] === null) {

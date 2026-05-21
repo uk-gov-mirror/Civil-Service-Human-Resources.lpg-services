@@ -21,7 +21,7 @@ export const assertBanner = (html: HTMLElement, expectedBanner: BannerAssertion)
 	if (expectedBanner.actions !== undefined) {
 		for (const expectedAction of expectedBanner.actions) {
 			const actionLink = banner.getByRole('link', {
-				name: expectedAction.text
+				name: expectedAction.text,
 			})
 
 			expect(actionLink.getAttribute('href')).to.eql(expectedAction.href)

@@ -40,7 +40,6 @@ export interface CourseCardAssertion {
 	}
 }
 
-
 export const assertLearningCard = (cardElement: HTMLElement, expValue: CourseCardAssertion) => {
 	const card = within(cardElement)
 	const titleLink = card.getByRole('link', {name: expValue.expTitle.text})

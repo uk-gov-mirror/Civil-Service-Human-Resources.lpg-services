@@ -17,7 +17,7 @@ export const getDOM = async (
 	const res = await request(app).get(url).set(set)
 	expect(res.status).eql(200)
 	const dom = new JSDOM(res.text).window.document
-	if (expectedValues){
+	if (expectedValues) {
 		expect(dom.title).to.eq(`${expectedValues.title} - Civil Service Learning`)
 	}
 	return dom.body

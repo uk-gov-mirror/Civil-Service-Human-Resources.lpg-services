@@ -132,9 +132,9 @@ describe('Course catalogue controller tests', () => {
 					suggestions: [
 						{
 							title: 'Organisation 1',
-							courses: mockCourses
-						}
-					]
+							courses: mockCourses,
+						},
+					],
 				})
 
 			const res = await getDOM(app, '/course-catalogue/profile-preferences')
@@ -214,25 +214,23 @@ describe('Course catalogue controller tests', () => {
 	})
 	describe('Popular courses in your area of work tests', () => {
 		it('should display courses for the users area of work', async () => {
-			cslServiceClientStub._get
-				.resolves({
-					results: mockCourses,
-					totalResults: mockCourses.length,
-					page: 1,
-					size: mockCourses.length,
-				})
+			cslServiceClientStub._get.resolves({
+				results: mockCourses,
+				totalResults: mockCourses.length,
+				page: 1,
+				size: mockCourses.length,
+			})
 			const res = await getDOM(app, '/course-catalogue/popular-courses/area-of-work')
 			within(res).getByRole('heading', {name: 'From Top completed courses for my area of work'})
 			assertLearningCards(res, mockCourseAssertions)
 		})
 		it('should display a message when there are no courses for the area of work', async () => {
-			cslServiceClientStub._get
-				.resolves({
-					results: [],
-					totalResults: 0,
-					page: 0,
-					size: 0,
-				})
+			cslServiceClientStub._get.resolves({
+				results: [],
+				totalResults: 0,
+				page: 0,
+				size: 0,
+			})
 			const res = await getDOM(app, '/course-catalogue/popular-courses/area-of-work')
 			within(res).getByText('There are no suggested courses for this section at this time.')
 		})
