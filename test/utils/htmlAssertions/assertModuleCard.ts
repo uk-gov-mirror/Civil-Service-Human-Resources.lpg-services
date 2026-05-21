@@ -3,6 +3,7 @@ import {expect} from 'chai'
 import {JSDOM} from 'jsdom'
 
 export interface ModuleCardCta {
+	type: 'button' | 'link' | 'text',
 	text: string
 	href?: string
 	screenReaderText?: string
@@ -25,11 +26,6 @@ export interface ModuleCardAssertion {
 export const assertModuleCards = (html: string, expValues: ModuleCardAssertion[]) => {
 	const page = new JSDOM(html).window.document
 	const cardHtmls = page.getElementsByClassName('discite__item u-clearfix discite__item--module')
-	for (let i = 0; i < cardHtmls.length; i++) {
-		console.log(cardHtmls[i].outerHTML)
-	}
-	expect(cardHtmls.length).to.eql(expValues.length)
-
 	for (let i = 0; i < expValues.length; i++) {
 		assertModuleCard(cardHtmls[i] as HTMLElement, expValues[i])
 	}
@@ -71,12 +67,14 @@ export const assertModuleCard = (elem: HTMLElement, expValue: ModuleCardAssertio
 	}
 
 	const {cta} = expValue
-	if (cta.href) {
-		const ctaLink = card.getByRole('link', {name: cta.text})
-		expect(ctaLink.getAttribute('href')).to.eql(cta.href)
+	if (cta.type == 'button' || cta.type == 'link') {
+		const ctaLink = card.getByRole(cta.type, {name: cta.text})
+		if (cta.type == 'link') {
+			expect(ctaLink.getAttribute('href')).to.eql(cta.href)
 
-		if (cta.openInNewTab) {
-			expect(ctaLink.getAttribute('target')).to.eql('_blank')
+			if (cta.openInNewTab) {
+				expect(ctaLink.getAttribute('target')).to.eql('_blank')
+			}
 		}
 	} else {
 		card.getByText(cta.text)

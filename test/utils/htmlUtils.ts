@@ -37,7 +37,7 @@ export const assertNotificationBanner = (doc: string, expTitle: string | null, e
 		if (e[1] === null) {
 			expect(elem).to.eql(null)
 		} else {
-			expect(elem!.textContent).to.eq(e[1])
+			within(elem as HTMLElement).getByText(e[1])
 		}
 	})
 }

@@ -254,9 +254,9 @@ describe('Course controller tests', () => {
 					assertModuleCards(res.text, [
 						{
 							cta: {
-								text: 'Module title',
-								href: '/courses/courseID/moduleID',
-								openInNewTab: true
+								type: 'button',
+								text: 'Start module Module title',
+								href: '/courses/courseID/moduleID'
 							},
 							expDescription: 'Module description',
 							expOptional: true,
@@ -328,6 +328,7 @@ describe('Course controller tests', () => {
 							expDescription: 'Module description',
 							expOptional: true,
 							cta: {
+								type: 'text',
 								text: 'Available on confirmation of a booking',
 							},
 							details: {
@@ -342,7 +343,8 @@ describe('Course controller tests', () => {
 							expDescription: 'Module description',
 							expOptional: false,
 							cta: {
-								text: 'Book Face to Face module',
+								type: 'button',
+								text: 'Book module Face to Face module',
 								href: '/book',
 							},
 							details: {
@@ -378,7 +380,8 @@ describe('Course controller tests', () => {
 						expDescription: 'Module description',
 						expOptional: false,
 						cta: {
-							text: 'Download File module',
+							type: 'button',
+							text: 'Download document module File module',
 							href: '/launch'
 						},
 						details: {
@@ -415,6 +418,7 @@ describe('Course controller tests', () => {
 						expDescription: 'Module description',
 						expOptional: false,
 						cta: {
+							type: 'text',
 							text: 'Unfortunately there are no bookable sessions at this time.',
 						},
 						details: {
