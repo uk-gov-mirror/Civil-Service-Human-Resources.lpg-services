@@ -6,10 +6,7 @@
 
 {% macro sectionLinks(params) %}
     {% for list in params.lists %}
-        <section>
-            {% if list.heading %}
-                <h3 class='visually-hidden'>{{ list.heading }}</h3>
-            {% endif %}
+        {% set content %}
             <ul class='section-link__list'>
                 {% for link in list.links %}
                     <li>
@@ -23,7 +20,15 @@
                     </li>
                 {% endfor %}
             </ul>
-        </section>
+        {% endset %}
+        {% if list.heading %}
+            <section>
+                <h3 class='visually-hidden'>{{ list.heading }}</h3>
+                {{ content | safe }}
+            </section>
+        {% else %}
+            {{ content | safe }}
+        {% endif %}
     {% endfor %}
 {% endmacro %}
 
@@ -74,7 +79,7 @@
                         },
                         {
                             "links": aToZLinks,
-                            "heading": "Find courses by first letter"
+                            "heading": "Browser courses by letter"
                         }
                     ]
                 }) }}
