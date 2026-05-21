@@ -1,7 +1,9 @@
 import {Express, NextFunction, Request, Response} from 'express'
 import {LPG_UI_SERVER} from '../../config'
 
-const validBackLinksForPages: Map<string, string[]> = new Map([['/courses/:courseId', ['/search']]])
+const validBackLinksForPages: Map<string, string[]> = new Map([
+	['/courses/:courseId', ['/search', '/course-catalogue']],
+])
 
 export function register(app: Express) {
 	validBackLinksForPages.forEach((validBackLinks, endpoint) => {

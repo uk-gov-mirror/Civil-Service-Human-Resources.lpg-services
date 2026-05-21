@@ -6,10 +6,10 @@
             {:else}
                 <li><a href="/home">Home</a></li>
             {/if}
-            {#if $req.originalUrl.includes("/suggestions-for-you")}
-                <li class="active"><a href="/suggestions-for-you" aria-current="page">{$i18n('suggestions_page_title')}</a></li>
+            {#if $req.originalUrl.includes("/course-catalogue")}
+                <li class="active"><a href="/course-catalogue" aria-current="page">{$i18n('course_catalogue_page_title')}</a></li>
             {:else}
-                <li><a href="/suggestions-for-you">{$i18n('suggestions_page_title')}</a></li>
+                <li><a href="/course-catalogue">{$i18n('course_catalogue_page_title')}</a></li>
             {/if}
             {#if $req.originalUrl.includes("/learning-record")}
                 <li class="active"><a href="/learning-record" aria-current="page">Learning record</a></li>

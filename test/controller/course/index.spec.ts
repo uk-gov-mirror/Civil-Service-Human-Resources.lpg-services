@@ -114,7 +114,7 @@ describe('Course controller tests', () => {
 			})
 			it('Should show "Find another course" as a default backlink', async () => {
 				const res = await makeRequest(noModuleCoursePage)
-				assertHtml(res.text, [getBackLinkAssertion('/suggestions-for-you', 'Find another course')])
+				assertHtml(res.text, [getBackLinkAssertion('/course-catalogue', 'Find another course')])
 			})
 			it('Should show "Back" as a backlink when a custom backlink is provided', async () => {
 				const searchUrl = '/search?q=XYZ'

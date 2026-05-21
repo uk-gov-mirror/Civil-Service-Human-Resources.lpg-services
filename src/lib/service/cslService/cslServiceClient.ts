@@ -5,6 +5,7 @@ import {
 	HOMEPAGE_COMPLETE_LEARNING_PLAN_COURSES,
 	SUGGESTIONS_MAX_COURSES,
 	SUGGESTIONS_EXCLUDE_LEARNING_PLAN_COURSES,
+	COURSE_CATALOGUE_A_Z_MAX_COURSES,
 } from '../../config'
 import {User} from '../../model'
 import {LearningPlanCache} from './cache/LearningPlanCache'
@@ -22,6 +23,7 @@ import {OrganisationalUnits} from './models/csrs/organisationalUnits'
 import {EventActionResponse} from './models/EventActionResponse'
 import {LaunchModuleResponse} from './models/launchModuleResponse'
 import {AreasOfWork} from './models/areasOfWork'
+import {BasicCourseResponse} from './models/learning/learningPlan/basicCourseResponse'
 import {LearningPlan} from './models/learning/learningPlan/learningPlan'
 import {LearningRecord} from './models/learning/learningRecord/learningRecord'
 import {RequiredLearning} from './models/learning/requiredLearning/requiredLearning'
@@ -235,6 +237,20 @@ export async function getProfileSuggestions(user: User): Promise<ProfileSuggesti
 		user
 	)
 	return plainToInstance(ProfileSuggestionsResponse, resp)
+}
+
+export async function getAtoZ(letter: string, page: number, user: any) {
+	const resp = await client._get(
+		{
+			url: `/learning/catalogue/a-z/${letter}`,
+			params: {
+				page,
+				size: COURSE_CATALOGUE_A_Z_MAX_COURSES,
+			},
+		},
+		user
+	)
+	return plainToInstance(BasicCourseResponse, resp)
 }
 
 export async function getAreasOfWork(user: User) {

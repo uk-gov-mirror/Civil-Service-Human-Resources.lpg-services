@@ -1,4 +1,4 @@
-$details-width: 15rem;
+$details-width: 21rem;
 
 .learning-card {
     padding-bottom: 2rem;
@@ -48,7 +48,7 @@ $details-width: 15rem;
 }
 
 .learning-card__details_list {
-    min-width: 15rem;
+    min-width: $details-width;
     text-align: left;
 }
 
@@ -58,4 +58,8 @@ $details-width: 15rem;
 
 .learning-card__details_value {
     font-weight: 600;
+}
+
+.learning-card__action {
+    margin-right: 1rem;
 }

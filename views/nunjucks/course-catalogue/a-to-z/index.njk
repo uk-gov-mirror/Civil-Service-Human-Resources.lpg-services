@@ -1,0 +1,25 @@
+{% extends '../layout.njk' %}
+{% import components + "/pagination/macro.njk" as paginationMacro %}
+{% import "../components/suggestionsCourseCard/macro.njk" as suggestionsCard %}
+
+{% set anchor = letter %}
+{% block catalogueContent %}
+    <h2 class='heading heading-medium'>From Browse courses A to Z</h2>
+    <div class='grid-row'>
+        <div class='column-one-tenth'>
+            <h3 class='section-heading'><span class='visually-hidden'>Courses beginning with the letter</span> {{ letter.toUpperCase() }}</h3>
+        </div>
+        <div class='column-nine-tenths'>
+            {% if results | length > 0 %}
+                {% for course in results %}
+                    {{ suggestionsCard.aToZSuggestionsCard(course) }}
+                {% endfor %}
+            {% else %}
+                <p class='govuk-body'>There are no suggested courses for this section at this time.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% if pagination.total > 0 %}
+        {{ paginationMacro.pagination(pagination) }}
+    {% endif %}
+{% endblock %}

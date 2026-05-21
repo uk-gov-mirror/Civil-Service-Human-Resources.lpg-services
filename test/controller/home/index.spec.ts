@@ -290,7 +290,7 @@ describe('Homepage controller tests', () => {
 			const res = await makeRequest()
 			expect(res.text).to.contain('<p class="govuk-body">There is currently no learning in your plan.</p>')
 			expect(res.text).to.contain(
-				'<p class="govuk-body">You can add learning by checking <a href="/suggestions-for-you">Suggestions for you</a> or <a href="/search?q=">searching for a specific course</a>.</p>'
+				'<p class="govuk-body">You can add learning by checking <a href="/course-catalogue">the course catalogue</a> or <a href="/search?q=">searching for a specific course</a>.</p>'
 			)
 		})
 		it('Should prompt the user to confirm when they remove a course from the learning plan', async () => {
