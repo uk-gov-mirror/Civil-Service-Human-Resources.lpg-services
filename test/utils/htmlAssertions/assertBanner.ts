@@ -1,5 +1,6 @@
+import {within} from '@testing-library/dom'
+import {expect} from 'chai'
 import {JSDOM} from 'jsdom'
-import {assertHtml, classAssertion, HtmlAssertion, TextContentAsserter} from '../htmlUtils'
 
 export interface BannerAssertion {
 	title: string
@@ -11,31 +12,21 @@ export interface BannerAssertion {
 }
 
 export const assertBanner = (html: string, expectedBanner: BannerAssertion) => {
-	const assertions: HtmlAssertion[] = [
-		classAssertion(['banner__heading-large'], {
-			content: new TextContentAsserter(expectedBanner.title),
-		}),
-		{
-			querySelector: 'p.no-margin > strong',
-			expected: {
-				content: new TextContentAsserter(expectedBanner.message),
-			},
-		},
-	]
+	const doc = new JSDOM(html).window.document
+	const bannerHtml = doc.getElementsByClassName('banner')[0] as HTMLElement
+	expect(bannerHtml).to.not.eql(null)
+
+	const banner = within(bannerHtml)
+	banner.getByText(expectedBanner.title)
+	banner.getByText(expectedBanner.message)
+
 	if (expectedBanner.actions !== undefined) {
-		for (let i = 0; i < expectedBanner.actions.length; i++) {
-			const expectedAction = expectedBanner.actions[i]
-			assertions.push(
-				classAssertion([`banner__action:nth-of-type(${i + 1})`], {
-					content: new TextContentAsserter(expectedAction.text),
-					attributes: {
-						href: expectedAction.href,
-					},
-				})
-			)
+		for (const expectedAction of expectedBanner.actions) {
+			const actionLink = banner.getByRole('link', {
+				name: expectedAction.text
+			})
+
+			expect(actionLink.getAttribute('href')).to.eql(expectedAction.href)
 		}
 	}
-	const doc = new JSDOM(html).window.document
-	const bannerHtml = doc.getElementsByClassName('banner')[0]
-	assertHtml(bannerHtml, assertions)
 }

@@ -78,7 +78,7 @@ describe('Course catalogue controller tests', () => {
 					},
 					secondary: {
 						href: '/course-catalogue/add/a2',
-						text: 'Add to learning plan: A course 2',
+						text: 'Add to learning plan : A course 2',
 					},
 				},
 				properties: {
