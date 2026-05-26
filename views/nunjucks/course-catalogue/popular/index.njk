@@ -1,0 +1,19 @@
+{% extends '../layout.njk' %}
+{% import components + "/pagination/macro.njk" as paginationMacro %}
+{% import "../components/suggestionsCourseCard/macro.njk" as suggestionsCard %}
+
+{% set anchor = "popular" %}
+{% block catalogueContent %}
+    <div class='grid-row'>
+        <div class='column-full'>
+            <h2 class='heading heading-medium'>From Top completed courses for my area of work</h2>
+            {% if results | length > 0 %}
+                {% for course in results %}
+                    {{ suggestionsCard.profileSuggestionsCard(course) }}
+                {% endfor %}
+            {% else %}
+                <p class='govuk-body'>There are no suggested courses for this section at this time.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

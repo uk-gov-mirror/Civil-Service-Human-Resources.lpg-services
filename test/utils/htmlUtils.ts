@@ -1,140 +1,33 @@
+import {within} from '@testing-library/dom'
 import {expect} from 'chai'
-import {JSDOM} from 'jsdom'
 
-export type HTML = Document | Element
-
-export interface HtmlAssertion {
-	querySelector: string
-	expected: ExpectedHtmlValues | null
+export const assertBackLink = (body: HTMLElement, expHref: string, expText: string) => {
+	expect(
+		within(body.getElementsByClassName('link-back')[0] as HTMLElement)
+			.getByText(expText)
+			.getAttribute('href')
+	).to.eql(expHref)
 }
 
-export interface ExpectedHtmlValues {
-	content: TagContentAsserter
-	classes?: string[]
-	attributes?: {[prop: string]: string}
+export const assertButton = (body: HTMLElement, expText: string, expHref: string) => {
+	expect(
+		within(body.getElementsByClassName('button')[0] as HTMLElement)
+			.getByText(expText)
+			.getAttribute('href')
+	).to.eql(expHref)
 }
 
-export const idAssertion = (id: string, expected: ExpectedHtmlValues | null): HtmlAssertion => {
-	return {
-		querySelector: `#${id}`,
-		expected,
-	}
-}
-
-export const classAssertion = (classes: string[], expected: ExpectedHtmlValues | null): HtmlAssertion => {
-	const querySelector = classes.map(c => `.${c}`).join('')
-	return {
-		querySelector,
-		expected,
-	}
-}
-
-export interface TagContentAsserter {
-	assert(elem: Element, exp: Chai.ExpectStatic): void
-}
-
-export class MultipleContentAsserter implements TagContentAsserter {
-	constructor(private asserters: TagContentAsserter[]) {}
-	assert(elem: Element, exp: Chai.ExpectStatic) {
-		this.asserters.forEach(a => a.assert(elem, exp))
-	}
-}
-
-export class TextContentAsserter implements TagContentAsserter {
-	constructor(private expText: string) {}
-	assert(elem: Element, exp: Chai.ExpectStatic) {
-		console.log(`Expecting tag '${elem.outerHTML}' to equal text '${this.expText}'`)
-		exp(elem.textContent!.trim(), `Expected tag '${elem.outerHTML}' to equal text '${this.expText}'`).eql(this.expText)
-	}
-}
-
-export class TextContainsAsserter implements TagContentAsserter {
-	constructor(private expText: string) {}
-	assert(elem: Element, exp: Chai.ExpectStatic) {
-		console.log(`Expecting tag '${elem.outerHTML}' to contain text '${this.expText}'`)
-		exp(elem.textContent!.trim(), `Expected tag '${elem.outerHTML}' to contain text '${this.expText}'`).contains(
-			this.expText
-		)
-	}
-}
-
-export const assertH1 = (expectedText: string): HtmlAssertion => {
-	return {
-		querySelector: 'h1',
-		expected: {
-			content: new TextContentAsserter(expectedText),
-		},
-	}
-}
-
-export const titleAssertion = (expValue: string): HtmlAssertion => {
-	expValue = `${expValue} - Civil Service Learning`
-	return {
-		querySelector: 'title',
-		expected: {
-			content: new TextContentAsserter(expValue),
-		},
-	}
-}
-
-export const getBackLinkAssertion = (expHref: string, expText: string): HtmlAssertion => {
-	return {
-		querySelector: `.link-back`,
-		expected: {
-			content: new TextContentAsserter(expText),
-			attributes: {
-				href: expHref,
-			},
-		},
-	}
-}
-
-export const getAssertNotificationBanner = (expTitle: string, expContent: string): HtmlAssertion[] => {
-	return [
-		idAssertion('govuk-notification-banner-title', {content: new TextContentAsserter(expTitle)}),
-		idAssertion('govuk-notification-banner-content', {content: new TextContentAsserter(expContent)}),
+export const assertNotificationBanner = (body: HTMLElement, expTitle: string | null, expContent: string | null) => {
+	const exp = [
+		['govuk-notification-banner-title', expTitle],
+		['govuk-notification-banner-content', expContent],
 	]
-}
-
-export const assertHtml = (html: string | HTML, assertions: HtmlAssertion[]) => {
-	const page = typeof html === 'string' ? new JSDOM(html).window.document : html
-	assertions.forEach(a => {
-		assertDoc(page, a)
+	exp.forEach(e => {
+		const elem = body.querySelector(`#${e[0]}`)
+		if (e[1] === null) {
+			expect(elem).to.eql(null)
+		} else {
+			within(elem as HTMLElement).getByText(e[1])
+		}
 	})
-}
-
-export const assertDocMultiple = (doc: HTML, assertions: HtmlAssertion[], exp?: Chai.ExpectStatic) => {
-	exp = exp ? exp : expect
-	assertions.forEach(a => {
-		assertDoc(doc, a, exp)
-	})
-}
-
-export const assertDoc = (doc: HTML, assertion: HtmlAssertion, exp?: Chai.ExpectStatic) => {
-	exp = exp ? exp : expect
-	exp(doc, 'HTML document is undefined').not.eql(undefined)
-	const elem = doc.querySelectorAll(assertion.querySelector)[0]
-	const expected = assertion.expected
-	if (expected === null) {
-		exp(elem || null).eql(null)
-	} else {
-		exp(elem || null, `Expected element with selector '${assertion.querySelector}' to not be null`).not.eql(null)
-		expected.content.assert(elem, exp)
-		const expClasses = expected.classes || []
-		expClasses.forEach(c =>
-			exp(elem.classList).contain(c, `Expected class list to contain class '${c}' (tag: '${elem.outerHTML}')`)
-		)
-		const attr = expected.attributes || {}
-		Object.keys(attr).forEach(key => {
-			const expVal = attr[key]
-			let attributeValue = elem.getAttribute(key)
-			if (elem.tagName === 'FORM' && key === 'href') {
-				attributeValue = elem.getAttribute('action')
-			}
-			exp(attributeValue).eql(
-				expVal,
-				`Expected HTML attribute '${key}' to equal '${expVal}' (tag: '${elem.outerHTML}')`
-			)
-		})
-	}
 }

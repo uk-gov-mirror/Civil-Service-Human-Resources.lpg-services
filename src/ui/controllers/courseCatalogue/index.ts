@@ -1,6 +1,7 @@
 import {plainToInstance} from 'class-transformer'
+import dayjs = require('dayjs')
 import * as express from 'express'
-import {LPG_UI_SERVER} from '../../../lib/config'
+import {LPG_UI_SERVER, POPULAR_COURSES_DURATION} from '../../../lib/config'
 import * as cslService from '../../../lib/service/cslService/cslServiceClient'
 import {getPagination} from '../../../lib/utils/search'
 import {generateNotificationBanner} from '../home'
@@ -39,6 +40,20 @@ export async function addToPlan(req: express.Request, res: express.Response) {
 
 export async function renderCourseCatalogue(req: express.Request, res: express.Response) {
 	return await renderAtoZ(req, res)
+}
+
+export async function renderPopularProfession(req: express.Request, res: express.Response) {
+	const to = dayjs()
+	const from = to.subtract(POPULAR_COURSES_DURATION).format('YYYY-MM-DDTHH:mm:ss')
+	const response = await cslService.getPopularCoursesForProfession(req.user, from, to.format('YYYY-MM-DDTHH:mm:ss'))
+	const results = response.results
+	const notificationBanner = await generateNotificationBanner(req, results)
+	res.render('course-catalogue/popular/index.njk', {
+		results,
+		banners: {
+			notification: notificationBanner,
+		},
+	})
 }
 
 export async function renderAtoZ(req: express.Request, res: express.Response) {
