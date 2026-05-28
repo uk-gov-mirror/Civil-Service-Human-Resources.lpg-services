@@ -1,19 +1,22 @@
-{% from "./components/navbarLink.njk" import navbarLink %}
+{% from "./components/navbarLink.njk" import navbar %}
 
 <nav id="proposition-menu">
     <ul id="proposition-links">
         {% if signedInUser.hasCompleteProfile() %}
-            {{ navbarLink(originalUrl, "/home", "Home") }}
-            {{ navbarLink(originalUrl, "/course-catalogue", i18n('course_catalogue_page_title')) }}
-            {{ navbarLink(originalUrl, "/learning-record", "Learning record") }}
-            {{ navbarLink(originalUrl, "/profile", "Profile") }}
+            {% set tabs = [
+                {"active": navbarTab == "home", "href": "/home", "text": "Home"},
+                {"active": navbarTab == "course-catalogue", "href": "/course-catalogue", "text": i18n('course_catalogue_page_title')},
+                {"active": navbarTab == "learning-record", "href": "/learning-record", "text": "Learning record"},
+                {"active": navbarTab == "profile", "href": "/profile", "text": "Profile"}
+            ] %}
             {% if signedInUser.isAdmin() %}
-                {{ navbarLink(originalUrl, lpgManagementUrl + "/content-management", "Admin") }}
+                {% set tabs = (tabs.push({"href": lpgManagementUrl + "/content-management", "text": "Admin"}), tabs) %}
             {% endif %}
             {% if signedInUser.isReporter() %}
-                {{ navbarLink(originalUrl, lpgManagementUrl + "/reporting", "Reporting") }}
+                {% set tabs = (tabs.push({"href": lpgManagementUrl + "/reporting", "text": "Reporting"}), tabs) %}
             {% endif %}
-            {{ navbarLink(originalUrl, "/sign-out", "Sign out") }}
+            {% set tabs = (tabs.push({"href": "/sign-out", "text": "Sign out"}), tabs) %}
+            {{ navbar({"links": tabs}) }}
         {% endif %}
     </ul>
 </nav>

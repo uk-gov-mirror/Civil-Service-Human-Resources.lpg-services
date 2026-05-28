@@ -1,3 +1,9 @@
-{% macro navbarLink(url, href, text) %}
-    <li {% if url.includes(href) %}class="active"{% endif %}><a href="{{ href }}" {% if url.includes(href) %}aria-current="page"{% endif %}>{{ text }}</a></li>
+{% macro navbar(params) %}
+    {% for link in params.links %}
+        {{ navbarLink(link) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro navbarLink(params) %}
+    <li {% if params.active %}class="active"{% endif %}><a href="{{ params.href }}" {% if params.active %}aria-current="page"{% endif %}>{{ params.text }}</a></li>
 {% endmacro %}
