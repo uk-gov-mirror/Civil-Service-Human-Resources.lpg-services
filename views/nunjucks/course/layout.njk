@@ -13,7 +13,7 @@
             {% if pageModel.backLink %}
                 {{ backLink(pageModel.backLink, "Back") }}
             {% else %}
-                {{ backLink("/suggestions-for-you", "Find another course") }}
+                {{ backLink("/course-catalogue", "Find another course") }}
             {% endif %}
         </p>
         {% if pageModel.status === "Archived" %}
@@ -25,7 +25,7 @@
         <h1 id="page-heading" class="heading-xlarge heading heading--page-heading">
             {{ pageModel.title }}
         </h1>
-       {% if (pageModel.type === "face-to-face") and (signedInUser.hasLineManager()) and (not pageModel.moduleDetails.cancellationLink) and (not pageModel.moduleDetails.canBeBooked) %}
+       {% if (pageModel.type === "face-to-face") and (signedInUser.hasLineManager()) and (not pageModel.moduleDetails.cancellationLink) and (not pageModel.moduleDetails.canBeBooked) and (pageModel.status === 'Published') %}
            <div class="grid-row">
                <div class="column-two-thirds">
                    {{ notificationBanner({

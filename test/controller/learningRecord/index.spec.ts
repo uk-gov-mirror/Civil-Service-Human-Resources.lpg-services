@@ -7,27 +7,14 @@ import {LearningRecordCache} from '../../../src/lib/service/cslService/cache/lea
 import {setCaches} from '../../../src/lib/service/cslService/cslServiceClient'
 import * as learningRecordIndex from '../../../src/ui/controllers/learning-record/index'
 import {assertTables, TableAssertion} from '../../utils/htmlAssertions/assertTable'
-import {TextContentAsserter} from '../../utils/htmlUtils'
 import {getApp} from '../../utils/testApp'
 
 const getLearningPlanTableAssertion = (
 	courseDetails: {title: string; type: string; duration: string; completionDate: string}[]
 ): TableAssertion => {
 	return {
-		heading: [
-			new TextContentAsserter('Course title'),
-			new TextContentAsserter('Type'),
-			new TextContentAsserter('Duration'),
-			new TextContentAsserter('Date completed'),
-		],
-		rows: [
-			...courseDetails.map(cd => [
-				new TextContentAsserter(cd.title),
-				new TextContentAsserter(cd.type),
-				new TextContentAsserter(cd.duration),
-				new TextContentAsserter(cd.completionDate),
-			]),
-		],
+		heading: ['Course title', 'Type', 'Duration', 'Date completed'],
+		rows: [...courseDetails.map(cd => [cd.title, cd.type, cd.duration, cd.completionDate])],
 	}
 }
 
@@ -60,12 +47,12 @@ describe('Learning record controller tests', () => {
 
 			it('should return not all required learning completed if required learning count is 10 and completed required learning is 5', () => {
 				const message: string = learningRecordIndex.getRequiredLearningStatusMessage(5, 10)
-				expect(message).to.eql("You haven't completed all of your required learning for this reporting year.")
+				expect(message).to.eql("You haven't completed all of your required learning in this learning period.")
 			})
 
 			it('should return all required learning completed if required learning count is 10 and completed required learning is 10', () => {
 				const message: string = learningRecordIndex.getRequiredLearningStatusMessage(10, 10)
-				expect(message).to.eql('You have completed all of your required learning for this reporting year.')
+				expect(message).to.eql('You have completed all of your required learning in this learning period.')
 			})
 		})
 

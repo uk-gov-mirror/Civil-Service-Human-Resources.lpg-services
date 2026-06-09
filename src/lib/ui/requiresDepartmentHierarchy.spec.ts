@@ -26,7 +26,7 @@ describe('requiresDepartmentHierarchy tests', () => {
 
 	it('Should fetch the department hierarchy for a user and apply it to the response locals', async () => {
 		const request = mockReq({
-			originalUrl: '/suggestions-for-you',
+			originalUrl: '/courseCatalogue-for-you',
 			user: {
 				givenName: 'Test User',
 				organisationalUnit: {
@@ -54,7 +54,7 @@ describe('requiresDepartmentHierarchy tests', () => {
 
 	it('Should redirect the user to the profile page if their organisation has been deleted', async () => {
 		const request = mockReq({
-			originalUrl: '/suggestions-for-you',
+			originalUrl: '/courseCatalogue-for-you',
 			session: {
 				passport: {
 					user: {},

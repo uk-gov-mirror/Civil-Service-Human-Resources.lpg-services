@@ -15,6 +15,7 @@ import _ = require('lodash')
 
 export interface ICourse {
 	id: string
+	title: string
 }
 
 export interface LineManager {

@@ -1,0 +1,42 @@
+{% macro learningCardActions(params) %}
+    <div class="learning-card__actions">
+        {{ params.primary | safe }}
+        {% if params.secondary %}
+            {{ params.secondary | safe }}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro learningCardActionLink(params) %}
+    <a class='learning-card__action' href="{{ params.link }}">
+        {% if params.text %}
+            {{ text }}
+        {% elif params.html %}
+            {{ params.html | safe }}
+        {% endif %}
+    </a>
+{% endmacro %}
+
+{% macro addToLearningPlan(params) %}
+    {% set html %}
+        Add to learning plan<span class="visually-hidden">: {{ params.courseTitle }}</span>
+    {% endset %}
+    {{ learningCardActionLink({
+        "link": "/course-catalogue/add/" + params.courseId,
+        "html": html
+    }) }}
+{% endmacro %}
+
+{% macro start(params) %}
+    {% set html %}
+        Start <span class="visually-hidden">{{ params.courseTitle }}</span>
+    {% endset %}
+    {{ learningCardActionLink({
+        "link": "/courses/" + params.courseId,
+        "html": html
+    }) }}
+{% endmacro %}
+
+{% macro alreadyInLearningPlan(params) %}
+    <span>Already in your learning plan</span>
+{% endmacro %}

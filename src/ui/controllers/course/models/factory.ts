@@ -101,7 +101,7 @@ export async function getCoursePage(user: User, course: Course): Promise<BasicCo
 
 	basicCoursePage.id = course.id
 	basicCoursePage.isInLearningPlan = false
-	if (course.isRequired()) {
+	if (course.isRequired() || course.status === 'Archived') {
 		basicCoursePage.isInLearningPlan = undefined
 	} else if (!course.record) {
 		basicCoursePage.isInLearningPlan = false
@@ -111,11 +111,7 @@ export async function getCoursePage(user: User, course: Course): Promise<BasicCo
 		logger.debug(`hasFaceToFaceModule: ${hasFaceToFaceModule}`)
 		if (course.record.isCompleted() || hasFaceToFaceModule) {
 			basicCoursePage.isInLearningPlan = undefined
-		} else if (course.record.state === 'ARCHIVED') {
-			basicCoursePage.isInLearningPlan = false
-		} else {
-			basicCoursePage.isInLearningPlan = true
-		}
+		} else basicCoursePage.isInLearningPlan = course.record.state !== 'ARCHIVED'
 	}
 	return basicCoursePage
 }

@@ -14,7 +14,7 @@ const baseLayout = `${viewsRoot}/root/baseLayout.njk`
 const components = `${viewsRoot}/components`
 const partials = `${viewsRoot}/partials`
 
-const nunjucksEndpoints = ['/courses/:courseId', '/learning-record', '/', '/home', '/search']
+const nunjucksEndpoints = ['/courses/:courseId', '/learning-record', '/', '/home', '/search', '/course-catalogue*']
 
 const logger = getLogger(`nunjucks`)
 
@@ -52,6 +52,10 @@ export const register = (app: Express) => {
 		return i18nConfig.__(text)
 	})
 
+	env.addGlobal('AtoZ', () => {
+		return 'abcdefghijklmnopqrstuvwxyz'.split('')
+	})
+
 	// Custom filters
 	env
 		.addFilter('toHtml', toHtml)
@@ -87,6 +91,16 @@ export const register = (app: Express) => {
 
 	if (IS_DEV) {
 		env.on('load', (name, source, loader) => {
+			logger.debug(`template is ${name}, checking against nunjucks endpoints ${nunjucksEndpoints}`)
+			const templateDir = name.split('/')[0]
+			if (
+				nunjucksEndpoints.filter(value => {
+					return value.startsWith(`/${templateDir}`)
+				}).length === 0
+			) {
+				throw new Error(`Endpoint for template "${name}" has not been registered`)
+			}
+
 			logger.debug(`Loading template file ${name}`)
 		})
 	}

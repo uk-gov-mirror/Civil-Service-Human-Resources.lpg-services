@@ -14,6 +14,7 @@
 		"nuke": "rm -rf dist node_modules",
 		"js": "esbuild views/assets/js/main.js --bundle --minify --sourcemap --outfile=views/assets/js/main-bundle.min.js",
 		"watch-js": "npm run js -- --watch",
+		"precommit": "npm run build && npm run test && npm run fix-lint",
 		"sass": "sass views/assets/styles/main.scss:views/assets/styles/main.css --style compressed",
 		"start": "node dist/server.js",
 		"start:build": "npm run build && npm run start",
@@ -28,6 +29,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.14.0",
+		"@testing-library/dom": "^10.4.1",
 		"@types/app-root-path": "^1.2.4",
 		"@types/chai": "^4.1.4",
 		"@types/chai-as-promised": "7.1.0",
@@ -109,6 +111,7 @@
 		"connect-redis": "^4.0.3",
 		"cors": "2.8.4",
 		"cross-env": "^7.0.3",
+		"dayjs": "^1.11.20",
 		"dist-exiftool": "10.53.0",
 		"dotenv": "5.0.0",
 		"eslint-plugin-prettier": "^5.2.1",

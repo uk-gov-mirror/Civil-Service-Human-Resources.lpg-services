@@ -29,7 +29,7 @@ describe('Redirect to tests', () => {
 			originalUrl: '/endpoint/something',
 			baseUrl: '/endpoint/something',
 			query: {
-				redirectTo: '/suggestions-for-you',
+				redirectTo: '/courseCatalogue-for-you',
 			},
 			method: 'GET',
 		})

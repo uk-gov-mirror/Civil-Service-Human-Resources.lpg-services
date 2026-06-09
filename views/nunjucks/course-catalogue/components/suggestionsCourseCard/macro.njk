@@ -1,0 +1,68 @@
+{% import components + "/learningCard/actions/macro.njk" as learningCardActions %}
+{% import components + "/learningCard/details/macro.njk" as learningCardDetails %}
+{% import components + "/learningCard/header/macro.njk" as learningCardHeader %}
+{% import components + "/learningCard/content/macro.njk" as learningCardContent %}
+
+{% macro suggestionsCardContent(params) %}
+    {{ learningCardContent.learningCardContent({
+        "moduleCount": params.moduleCount,
+        "shortDescription": params.shortDescription
+    }) }}
+    {% set primary %}
+        {{ learningCardActions.start({
+            "courseId": params.id,
+            "courseTitle": params.title
+        }) }}
+    {% endset %}
+    {% set secondary %}
+        {% if params.status == 'IN_PROGRESS' %}
+            {{ learningCardActions.alreadyInLearningPlan() }}
+        {% else %}
+            {{ learningCardActions.addToLearningPlan({
+                "courseId": params.id,
+                "courseTitle": params.title
+            }) }}
+        {% endif %}
+    {% endset %}
+    {{ learningCardActions.learningCardActions({
+        "primary": primary,
+        "secondary": secondary
+    }) }}
+{% endmacro %}
+
+{% macro profileSuggestionsCard(params) %}
+    <div class="learning-card">
+        <div class='learning-card__header'>
+            {{ learningCardHeader.courseCardHeader({
+                "type": params.type,
+                "courseId": params.id,
+                "courseTitle": params.title
+            }) }}
+            {{ learningCardDetails.basicDetails({
+                type: params.type,
+                duration: params.duration,
+                cost: params.costInPounds
+            }) }}
+        </div>
+        {{ suggestionsCardContent(params) }}
+    </div>
+{% endmacro %}
+
+{% macro aToZSuggestionsCard(params) %}
+    <div class="learning-card">
+        <div class='learning-card__header'>
+            {{ learningCardHeader.courseCardHeader({
+                "type": params.type,
+                "courseId": params.id,
+                "courseTitle": params.title,
+                "headingTag": "h4"
+            }) }}
+            {{ learningCardDetails.basicDetails({
+                type: params.type,
+                duration: params.duration,
+                cost: params.costInPounds
+            }) }}
+        </div>
+        {{ suggestionsCardContent(params) }}
+    </div>
+{% endmacro %}

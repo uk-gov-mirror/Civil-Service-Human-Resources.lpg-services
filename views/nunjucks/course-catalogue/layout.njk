@@ -1,0 +1,93 @@
+{% extends baseLayout %}
+{% from components + "/search/macro.njk" import searchHeader %}
+{% from components + "/banner/macro.njk" import renderBanners %}
+
+{% set pageTitle = i18n('course_catalogue_page_title') %}
+{% set navbarTab = "course-catalogue" %}
+
+{% macro sectionLinks(params) %}
+    {% for list in params.lists %}
+        {% set content %}
+            <ul class='section-link__list'>
+                {% for link in list.links %}
+                    <li>
+                        <a class='section-link {{ link.classes}} {% if link.active %}section-link--active{% endif %}' href='{{ link.href }}'>
+                            {% if link.text %}
+                                {{ link.text }}
+                            {% else %}
+                                {{ link.html | safe }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endset %}
+        {% if list.heading %}
+            <section>
+                <h3 class='visually-hidden'>{{ list.heading }}</h3>
+                {{ content | safe }}
+            </section>
+        {% else %}
+            {{ content | safe }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% block content %}
+    <div class="container container--main">
+        <div class="grid-row ">
+            <div class="column-full no-border">
+                {% set header %}
+                    <h1 class="heading heading-large heading--flush">
+                        {{ pageTitle }}
+                    </h1>
+                {% endset %}
+                {{ searchHeader({
+                    "headerHtml": header
+                }) }}
+                <p class='govuk-body'>
+                    The A to Z catalogue is your comprehensive guide to all available learning.
+                    You can also receive tailored suggestions based on courses being completed by others across your area of work.
+                    <br>
+                    Your suggestions are more accurate when you have an updated profile.
+                </p>
+                <div class="change-settings-container">
+                    <p class="govuk-body">You can change the preferences in <a href="/profile">your profile page</a>.</p>
+                </div>
+                <h2 class='heading heading-medium'>Browse courses</h2>
+                {% set aToZLinks = [] %}
+                {% for letter in AtoZ() %}
+                    {% set html %}
+                        <span class='visually-hidden'>Courses beginning with the letter </span> {{ letter.toUpperCase() }}
+                    {% endset %}
+                    {% set aToZLinks = (aToZLinks.push({"active": anchor === letter, "href": "/course-catalogue/a-z/" + letter, "html": html, "classes": "section-link--letter"}), aToZLinks) %}
+                {% endfor %}
+                {{ sectionLinks({
+                    "lists": [
+                        {
+                            "links": [
+                                {
+                                    "active": anchor === "profile-preferences",
+                                    "href": '/course-catalogue/profile-preferences',
+                                    "text": "Profile preferences"
+                                },
+                                {
+                                    "active": anchor === "popular",
+                                    "href": '/course-catalogue/popular-courses/area-of-work',
+                                    "text": "Top completed courses for my area of work"
+                                }
+                            ]
+                        },
+                        {
+                            "links": aToZLinks,
+                            "heading": "Browse courses by letter"
+                        }
+                    ]
+                }) }}
+                {{ renderBanners(banners) }}
+                {% block catalogueContent %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

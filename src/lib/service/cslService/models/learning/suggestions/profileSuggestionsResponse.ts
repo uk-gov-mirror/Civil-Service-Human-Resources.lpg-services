@@ -1,0 +1,11 @@
+import {Type} from 'class-transformer'
+import {SuggestionSection} from '../../../../../../ui/controllers/courseCatalogue/model/suggestionSection'
+
+export class ProfileSuggestionsResponse {
+	@Type(() => SuggestionSection)
+	public suggestions: SuggestionSection[]
+
+	getAllCourses() {
+		return this.suggestions.flatMap(courses => courses.courses)
+	}
+}

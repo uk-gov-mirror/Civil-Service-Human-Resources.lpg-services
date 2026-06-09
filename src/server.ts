@@ -48,7 +48,7 @@ import * as profileController from './ui/controllers/profile'
 import {ProfileEndpoint} from './ui/controllers/profile/pages/common'
 import * as searchController from './ui/controllers/search'
 import * as skillsController from './ui/controllers/skills'
-import * as suggestionController from './ui/controllers/suggestion'
+import * as catalogueController from './ui/controllers/courseCatalogue/index'
 import {completeVideoModule} from './ui/controllers/video'
 
 export let appInsightsStarted = false
@@ -288,13 +288,15 @@ app.get(
 )
 
 app.get('/search', asyncHandler(requiresDepartmentHierarchy), asyncHandler(searchController.search))
-app.get(
-	'/suggestions-for-you',
-	asyncHandler(requiresDepartmentHierarchy),
-	asyncHandler(suggestionController.suggestionsPage)
-)
-app.get('/suggestions-for-you/add/:courseId', asyncHandler(suggestionController.addToPlan))
-app.get('/suggestions-for-you/remove/:courseId', asyncHandler(suggestionController.removeFromSuggestions))
+// Redirect from old endpoint
+app.get('/suggestions-for-you', (req, res) => {
+	res.redirect('/course-catalogue/profile-preferences')
+})
+app.get('/course-catalogue', asyncHandler(catalogueController.renderCourseCatalogue))
+app.get('/course-catalogue/a-z/:letter', asyncHandler(catalogueController.renderAtoZ))
+app.get('/course-catalogue/popular-courses/area-of-work', asyncHandler(catalogueController.renderPopularProfession))
+app.get('/course-catalogue/profile-preferences', asyncHandler(catalogueController.profilePreferencesPage))
+app.get('/course-catalogue/add/:courseId', asyncHandler(catalogueController.addToPlan))
 
 app.get('/skills', asyncHandler(skillsController.introduction))
 app.get('/skills/choose-quiz', asyncHandler(skillsController.chooseQuiz))

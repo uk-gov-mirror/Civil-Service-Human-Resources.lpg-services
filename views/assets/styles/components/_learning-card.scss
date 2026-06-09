@@ -1,0 +1,65 @@
+$details-width: 21rem;
+
+.learning-card {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $border;
+}
+
+.learning-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    @include media(mobile) {
+        flex-direction: column;
+        margin-bottom: 2rem;
+    }
+}
+
+.learning-card__content {
+    margin-top: -2rem;
+    @include media(mobile) {
+        margin-top: 0;
+    }
+}
+
+.learning-card__content_section {
+    margin-bottom: 2rem;
+    max-width: calc(95% - $details-width);
+    @include media(mobile) {
+        max-width: 100%;
+    }
+}
+
+.learning-card__heading {
+    @extend .heading-small;
+    margin-bottom: 2rem;
+    margin-top: 0;
+}
+
+.learning-card__details {
+    @include core-16;
+    margin-left: 4rem;
+
+    @include media(mobile) {
+        margin-left: 0;
+    }
+}
+
+.learning-card__details_list {
+    min-width: $details-width;
+    text-align: left;
+}
+
+.learning-card__details_item {
+    text-wrap: nowrap;
+}
+
+.learning-card__details_value {
+    font-weight: 600;
+}
+
+.learning-card__action {
+    margin-right: 1rem;
+}
