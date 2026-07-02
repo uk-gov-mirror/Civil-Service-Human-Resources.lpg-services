@@ -3,6 +3,7 @@
 {% from components + "/banner/macro.njk" import renderBanners %}
 
 {% set pageTitle = i18n('course_catalogue_page_title') %}
+{% set navbarTab = "course-catalogue" %}
 
 {% macro sectionLinks(params) %}
     {% for list in params.lists %}
