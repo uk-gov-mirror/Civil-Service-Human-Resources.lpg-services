@@ -1,6 +1,7 @@
 #global-header {
 	background-color: $black;
 	width: 100%;
+	padding: 5px 0;
 
 	.header-wrapper {
 		background-color: $black;
@@ -22,13 +23,28 @@
 			.header-logo {
 				@extend %contain-floats;
 				float: left;
-
-				@include media(desktop) {
-					width: 33.33%;
-				}
 				@media screen and (max-width: 379px) {
 					width: auto;
 					float: none;
+				}
+
+				a {
+					.element-wrapper{
+						.logo-wrapper{
+							display: flex;
+							.gov-uk-name{
+								margin-left: 10px;
+								font-weight: bold;
+							}
+							
+						}
+						.service-name{
+							margin-top: 15px;
+							margin-left: 10px;
+							font-size: 24px;
+							font-weight: bold;
+						}
+					}
 				}
 			}
 			.header-logo {
@@ -41,7 +57,6 @@
 			.header-global {
 				@include media(desktop) {
 					float: left;
-					width: 33.33%;
 
 					.header-logo,
 					.site-search {
@@ -55,7 +70,6 @@
 					float: left;
 				}
 				.content {
-					margin: 0 15px;
 					margin-top: 4px;
 					font-weight: 700;
 					display: inline-block;
@@ -68,7 +82,6 @@
 		float: left;
 		overflow: visible;
 		color: $white;
-		font-weight: bold;
 		font-size: 30px;
 		line-height: 1;
 		text-decoration: none;
@@ -119,6 +132,8 @@
 
 /* Global header bar */
 #global-header-bar {
+	max-width: 100%;
+	margin: 0;
 	@extend %site-width-container;
 	height: 10px;
 	background-color: $civil-service;
@@ -258,10 +273,12 @@ a.menu {
 		color: $black;
 		text-decoration: none;
 		@include bold-16;
+		padding-left: 15px;
 
 		@include media(desktop) {
 			@include bold-16;
 			line-height: 23px;
+			padding: 0;
 		}
 
 		&.active {
@@ -286,15 +303,31 @@ a.menu {
 }
 
 @media screen and (min-width: 769px) {
-	#proposition-menu {
-		border-bottom: 1px solid $border;
+	#global-header .header-wrapper .header-global .header-logo a .element-wrapper{
+		display: flex;
+		align-items: center;
+
+		.service-name{
+			margin-top: 0px;
+			margin-left: 10px;
+		}
 	}
+
+
 }
 
 .nav-container {
-	margin: 0 15px;
+	max-width: 100%;
 	border-bottom: 1px solid $border;
 	padding-bottom: 15px;
+	background-color: #F3F2F1;
+	padding: 9px 0;
+	margin: 0;
+
+	.nav-content-container{
+		max-width: 960px;
+		margin: 0 auto;
+	}
 
 	@include media(641px) {
 		margin: 0 30px;
@@ -302,7 +335,6 @@ a.menu {
 
 	@include media(desktop) {
 		border-bottom: none;
-		padding-bottom: 0;
 	}
 
 	@include media(1020px) {
