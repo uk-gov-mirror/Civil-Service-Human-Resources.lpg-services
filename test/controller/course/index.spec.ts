@@ -139,7 +139,7 @@ describe('Course controller tests', () => {
 					},
 				}
 				const res = await makeRequest(singleModuleCoursePage)
-				assertButton(res, 'Start this learning', `/courses/courseID/moduleID`, 1)
+				assertButton(res, 'Start this learning', `/courses/courseID/moduleID`)
 			})
 			describe('Face-to-face single module course page tests', () => {
 				it('Should show the cancel link when the user is booked', async () => {
