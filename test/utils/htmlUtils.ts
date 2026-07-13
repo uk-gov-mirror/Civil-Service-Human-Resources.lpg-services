@@ -11,7 +11,7 @@ export const assertBackLink = (body: HTMLElement, expHref: string, expText: stri
 
 export const assertButton = (body: HTMLElement, expText: string, expHref: string) => {
 	expect(
-		within(body.getElementsByClassName('button')[0] as HTMLElement)
+		within(body.querySelector('main .button') as HTMLElement)
 			.getByText(expText)
 			.getAttribute('href')
 	).to.eql(expHref)
