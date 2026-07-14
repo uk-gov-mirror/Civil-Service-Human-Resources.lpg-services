@@ -1,5 +1,5 @@
 {% extends baseLayout %}
-{% from components + "/search/macro.njk" import searchHeader %}
+{% from components + "/topHeader/macro.njk" import topHeader %}
 {% from components + "/pagination/macro.njk" import pagination %}
 {% from "./components/filters/macro.njk" import searchFilters %}
 {% from "./components/courseCard/macro.njk" import searchCard %}
@@ -10,16 +10,8 @@
     <div class="container container--main">
         <div class="grid-row ">
             <div class="column-full no-border">
-                {% set header %}
-                    <h1 class="heading heading-large heading--flush">
-                        Search Results
-                    </h1>
-                {% endset %}
-                {{ searchHeader({
-                    "headerHtml": header,
-                    "searchBox": {
-                        query: pageModel.query
-                    }
+                {{ topHeader({
+                    "content": "Search Results"
                 }) }}
             </div>
         </div>

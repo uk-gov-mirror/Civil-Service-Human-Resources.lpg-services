@@ -1,6 +1,6 @@
 {% extends baseLayout %}
 {% from components + "/banner/macro.njk" import renderBanners %}
-{% from components + "/search/macro.njk" import searchHeader %}
+{% from components + "/topHeader/macro.njk" import topHeader %}
 {% from "./components/requiredLearningCard/macro.njk" import requiredLearningCard %}
 {% from "./components/bookedLearningCard/macro.njk" import bookedLearningCard %}
 {% from "./components/learningPlanCard/macro.njk" import learningPlanCard %}
@@ -11,13 +11,8 @@
     <div class="container container--main">
         <div class="grid-row">
             <div class="column-full">
-                {% set header %}
-                    <h1 class="heading heading-large heading--flush">
-                        {{ i18n('home_page_title') }}
-                    </h1>
-                {% endset %}
-                {{ searchHeader({
-                    "headerHtml": header
+                {{ topHeader({
+                    "content": i18n('home_page_title')
                 }) }}
             </div>
         </div>
