@@ -3,7 +3,7 @@ import * as moment from 'moment'
 import * as nunjucks from 'nunjucks'
 import * as i18n from 'i18n'
 import * as path from 'path'
-import {IS_DEV, STATIC_DIR, LPG_MANAGEMENT_URL, DOUBLE_CLICK_PREVENTION_TIMEOUT_MS} from '../../config'
+import {IS_DEV, STATIC_DIR, LPG_MANAGEMENT_URL, DOUBLE_CLICK_PREVENTION_TIMEOUT_MS, NSG_FLAG} from '../../config'
 import * as datetime from '../../datetime'
 import {appropriateFileSize, extension, extensionAndSize, fileName} from '../../filehelpers'
 import {getLogger} from '../../logger'
@@ -51,6 +51,8 @@ export const register = (app: Express) => {
 		}
 		return i18nConfig.__(text)
 	})
+
+	env.addGlobal('NSG_FLAG', NSG_FLAG)
 
 	env.addGlobal('AtoZ', () => {
 		return 'abcdefghijklmnopqrstuvwxyz'.split('')
