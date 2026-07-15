@@ -17,13 +17,13 @@ a.menu {
 	@include core-16;
 	color: $black;
 	display: block;
-	float: right;
 	text-decoration: none;
 	padding-top: 6px;
 	margin-right: 15px;
 	font-weight: bold;
 	position: relative;
 	top: 5px;
+	text-align: right;
 
 	@include media(desktop) {
 		display: none;
@@ -184,6 +184,12 @@ a.menu {
 	.nav-content-container{
 		max-width: 960px;
 		margin: 0 auto;
+
+		@include media(desktop) {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
 	}
 
 	@include media(641px) {
@@ -228,4 +234,28 @@ a.js-header-toggle.menu.js-hidden {
 	margin-right: 2px;
 	fill: currentcolor;
 	vertical-align: top;
+}
+
+.search-form-container{
+	form {
+		display: flex;
+		align-items: center;
+		padding: 0 15px;
+
+		margin-top: 15px;
+
+		@include media(desktop) {
+			margin-top: 0;
+			padding: 0;
+		}
+
+		input.search-box__input{
+			width: 205px;
+		}
+
+		button.button{
+			margin-left: 5px;
+			width: 90px;
+		}
+	}
 }
