@@ -1,0 +1,14 @@
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+
+#global-cookie-message {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: govuk-colour('blue', 'tint-80');
+  p {
+    @extend .govuk-width-container;
+    @extend .govuk-body-s;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

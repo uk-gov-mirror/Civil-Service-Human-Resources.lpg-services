@@ -16,17 +16,22 @@ import {appropriateFileSize, extension, extensionAndSize, fileName} from '../../
 import {getLogger} from '../../logger'
 import {toHtml} from '../template'
 
+import * as appRoot from 'app-root-path'
+
+const govukFrontend = appRoot + '/node_modules/govuk-frontend/dist/govuk'
+const govukFrontendComponents = govukFrontend + '/components'
+
 const viewsRoot = `${STATIC_DIR}/nunjucks`
 const baseLayout = `${viewsRoot}/root/baseLayout.njk`
 const components = `${viewsRoot}/components`
 const partials = `${viewsRoot}/partials`
 
-const nunjucksEndpoints = ['/courses/:courseId', '/learning-record', '/', '/home', '/search', '/course-catalogue*']
+const nunjucksEndpoints = ['/courses/:courseId', '/learning-record', '/', '/home', '/search', '/course-catalogue*', '/nsg-homepage']
 
 const logger = getLogger(`nunjucks`)
 
 export const register = (app: Express) => {
-	const env = nunjucks.configure(viewsRoot, {
+	const env = nunjucks.configure([viewsRoot, govukFrontend, govukFrontendComponents], {
 		autoescape: true,
 		express: app,
 		noCache: IS_DEV,
@@ -101,15 +106,6 @@ export const register = (app: Express) => {
 
 	if (IS_DEV) {
 		env.on('load', (name, source, loader) => {
-			logger.debug(`template is ${name}, checking against nunjucks endpoints ${nunjucksEndpoints}`)
-			const templateDir = name.split('/')[0]
-			if (
-				nunjucksEndpoints.filter(value => {
-					return value.startsWith(`/${templateDir}`)
-				}).length === 0
-			) {
-				throw new Error(`Endpoint for template "${name}" has not been registered`)
-			}
 
 			logger.debug(`Loading template file ${name}`)
 		})

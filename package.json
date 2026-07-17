@@ -15,7 +15,7 @@
 		"js": "esbuild views/assets/js/main.js --bundle --minify --sourcemap --outfile=views/assets/js/main-bundle.min.js",
 		"watch-js": "npm run js -- --watch",
 		"precommit": "npm run build && npm run test && npm run fix-lint",
-		"sass": "sass views/assets/styles/main.scss:views/assets/styles/main.css views/assets/styles/main-nsg.scss:views/assets/styles/main-nsg.css --style compressed",
+		"sass": "sass --load-path . views/assets/styles:views/assets/styles --style compressed",
 		"start": "node dist/server.js",
 		"start:build": "npm run build && npm run start",
 		"start:dev": "concurrently \"npm run watch-sass\" \"npm run watch-js\" \"npm run dev\"",
@@ -25,7 +25,7 @@
 		"test:unit": "npm run test-single:ts \"src/**/*.spec.ts\"",
 		"test-single:ts": "ts-mocha --paths -p ./tsconfig.json --timeout 10000 --exit",
 		"test:watch": "ts-mocha src/**/*.spec.ts --paths -w -watch-files '**/*.ts'",
-		"watch-sass": "sass --watch views/assets/styles/main.scss:views/assets/styles/main.css --style compressed"
+		"watch-sass": "sass --watch --load-path . views/assets/styles:views/assets/styles --style compressed"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.14.0",
@@ -124,6 +124,7 @@
 		"glob": "^7.1.2",
 		"govuk_frontend_toolkit": "7.2.0",
 		"govuk-elements-sass": "3.1.2",
+		"govuk-frontend": "^6.3.0",
 		"helmet": "3.12.0",
 		"i18n": "0.8.3",
 		"i18n-express": "^1.1.3",
