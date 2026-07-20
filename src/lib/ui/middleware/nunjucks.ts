@@ -26,7 +26,15 @@ const baseLayout = `${viewsRoot}/root/baseLayout.njk`
 const components = `${viewsRoot}/components`
 const partials = `${viewsRoot}/partials`
 
-const nunjucksEndpoints = ['/courses/:courseId', '/learning-record', '/', '/home', '/search', '/course-catalogue*', '/nsg-homepage']
+const nunjucksEndpoints = [
+	'/courses/:courseId',
+	'/learning-record',
+	'/',
+	'/home',
+	'/search',
+	'/course-catalogue*',
+	'/nsg-homepage',
+]
 
 const logger = getLogger(`nunjucks`)
 
@@ -106,7 +114,6 @@ export const register = (app: Express) => {
 
 	if (IS_DEV) {
 		env.on('load', (name, source, loader) => {
-
 			logger.debug(`Loading template file ${name}`)
 		})
 	}
