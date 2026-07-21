@@ -24,6 +24,7 @@ import {OrganisationalUnits} from './models/csrs/organisationalUnits'
 import {EventActionResponse} from './models/EventActionResponse'
 import {LaunchModuleResponse} from './models/launchModuleResponse'
 import {AreasOfWork} from './models/areasOfWork'
+import {CategoryHomepage} from './models/learning/categories/categoryHomepage'
 import {BasicCourseResponse} from './models/learning/learningPlan/basicCourseResponse'
 import {LearningPlan} from './models/learning/learningPlan/learningPlan'
 import {LearningRecord} from './models/learning/learningRecord/learningRecord'
@@ -396,4 +397,12 @@ export async function getOrganisationalUnits(params: GetOrganisationalUnitParams
 		user
 	)
 	return plainToInstance(OrganisationalUnits, res)
+}
+
+export async function getCategoryHomepage(user: User) {
+	const res = await client._get({
+		url: '/learning/categories'
+	},
+		user)
+	return plainToInstance(CategoryHomepage, res)
 }

@@ -1,0 +1,42 @@
+@use "../common/variables" as *;
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+
+.category-card__container {
+  display: flex;
+}
+
+.category-card {
+  background-color: govuk-colour('white');
+  @include govuk-responsive-margin(5, "bottom");
+  @include govuk-responsive-margin(3, 'right');
+}
+
+.category-card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 350px;
+}
+
+.category-card__header-block {
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  background-color: $nsg-dark-green;
+  white-space: nowrap;
+}
+
+.category-card__heading {
+  color: $nsg-light-green;
+  margin: 0;
+}
+
+.category-card__heading--small {
+  @extend .govuk-heading-s;
+}
+
+.category-card__content-block {
+  padding: 1rem 1.5rem 1rem 1.5rem;
+}
+
+.category-card__action-block {
+  padding: 0 1.5rem 1rem 1.5rem;
+}
