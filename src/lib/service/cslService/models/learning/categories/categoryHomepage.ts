@@ -1,3 +1,3 @@
 export class CategoryHomepage {
-	categories: {title: string, description: string, fullUrl: string}[]
+	categories: {title: string; description: string; fullUrl: string}[]
 }

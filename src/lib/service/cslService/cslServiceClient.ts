@@ -400,9 +400,11 @@ export async function getOrganisationalUnits(params: GetOrganisationalUnitParams
 }
 
 export async function getCategoryHomepage(user: User) {
-	const res = await client._get({
-		url: '/learning/categories'
-	},
-		user)
+	const res = await client._get(
+		{
+			url: '/learning/categories',
+		},
+		user
+	)
 	return plainToInstance(CategoryHomepage, res)
 }
