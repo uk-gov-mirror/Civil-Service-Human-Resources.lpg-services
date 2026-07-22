@@ -3,6 +3,10 @@
 {% set pageTitle = "Your learning" %}
 {% set navbarTab = "home" %}
 
+{% block header %}
+    NSG header
+{% endblock %}
+
 {% block content %}
     <div class='govuk-grid-row'>
         <div class='govuk-grid-column-one-third'>
@@ -24,5 +28,5 @@
     <div class='icon-banner__container'>
         <div class="icon-banner"></div>
     </div>
-    {{ super() }}
+    NSG footer
 {% endblock %}
