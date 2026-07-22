@@ -181,3 +181,4 @@ export const GRADE_PRIORITY_ORDER_ENABLED = env.GRADE_PRIORITY_ORDER_ENABLED ===
 export const GRADE_PRIORITY_ORDER = env.GRADE_PRIORITY_ORDER.split(',') || 'AA,AO,EO,HEO,SEO,G7,G6,PB1,PB2,PB3,PS'
 
 export const NSG_FLAG = env.NSG_FLAG !== undefined ? env.NSG_FLAG === 'true' : false
+export const NSG_URL = env.NSG_ORGANISATION_URL || '/'

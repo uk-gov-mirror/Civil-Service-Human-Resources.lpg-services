@@ -75,7 +75,7 @@ a.menu {
 			border-left: 3px solid $flash-message;
 
 			@include media(desktop) {
-				border-bottom: 3px solid $flash-message;
+				border-bottom: 3px solid $nav-active-link-underline-color;
 				border-left: none;
 				padding-bottom: 7px;
 			}
@@ -93,13 +93,13 @@ a.menu {
 			border-left: 3px solid $flash-message;
 
 			@include media(desktop) {
-				border-bottom: 3px solid $flash-message;
+				border-bottom: 3px solid $nav-active-link-underline-color;
 				border-left: none;
 				padding-bottom: 7px;
 			}
 
 			a {
-				color: $flash-message;
+				color: $nav-active-link-color;
 				margin-left: -3px;
 
 				@include media(desktop) {
@@ -114,7 +114,6 @@ a.menu {
 			border-bottom: 0;
 			margin-right: 15px;
 			font-weight: 700;
-			color: #0b0c0c;
 			&.clear-child {
 				clear: left;
 			}
@@ -126,7 +125,11 @@ a.menu {
 	}
 
 	a {
-		color: $black;
+		color: $nav-link-color;
+
+		&:focus{
+			color: #000;
+		}
 		text-decoration: none;
 		@include bold-16;
 		padding-left: 15px;
@@ -137,12 +140,8 @@ a.menu {
 			line-height: 23px;
 			padding: 0;
 		}
-
-		&.active {
-			color: $proposition-active-nav;
-		}
+		
 		&:hover {
-			color: $flash-message;
 			text-decoration: none;
 		}
 	}
@@ -177,7 +176,7 @@ a.menu {
 	max-width: 100%;
 	border-bottom: 1px solid $border;
 	padding-bottom: 15px;
-	background-color: #F3F2F1;
+	background-color: $nav-background-color;
 	padding: 9px 0;
 	margin: 0;
 
