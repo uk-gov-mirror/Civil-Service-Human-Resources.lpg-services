@@ -1,13 +1,10 @@
 {% extends "./baseLayout.njk" %}
 
-{% block pageTitle %}
-    National School of Government and Public Services
-{% endblock %}
-
+{% set pageTitle = "Your learning" %}
 {% set navbarTab = "home" %}
 
 {% macro categoryCard(params) %}
-    <div class='category-card'>
+    <div class='category-card {{ params.classes }}'>
         <div class='category-card__header-block'>
             <h2 class='category-card__heading category-card__heading--small'>{{ params.title }}</h2>
         </div>
@@ -24,22 +21,40 @@
     </div>
 {% endmacro %}
 
+{% block header %}
+    NSG header
+{% endblock %}
+
 {% block content %}
-    <div class='category-card__container'>
+    <div class='home-container'>
         <div class='title-card'>
             <h1 class='title-card__heading title-card__heading--medium'>Welcome to the National School of Government and Public Services.</h1>
             <div class='title-card__content'>
-                <p class='govuk-body'>The National School provides world-class learning and development for civil servants, supporting public sector excellence and preparing our people for the future.</p>
+                <p class='govuk-body'>The National School curriculum includes universal skills for all, specialist skills and talent programmes.</p>
                 <p class='govuk-body'>Click on the link to view the subjects.</p>
             </div>
         </div>
-        {% for category in topRow %}
-            {{ categoryCard(category) }}
-        {% endfor %}
+{#        <div class='category-card__row category-card__row--top'>#}
+{#            {% for category in topRow %}#}
+{#                {{ categoryCard({#}
+{#                    title: category.title,#}
+{#                    description: category.description,#}
+{#                    fullUrl: category.fullUrl,#}
+{#                    classes: "category-card--two-cards" if topRow.length === 2 else ''#}
+{#                }) }}#}
+{#            {% endfor %}#}
+{#        </div>#}
         {% for row in rows %}
-            {% for category in row %}
-                {{ categoryCard(category) }}
-            {% endfor %}
+            <div class='category-card__row'>
+                {% for category in row %}
+                    {{ categoryCard({
+                        title: category.title,
+                        description: category.description,
+                        fullUrl: category.fullUrl,
+                        classes: "category-card--two-cards" if rows[0].length === 2 else ''
+                    }) }}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
@@ -48,5 +63,6 @@
     <div class='icon-banner__container'>
         <div class="icon-banner"></div>
     </div>
+    NSG footer
     {{ super() }}
 {% endblock %}
