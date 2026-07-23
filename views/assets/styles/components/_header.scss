@@ -204,6 +204,10 @@ a.menu {
 	}
 }
 
+a.js-header-toggle.menu{
+	color: $nav-mobile-menu-link-color;
+}
+
 a.js-header-toggle.menu.js-hidden {
 	display: block;
 
