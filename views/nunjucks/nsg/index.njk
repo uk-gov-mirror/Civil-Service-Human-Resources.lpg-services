@@ -32,7 +32,7 @@
                 <p class='govuk-body'>The National School provides world-class learning and development for civil servants, supporting public sector excellence and preparing our people for the future.</p>
             </div>
         </div>
-        {% for category in homepage.categories %}
+        {% for category in topRow %}
             {{ categoryCard(category) }}
         {% endfor %}
         {% for row in rows %}
