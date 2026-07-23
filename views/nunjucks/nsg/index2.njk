@@ -21,10 +21,6 @@
     </div>
 {% endmacro %}
 
-{% block header %}
-    NSG header
-{% endblock %}
-
 {% block content %}
     <div class='home-container'>
         <div class='title-card'>
@@ -34,16 +30,6 @@
                 <p class='govuk-body'>Click on the link to view the subjects.</p>
             </div>
         </div>
-{#        <div class='category-card__row category-card__row--top'>#}
-{#            {% for category in topRow %}#}
-{#                {{ categoryCard({#}
-{#                    title: category.title,#}
-{#                    description: category.description,#}
-{#                    fullUrl: category.fullUrl,#}
-{#                    classes: "category-card--two-cards" if topRow.length === 2 else ''#}
-{#                }) }}#}
-{#            {% endfor %}#}
-{#        </div>#}
         {% for row in rows %}
             <div class='category-card__row'>
                 {% for category in row %}
