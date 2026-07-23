@@ -180,7 +180,7 @@ a.menu {
 	padding: 9px 0;
 	margin: 0;
 
-	.nav-content-container{
+	.nav-content-container {
 		max-width: 960px;
 		margin: 0 auto;
 
@@ -189,6 +189,10 @@ a.menu {
 			justify-content: space-between;
 			align-items: center;
 		}
+	}
+
+	.nav-content-container--wide {
+		max-width: 1200px;
 	}
 
 	@include media(641px) {
