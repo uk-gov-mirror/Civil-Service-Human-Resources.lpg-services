@@ -8,14 +8,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:image" content="{{ staticAssetRoot }}/img/opengraph-image.png">
         <title>{{ pageTitle }} - {{ i18n('proposition_name') }}</title>
-        <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main.css">
+        
+        {% if NSG_FLAG === true %}
+            <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main-nsg.css">
+        {% else %}
+            <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main.css">
+        {% endif %}
+
         <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/video-js.min.css">
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId }}"></script> {{ googleAnalyticsCode | safe }}
     </head>
     <body>
         {% include "./skipLink.njk" %}
         {% include "./cookieMessage.njk" %}
-        {% include "./header.njk" %}
+        {% if NSG_FLAG === true %}
+            {% include "./header-nsg.njk" %}
+        {% else %}
+            {% include "./header.njk" %}
+        {% endif %}
+
         <main class="elements-index" id="content" role="main">
             <div class="main-content">
                 {% block content %}
