@@ -36,7 +36,7 @@
                     {{ categoryCard({
                         title: category.title,
                         description: category.description,
-                        fullUrl: category.fullUrl,
+                        fullUrl: category.url,
                         classes: "category-card--two-cards" if rows[0].length === 2 else ''
                     }) }}
                 {% endfor %}
