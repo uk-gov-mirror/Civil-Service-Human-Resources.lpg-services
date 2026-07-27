@@ -15,6 +15,10 @@
   @include govuk-width-container(1200px);
 }
 
+.nsg-footer {
+  border-color: $nsg-dark-green;
+}
+
 .icon-banner__container {
   background-color: $nsg-mid-green-tint-3;
 }
