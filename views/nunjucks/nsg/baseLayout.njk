@@ -15,9 +15,13 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main.v2.css">
-{#    <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main-nsg.css">#}
 {% endblock %}
-
+{% block govukSkipLink %}
+    {{ govukSkipLink({
+        href: "#main-content",
+        text: "Skip to main content"
+    }) }}
+{% endblock %}
 {% block header %}
     {{ mojHeader({
         organisationLabel: {
@@ -87,11 +91,4 @@
 
 {% block bodyEnd %}
     <script src="{{ staticAssetRoot }}/js/main-bundle.min.js"></script>
-{% endblock %}
-
-{% block govukSkipLink %}
-    {{ govukSkipLink({
-        href: "#main-content",
-        text: "Skip to main content"
-    }) }}
 {% endblock %}
