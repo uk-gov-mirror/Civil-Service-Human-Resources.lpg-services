@@ -17,6 +17,20 @@
 
 .nsg-footer {
   border-color: $nsg-dark-green;
+
+  .govuk-footer__link {
+    color: $footer-link;
+
+    &:hover {
+      color: $footer-link-hover;
+    }
+  }
+
+  .govuk-footer__copyright-logo {
+    &:before {
+      mask-image: url("../../../img/govuk-crest.png");
+    }
+  }
 }
 
 .icon-banner__container {
