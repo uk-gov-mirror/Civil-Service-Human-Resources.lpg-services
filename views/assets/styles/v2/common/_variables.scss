@@ -1,7 +1,35 @@
+/* tools */
+$site-wide-width: 1200px;
+
+/* Badge colours */
+$badge-mellow-red: #df3034;
+$badge-yellow: #ffbf47;
+$badge-green: #006435;
+$badge-turquoise: #28a197;
+$badge-blue: #1d70b8;
+
 /* NSG */
 $nsg-dark-green: #002d24;
+$nsg-dark-green-tint-1: #004634;
 $nsg-mid-green: #006b4d;
 $nsg-mid-green-tint-1: #086f52;
 $nsg-mid-green-tint-2: #247f65;
 $nsg-mid-green-tint-3: #258860;
 $nsg-light-green: #afffa6;
+$phase-banner-text-color: #fff;
+
+/* MOJ header */
+$moj-header-background: #0b0c0c;
+$moj-header-organisation-name-text-size: 30px;
+$moj-header-service-name-text-size: 24px;
+$moj-header-background: #002D24;
+$moj-header-padding-bottom: 15px;
+$moj-header-logo-border-left: 3px solid white;
+$moj-header-logo-padding-left: 10px;
+$moj-header-logotype-crest-display: block;
+$moj-header-organisation-name-text-size: 20px;
+$moj-header-organisation-name-width: 180px;
+$moj-header-service-name-text-size: 20px;
+$moj-header-service-name-border-left: 3px solid white;
+$moj-header-service-name-padding-left: 10px;
+$moj-header-service-name-margin-top: 30px;

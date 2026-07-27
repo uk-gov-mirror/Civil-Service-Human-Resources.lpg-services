@@ -1,0 +1,76 @@
+@use "../common/variables" as *;
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+
+.badge {
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1;
+  margin: -5px 0;
+  min-width: 10px;
+  padding: 5px 8px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-transform: lowercase;
+
+  // Default badge
+  background-color: govuk-colour('white');
+  color: govuk-colour('black');
+
+  &:empty {
+    display: none;
+  }
+
+  // In related__status items badges float right
+  .related {
+    .badge__status {
+      float: right;
+      margin-bottom: 10px;
+      margin-left: 10px;
+    }
+  }
+}
+
+.badge:first-letter {
+  text-transform: uppercase;
+}
+
+.badge--success {
+  background-color: $badge-green;
+  color: govuk-colour('white');
+}
+
+.badge--warn {
+  background-color: $badge-yellow;
+  color: #3c3c3c;
+}
+
+.badge--info {
+  background-color: $badge-blue;
+  color: govuk-colour('white');
+}
+
+.badge--alert {
+  background-color: $badge-mellow-red;
+  color: govuk-colour('white');
+}
+
+.badge--success {
+  background-color: $badge-turquoise;
+}
+
+.badge--smaller {
+  font-size: 80%;
+  padding: 3px 5px 2px;
+}
+
+.govuk-tag--badge {
+  @extend .badge--info;
+  .badge--phase {
+    @extend .badge--info;
+    text-transform: uppercase;
+    font-family: "nta", Arial, sans-serif;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+  }
+}

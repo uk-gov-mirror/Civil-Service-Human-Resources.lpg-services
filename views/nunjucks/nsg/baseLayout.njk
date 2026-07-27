@@ -1,6 +1,10 @@
 {% extends "template.njk" %}
 
+{% from components + "/mojHeader/macro.njk" import mojHeader %}
 {% from "skip-link/macro.njk" import govukSkipLink %}
+{% from "phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "service-navigation/macro.njk" import govukServiceNavigation %}
+{% from "input/macro.njk" import govukInput %}
 
 {% set bodyClasses = "nsg-body" %}
 {% set mainClasses = "nsg-homepage-main" %}
@@ -11,11 +15,65 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main.v2.css">
-    <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main-nsg.css">
+{#    <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main-nsg.css">#}
 {% endblock %}
 
 {% block header %}
-    {% include "../root/header-nsg.njk" %}
+    {{ mojHeader({
+        organisationLabel: {
+            text: "National School of Government and Public Services",
+            href: NSG_URL
+        },
+        serviceLabel: {
+            text: "Civil Service Learning",
+            href: "/"
+        },
+        containerClasses: headerContainerClasses
+    }) }}
+    <div class='phase-banner-container'>
+        {{ govukPhaseBanner({
+            tag: {
+                text: "Alpha"
+            },
+            html: 'Your <a class="govuk-link" href="{{ feedbackRoot }}" target="_blank" rel="noopener noreferrer" title="The Civil Service Learning feedback survey will open in another window">feedback</a> will help us to improve.',
+            classes: 'phase-banner--nsg',
+            tag: {
+                classes: 'govuk-tag--badge',
+                html: '<span class="badge badge--phase">BETA</span>'
+            }
+        }) }}
+    </div>
+    {% set search %}
+        <div class="search-form-container">
+            <form autocomplete="off" name="searchLearning" method="get" action="/search">
+                <label class="govuk-visually-hidden" for="q">Search all available learning</label>
+                <input class="form-control govuk-input" id="q" type="text" name="q" placeholder="Search courses" value="">
+                <button type="submit" class="govuk-button">Search</button>
+            </form>
+        </div>
+    {% endset %}
+    {% if signedInUser.hasCompleteProfile() %}
+        {% set tabs = [
+            {"active": navbarTab == "home", "href": "/home", "text": "Home"},
+            {"active": navbarTab == "course-catalogue", "href": "/course-catalogue", "text": i18n('course_catalogue_page_title')},
+            {"active": navbarTab == "learning-record", "href": "/learning-record", "text": "Learning record"},
+            {"active": navbarTab == "profile", "href": "/profile", "text": "Profile"}
+        ] %}
+        {% if signedInUser.isAdmin() %}
+            {% set tabs = (tabs.push({"href": lpgManagementUrl + "/content-management", "text": "Admin"}), tabs) %}
+        {% endif %}
+        {% if signedInUser.isReporter() %}
+            {% set tabs = (tabs.push({"href": lpgManagementUrl + "/reporting", "text": "Reporting"}), tabs) %}
+        {% endif %}
+        {% set tabs = (tabs.push({"href": "/sign-out", "text": "Sign out"}), tabs) %}
+        {{ govukServiceNavigation({
+            navigation: tabs,
+            classes: "nsg-navigation",
+            slots: {
+                end: search
+            }
+        }) }}
+    {% endif %}
 {% endblock %}
 
 {% block bodyStart %}
@@ -25,6 +83,10 @@
             <a href="/cookies"> Find out more about cookies</a>
         </p>
     </div>
+{% endblock %}
+
+{% block bodyEnd %}
+    <script src="{{ staticAssetRoot }}/js/main-bundle.min.js"></script>
 {% endblock %}
 
 {% block govukSkipLink %}
