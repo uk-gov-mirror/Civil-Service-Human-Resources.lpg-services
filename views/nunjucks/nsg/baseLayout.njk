@@ -89,6 +89,31 @@
     </div>
 {% endblock %}
 
-{% block bodyEnd %}
+{% block footer %}
     <script src="{{ staticAssetRoot }}/js/main-bundle.min.js"></script>
+    {{ govukFooter({
+        containerClasses: "nsg-homepage-wide-container",
+        classes: "nsg-footer",
+        meta: {
+            items: [
+                {
+                    href: "/cookies",
+                    text: "Cookies"
+                },
+                {
+                    href: "/privacy",
+                    text: "Privacy"
+                },
+                {
+                    href: "/contact-us",
+                    text: "Contact us"
+                },
+                {
+                    href: "/accessibility-statement",
+                    text: "Accessibility statement"
+                }
+            ],
+            html: 'Built by <a href="/home" class="govuk-footer__link">Civil Service Learning</a>'
+        }
+    }) }}
 {% endblock %}
