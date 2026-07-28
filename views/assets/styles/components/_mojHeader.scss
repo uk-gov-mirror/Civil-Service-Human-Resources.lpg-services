@@ -15,6 +15,10 @@
     }
 }
 
+.moj-header__container--wide {
+    max-width: 1200px;
+}
+
 @media (min-width:40.0625em) {
     .moj-header__container {
         margin: 0 30px

@@ -1,0 +1,27 @@
+@use "../common/variables" as *;
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+
+.title-card {
+  padding: 2.5rem 2rem 2.5rem 2rem;
+  background-color: $nsg-mid-green-tint-1;
+  border: 1px solid $nsg-mid-green-tint-2;
+}
+
+.title-card__content {
+  .govuk-body {
+    color: govuk-colour('white');
+
+  }
+  .govuk-body:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.title-card__heading {
+  color: $nsg-light-green;
+}
+
+.title-card__heading--medium {
+  @extend .govuk-heading-m;
+  margin-top: 0;
+}

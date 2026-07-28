@@ -1,3 +1,4 @@
+require('./govuk-frontend.min.js')
 require('./govuk_frontend_toolkit/govuk/show-hide-content')
 require('./govuk_frontend_toolkit/govuk/modules')
 require('./govuk_frontend_toolkit/govuk/govuk-template')
@@ -6,6 +7,7 @@ require('./search-filter-toggle')
 require('./cookies')
 require('./typeahead')
 require('./prevent-double-click')
+const {createAll, ServiceNavigation} = require('govuk-frontend')
 
 document.addEventListener('DOMContentLoaded', function () {
 	let modules = Array.prototype.slice.call(document.querySelectorAll('[data-module]'))
@@ -24,4 +26,5 @@ document.addEventListener('DOMContentLoaded', function () {
 			module.start(element)
 		}
 	})
+	createAll(ServiceNavigation, {})
 })
