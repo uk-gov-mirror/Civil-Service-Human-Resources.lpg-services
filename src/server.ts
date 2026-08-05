@@ -312,7 +312,7 @@ app.get('/home', asyncHandler(homeController.home))
 app.use('/book', bookingRouter.router)
 
 if (!NSG_FLAG) {
-	app.get('/nsg-homepage', asyncHandler(nsgController.index))
+	app.use(nsgController.router)
 }
 
 redirectTo.registerPOST(app)

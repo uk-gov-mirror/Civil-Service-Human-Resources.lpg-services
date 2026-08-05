@@ -5,6 +5,10 @@
   padding: 2.5rem 2rem 2.5rem 2rem;
   background-color: $nsg-mid-green-tint-1;
   border: 1px solid $nsg-mid-green-tint-2;
+  grid-column: 1 / span 1;
+  @media (max-width: 1100px) {
+    grid-column: span 1;
+  }
 }
 
 .title-card__content {
