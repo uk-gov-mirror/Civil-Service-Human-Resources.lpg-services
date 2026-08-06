@@ -1,0 +1,33 @@
+{% from "./components/categoryCard/macro.njk" import categoryCard %}
+{% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "./baseLayout.njk" %}
+
+{% set pageTitle = page.title %}
+
+{% set navbarTab = "home" %}
+
+{% block content %}
+    {% set breadcrumbs = page.parents %}
+    {% set breadcrumbs = (breadcrumbs.unshift({"href": "/nsg-homepage", "text": "Home"}), breadcrumbs) %}
+    {% set breadcrumbs = (breadcrumbs.push({"text": page.title}), breadcrumbs) %}
+    {{ govukBreadcrumbs({
+        items: breadcrumbs,
+        collapseOnMobile: true
+    }) }}
+    <h1 class='govuk-heading-l'>
+        {{ page.title }}
+    </h1>
+    <p class='govuk-body category__description'>
+        {{ page.description }}
+    </p>
+    <div class='category-card__container'>
+        {% for category in page.categories %}
+            {{ categoryCard({
+                title: category.title,
+                description: category.description,
+                fullUrl: category.url
+            }) }}
+        {% endfor %}
+    </div>
+{% endblock %}

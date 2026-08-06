@@ -1,17 +1,25 @@
 {% extends "template.njk" %}
 
 {% from components + "/mojHeader/macro.njk" import mojHeader %}
+{% from "footer/macro.njk" import govukFooter %}
 {% from "skip-link/macro.njk" import govukSkipLink %}
 {% from "phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "service-navigation/macro.njk" import govukServiceNavigation %}
 {% from "input/macro.njk" import govukInput %}
 
 {% set bodyClasses = "nsg-body" %}
-{% set mainClasses = "nsg-homepage-main" %}
 {% set containerClasses = "nsg-homepage-wide-container" %}
 {% set headerContainerClasses = "moj-header__container--wide" %}
 {% set phaseBannerClasses = "phase-banner--wide" %}
 {% set navContainerClasses = "nav-content-container--wide" %}
+
+{% block pageTitle %}
+    {{ pageTitle }} - Civil Service Learning
+{% endblock %}
+
+{% block headIcons %}
+    <link rel="shortcut icon" href="{{ staticAssetRoot }}/img/favicon.ico" type="image/x-icon" />
+{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{{ staticAssetRoot }}/styles/main.v2.css">
@@ -91,6 +99,9 @@
 
 {% block footer %}
     <script src="{{ staticAssetRoot }}/js/main-bundle.min.js"></script>
+    <div class='icon-banner__container'>
+        <div class="icon-banner"></div>
+    </div>
     {{ govukFooter({
         containerClasses: "nsg-homepage-wide-container",
         classes: "nsg-footer",
