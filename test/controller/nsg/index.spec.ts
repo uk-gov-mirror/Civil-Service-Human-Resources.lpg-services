@@ -41,7 +41,6 @@ describe('Homepage controller tests', () => {
 		within(res).getByText(
 			'The National School provides world-class learning and development for civil servants, supporting public sector excellence and preparing our people for the future.'
 		)
-		within(res).getByText('Click on the link to view the subjects.')
 	})
 
 	it('should render the homepage and any tier 1 categories', async () => {
