@@ -66,11 +66,16 @@
     {% endset %}
     {% if signedInUser.hasCompleteProfile() %}
         {% set tabs = [
-            {"active": navbarTab == "home", "href": "/home", "text": "Home"},
-            {"active": navbarTab == "course-catalogue", "href": "/course-catalogue", "text": i18n('course_catalogue_page_title')},
-            {"active": navbarTab == "learning-record", "href": "/learning-record", "text": "Learning record"},
-            {"active": navbarTab == "profile", "href": "/profile", "text": "Profile"}
+            {"active": navbarTab == "home", "href": "/home", "text": "Home"}
         ] %}
+
+        {% if NSG_FLAG === true %}
+            {% set tabs = (tabs.push({"active": navbarTab == "your-learning", "href": "/your-learning", "text": i18n('home_page_title')}), tabs) %}
+        {% endif %}
+
+        {% set tabs = (tabs.push({"active": navbarTab == "course-catalogue", "href": "/course-catalogue", "text": i18n('course_catalogue_page_title')}), tabs) %}
+        {% set tabs = (tabs.push({"active": navbarTab == "learning-record", "href": "/learning-record", "text": "Learning record"}), tabs) %}
+        {% set tabs = (tabs.push({"active": navbarTab == "profile", "href": "/profile", "text": "Profile"}), tabs) %}
         {% if signedInUser.isAdmin() %}
             {% set tabs = (tabs.push({"href": lpgManagementUrl + "/content-management", "text": "Admin"}), tabs) %}
         {% endif %}

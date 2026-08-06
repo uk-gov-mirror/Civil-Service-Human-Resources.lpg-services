@@ -307,12 +307,15 @@ app.post('/skills/questions/:questionIndex', asyncHandler(skillsController.answe
 app.get('/skills/summary/:answerSubmissionId', asyncHandler(skillsController.quizSummary))
 app.get('/skills/quiz-history', asyncHandler(skillsController.quizHistory))
 
-app.get('/home', asyncHandler(homeController.home))
-
 app.use('/book', bookingRouter.router)
 
+
 if (!NSG_FLAG) {
+	app.get('/home', asyncHandler(homeController.home))
 	app.use(NSG_ROUTER_BASE, nsgController.router)
+} else {
+	app.use('/home', nsgController.router)
+	app.get('/your-learning', asyncHandler(homeController.home))
 }
 
 redirectTo.registerPOST(app)
