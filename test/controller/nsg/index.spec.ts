@@ -36,7 +36,7 @@ describe('Homepage controller tests', () => {
 		homepageObject.categories = []
 		cslServiceStub._get.resolves(homepageObject)
 
-		const res = await makeRequest(app, '/nsg-homepage')
+		const res = await makeRequest(app, NSG_ROUTER_BASE)
 		within(res).getByRole('heading', {name: 'Welcome to the National School of Government and Public Services.'})
 		within(res).getByText(
 			'The National School provides world-class learning and development for civil servants, supporting public sector excellence and preparing our people for the future.'
@@ -59,17 +59,17 @@ describe('Homepage controller tests', () => {
 		]
 		cslServiceStub._get.resolves(homepageObject)
 
-		const res = await makeRequest(app, '/nsg-homepage')
+		const res = await makeRequest(app, NSG_ROUTER_BASE)
 		assertCategories(res, [
 			{
 				expTitle: 'Category 1',
 				expDescription: 'this is category 1',
-				expUrl: '/nsg-homepage/categories/category-1',
+				expUrl: `${NSG_ROUTER_BASE}/categories/category-1`,
 			},
 			{
 				expTitle: 'Category 2',
 				expDescription: 'this is category 2',
-				expUrl: '/nsg-homepage/categories/category-2',
+				expUrl: `${NSG_ROUTER_BASE}/categories/category-2`,
 			},
 		])
 	})
@@ -91,16 +91,16 @@ describe('Homepage controller tests', () => {
 		]
 		cslServiceStub._get.resolves(categoryPage)
 
-		const res = await makeRequest(app, '/nsg-homepage/categories/subcategory-1')
+		const res = await makeRequest(app, `${NSG_ROUTER_BASE}/categories/subcategory-1`)
 		within(res).getByRole('heading', {name: 'Subcategory 1'})
 		within(res).getByText('This is Subcategory 1')
 		assertBreadcrumbs(res, [
 			{
-				expHref: '/nsg-homepage',
+				expHref: NSG_ROUTER_BASE,
 				expText: 'Home',
 			},
 			{
-				expHref: '/nsg-homepage/categories/category-1',
+				expHref: `${NSG_ROUTER_BASE}/categories/category-1`,
 				expText: 'Category 1',
 			},
 		])
@@ -108,7 +108,7 @@ describe('Homepage controller tests', () => {
 			{
 				expTitle: 'Sub Subcategory 1',
 				expDescription: 'this is sub-subcategory 1',
-				expUrl: '/nsg-homepage/categories/sub-subcategory-1',
+				expUrl: `${NSG_ROUTER_BASE}/categories/sub-subcategory-1`,
 			},
 		])
 	})

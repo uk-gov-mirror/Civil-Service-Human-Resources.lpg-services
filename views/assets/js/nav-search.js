@@ -8,15 +8,14 @@ class Element {
 	}
 
 	show() {
-			this.elem.classList.remove(hiddenModifier)
-			this.hidden = false
+		this.elem.classList.remove(hiddenModifier)
+		this.hidden = false
 	}
 
 	hide() {
-			this.elem.classList.add(hiddenModifier)
-			this.hidden = true
+		this.elem.classList.add(hiddenModifier)
+		this.hidden = true
 	}
-
 }
 
 class ActiveElem extends Element {
@@ -28,15 +27,14 @@ class ActiveElem extends Element {
 	}
 
 	activate() {
-			this.elem.classList.add(activeModifier)
-			this.active = true
+		this.elem.classList.add(activeModifier)
+		this.active = true
 	}
 
 	deactivate() {
-			this.elem.classList.remove(activeModifier)
-			this.active = false
+		this.elem.classList.remove(activeModifier)
+		this.active = false
 	}
-
 }
 
 /*
@@ -48,7 +46,6 @@ const navSearchToggleId = 'nav-search-toggle'
 const navSearchToggleOpenId = 'nav-search-toggle-open'
 const navSearchToggleCloseId = 'nav-search-toggle-close'
 const navSearchPanelId = 'nav-search-panel'
-
 
 const navSearchToggle = document.getElementById(navSearchToggleId)
 const navSearchToggleOpen = document.getElementById(navSearchToggleOpenId)
