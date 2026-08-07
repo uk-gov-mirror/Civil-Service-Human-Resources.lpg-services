@@ -33,7 +33,7 @@ export async function index(req: express.Request, res: express.Response) {
 		const chunk = homepage.categories.slice(i, i + cardsPerRow)
 		rows.push(chunk)
 	}
-	return res.render('nsg/index.njk', {rows})
+	return res.render('nsg/index.njk', {rows, cardsPerRow})
 }
 
 export async function categoryPage(req: express.Request, res: express.Response) {

@@ -6,6 +6,9 @@
             {:else}
                 <li><a href="/home">Home</a></li>
             {/if}
+             {#if $config.NSG_FLAG}
+                <li><a href="/your-learning">{$i18n('home_page_title')}</a></li>
+             {/if}
             {#if $req.originalUrl.includes("/course-catalogue")}
                 <li class="active"><a href="/course-catalogue" aria-current="page">{$i18n('course_catalogue_page_title')}</a></li>
             {:else}

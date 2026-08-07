@@ -32,21 +32,28 @@ a.menu {
 		text-decoration: underline;
 	}
 }
+
 #proposition-menu {
-	padding: 10px 0 0 0;
-	border-bottom: none;
+
+	padding: 10px 15px 0 15px;
+
+	@include media(750px) {
+		padding: 0;
+	}
 }
 
 #proposition-link,
 #proposition-links {
 	@extend %contain-floats;
+	display: flex;
 	padding: 0;
 	list-style-type: none;
 
 	.js-enabled & {
 		display: none;
 		@include media(desktop) {
-			display: block;
+			display: flex;
+			flex-wrap: wrap;
 		}
 		&.js-visible {
 			display: block;
@@ -55,29 +62,26 @@ a.menu {
 
 	li {
 		padding-left: 15px;
-		margin-left: -15px;
+		margin-left: -45px;
 		margin-bottom: 10px;
 		float: left;
 		clear: left;
 
 		@include media(desktop) {
-			float: left;
 			clear: none;
-			width: 50%;
-			padding: 0;
+			padding: 20px 0 20px 0;
 			margin-bottom: 0;
 			margin-left: 0;
-			padding-bottom: 10px;
 		}
 
 		&:hover {
-			color: $flash-message;
-			border-left: 3px solid $flash-message;
+			color: $white;
+			border-left: 3px solid $white;
 
 			@include media(desktop) {
-				border-bottom: 3px solid $nav-active-link-underline-color;
 				border-left: none;
-				padding-bottom: 7px;
+				padding-bottom: 17px;
+				border-bottom: 5px solid $nav-active-link-underline-color;
 			}
 
 			a {
@@ -90,12 +94,12 @@ a.menu {
 		}
 
 		&.active {
-			border-left: 3px solid $flash-message;
+			border-left: 3px solid $white;
 
 			@include media(desktop) {
-				border-bottom: 3px solid $nav-active-link-underline-color;
+				padding-bottom: 17px;
+				border-bottom: 5px solid $nav-active-link-underline-color;
 				border-left: none;
-				padding-bottom: 7px;
 			}
 
 			a {
@@ -164,7 +168,7 @@ a.menu {
 		align-items: center;
 
 		.service-name{
-			margin-top: 0px;
+			margin-top: 0;
 			margin-left: 10px;
 		}
 	}
@@ -174,29 +178,22 @@ a.menu {
 
 .nav-container {
 	max-width: 100%;
-	border-bottom: 1px solid $border;
-	padding-bottom: 15px;
 	background-color: $nav-background-color;
-	padding: 9px 0;
 	margin: 0;
 
-	.nav-content-container{
-		max-width: 960px;
-		margin: 0 auto;
+	.nav-content-container {
+		@extend %site-width-container;
+		@extend %contain-floats;
 
 		@include media(desktop) {
 			display: flex;
 			justify-content: space-between;
-			align-items: center;
 		}
-	}
-
-	@include media(641px) {
-		margin: 0 30px;
 	}
 
 	@include media(desktop) {
 		border-bottom: none;
+		padding: 0;
 	}
 
 	@include media(1020px) {
@@ -204,8 +201,40 @@ a.menu {
 	}
 }
 
+.nav-search-container {
+	max-width: 100%;
+	padding: 15px 0;
+	border: 0;
+	background-color: $nav-background-color;
+
+	.nav-search-content-container {
+		@extend %site-width-container;
+		@extend %contain-floats;
+		input.search-box__input{
+			width: 100%;
+
+			@include media(desktop) {
+				width: 620px;
+			}
+		}
+	}
+
+	@include media(desktop) {
+		&.hidden {
+			display: none;
+		}
+	}
+
+}
+
 a.js-header-toggle.menu{
 	color: $nav-mobile-menu-link-color;
+	&:focus {
+		background-color: #fd0;
+		outline: 3px solid rgba(0,0,0,0);
+		box-shadow: 0 -2px #fd0,0 4px #0b0c0c;
+		color: $black;
+	}
 }
 
 a.js-header-toggle.menu.js-hidden {
@@ -214,6 +243,7 @@ a.js-header-toggle.menu.js-hidden {
 	@include media(desktop) {
 		display: none;
 	}
+
 }
 
 .menu__icon {
@@ -239,11 +269,15 @@ a.js-header-toggle.menu.js-hidden {
 	vertical-align: top;
 }
 
+.search-container {
+	align-self: center;
+	margin-left: auto;
+}
+
 .search-form-container{
 	form {
 		display: flex;
 		align-items: center;
-		padding: 0 15px;
 
 		margin-top: 15px;
 
