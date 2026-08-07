@@ -67,6 +67,11 @@ a.menu {
 		float: left;
 		clear: left;
 
+		@include media(mobile) {
+			padding-left: 5px;
+			margin-left: -30px;
+		}
+
 		@include media(desktop) {
 			clear: none;
 			padding: 20px 0 20px 0;

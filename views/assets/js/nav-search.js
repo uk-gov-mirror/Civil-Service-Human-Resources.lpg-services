@@ -46,13 +46,15 @@ const navSearchToggleId = 'nav-search-toggle'
 const navSearchToggleOpenId = 'nav-search-toggle-open'
 const navSearchToggleCloseId = 'nav-search-toggle-close'
 const navSearchPanelId = 'nav-search-panel'
+const searchBoxId = "q"
 
 const navSearchToggle = document.getElementById(navSearchToggleId)
 const navSearchToggleOpen = document.getElementById(navSearchToggleOpenId)
 const navSearchToggleClose = document.getElementById(navSearchToggleCloseId)
 const navSearchPanel = document.getElementById(navSearchPanelId)
+const searchBox = document.getElementById(searchBoxId)
 
-const requiredElems = [navSearchToggle, navSearchToggleOpen, navSearchToggleClose, navSearchPanel]
+const requiredElems = [navSearchToggle, navSearchToggleOpen, navSearchToggleClose, navSearchPanel, searchBox]
 if (!requiredElems.includes(null)) {
 	/*
 	Setup
@@ -62,8 +64,19 @@ if (!requiredElems.includes(null)) {
 	const navSearchToggleCloseElem = new Element(navSearchToggleClose)
 	const navSearchPanelElem = new Element(navSearchPanel)
 
-	navSearchPanelElem.hide()
 	navSearchToggleElem.show()
+
+	if (searchBox.value){
+		navSearchToggleElem.activate()
+		navSearchToggleOpenElem.hide()
+		navSearchToggleCloseElem.show()
+		navSearchPanelElem.show()
+	} else {
+		navSearchToggleElem.deactivate()
+		navSearchToggleOpenElem.show()
+		navSearchToggleCloseElem.hide()
+		navSearchPanelElem.hide()
+	}
 
 	navSearchToggle.addEventListener('click', () => {
 		if (navSearchPanelElem.hidden) {
