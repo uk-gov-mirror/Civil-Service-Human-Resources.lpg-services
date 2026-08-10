@@ -5,11 +5,11 @@ import {FormattedOrganisation} from './formattedOrganisation'
 export class FormattedOrganisationList implements CacheableObject {
 	private _id: string
 	@Type(() => FormattedOrganisation)
-	public formattedOrganisations: FormattedOrganisation[]
+	public names: FormattedOrganisation[]
 
-	constructor(id: string, formattedOrganisations: FormattedOrganisation[]) {
+	constructor(id: string, names: FormattedOrganisation[]) {
 		this._id = id
-		this.formattedOrganisations = formattedOrganisations
+		this.names = names
 	}
 
 	getId(): string {
