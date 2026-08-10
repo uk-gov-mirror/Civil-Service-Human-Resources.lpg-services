@@ -386,7 +386,7 @@ export async function getOrganisationsDropdown(user: User, params: GetOrganisati
 		typeahead = new FormattedOrganisationList(cacheKey, formattedOrganisations.names)
 		await formattedOrganisationListCache.set(cacheKey, typeahead)
 	}
-	return typeahead.formattedOrganisations
+	return typeahead.names
 }
 
 export async function getOrganisationalUnits(params: GetOrganisationalUnitParams, user: User) {
