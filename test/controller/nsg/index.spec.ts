@@ -50,11 +50,15 @@ describe('Homepage controller tests', () => {
 				title: 'Category 1',
 				description: 'this is category 1',
 				url: 'category-1',
+				categories: [],
+				contentLinks: [],
 			},
 			{
 				title: 'Category 2',
 				description: 'this is category 2',
 				url: 'category-2',
+				categories: [],
+				contentLinks: [],
 			},
 		]
 		cslServiceStub._get.resolves(homepageObject)
@@ -87,6 +91,8 @@ describe('Homepage controller tests', () => {
 				title: 'Sub Subcategory 1',
 				description: 'this is sub-subcategory 1',
 				url: 'sub-subcategory-1',
+				categories: [],
+				contentLinks: [],
 			},
 		]
 		cslServiceStub._get.resolves(categoryPage)
