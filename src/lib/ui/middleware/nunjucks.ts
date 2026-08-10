@@ -31,7 +31,7 @@ const nunjucksEndpoints = [
 	'/courses/:courseId',
 	'/learning-record',
 	'/',
-	'/home',
+	'/home*',
 	'/search',
 	'/course-catalogue*',
 	'/nsg-homepage*',

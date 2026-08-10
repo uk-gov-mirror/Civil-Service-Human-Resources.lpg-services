@@ -9,7 +9,7 @@
 
 {% block content %}
     {% set breadcrumbs = page.parents %}
-    {% set breadcrumbs = (breadcrumbs.unshift({"href": "/nsg-homepage", "text": "Home"}), breadcrumbs) %}
+    {% set breadcrumbs = (breadcrumbs.unshift({"href": NSG_URL, "text": "Home"}), breadcrumbs) %}
     {% set breadcrumbs = (breadcrumbs.push({"text": page.title}), breadcrumbs) %}
     {{ govukBreadcrumbs({
         items: breadcrumbs,

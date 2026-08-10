@@ -316,13 +316,13 @@ app.get('/skills/quiz-history', asyncHandler(skillsController.quizHistory))
 
 app.use('/book', bookingRouter.router)
 
-app.use(NSG_ROUTER_BASE, nsgController.router)
-app.get(YOUR_LEARNING_BASE, asyncHandler(homeController.home))
 
 if (!NSG_FLAG) {
 	app.get('/home', asyncHandler(homeController.home))
+	app.use(NSG_ROUTER_BASE, nsgController.router)
 } else {
 	app.use('/home', nsgController.router)
+	app.get(YOUR_LEARNING_BASE, asyncHandler(homeController.home))
 }
 
 redirectTo.registerPOST(app)
