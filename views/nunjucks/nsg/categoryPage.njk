@@ -26,7 +26,8 @@
             {{ categoryCard({
                 title: category.title,
                 description: category.description,
-                fullUrl: category.url
+                fullUrl: category.url,
+                categories: category.categories
             }) }}
         {% endfor %}
     </div>

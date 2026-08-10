@@ -18,6 +18,10 @@
   }
 }
 
+.category-card__heading {
+  margin: 0;
+}
+
 .category-card__content {
   display: flex;
   flex-direction: column;
@@ -29,11 +33,9 @@
   padding: 1rem 1.5rem 1rem 1.5rem;
   background-color: $nsg-dark-green;
   white-space: nowrap;
-}
-
-.category-card__heading {
-  color: $nsg-light-green;
-  margin: 0;
+  .category-card__heading {
+    color: $nsg-light-green;
+  }
 }
 
 .category-card__heading--small {
@@ -50,4 +52,9 @@
 
 .category-card__action-link {
   @extend .govuk-link;
+}
+
+.category-card__action-link-list {
+  margin-bottom: 0;
+  @include govuk-responsive-padding(5, "left");
 }

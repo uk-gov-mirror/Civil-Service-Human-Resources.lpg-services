@@ -3,7 +3,7 @@ import {Express} from 'express'
 import {NSG_ROUTER_BASE} from '../../../src/lib/config'
 import {CategoryHomepage} from '../../../src/lib/service/cslService/models/learning/categories/categoryHomepage'
 import {CategoryPage} from '../../../src/lib/service/cslService/models/learning/categories/categoryPage'
-import {CategoryParent} from '../../../src/lib/service/cslService/models/learning/categories/categoryParent'
+import {CategoryLink} from '../../../src/lib/service/cslService/models/learning/categories/categoryLink'
 import * as index from '../../../src/ui/controllers/nsg/controller'
 import * as sinon from 'sinon'
 import {client} from '../../../src/lib/service/cslService/baseConfig'
@@ -78,7 +78,7 @@ describe('Homepage controller tests', () => {
 		const categoryPage = new CategoryPage()
 		categoryPage.title = 'Subcategory 1'
 		categoryPage.description = 'This is Subcategory 1'
-		const parent = new CategoryParent()
+		const parent = new CategoryLink()
 		parent.link = 'category-1'
 		parent.text = 'Category 1'
 		categoryPage.parents = [parent]

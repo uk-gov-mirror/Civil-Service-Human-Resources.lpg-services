@@ -1,7 +1,7 @@
 import {Expose, Transform} from 'class-transformer'
 import {NSG_ROUTER_BASE} from '../../../../../config'
 
-export class CategoryParent {
+export class CategoryLink {
 	text: string
 	link: string
 
