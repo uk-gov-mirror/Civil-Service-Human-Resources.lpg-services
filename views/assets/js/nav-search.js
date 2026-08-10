@@ -1,20 +1,31 @@
 class Element {
+	hiddenModifier = 'hidden'
 	elem
 	hidden = false
 
 	constructor(elem) {
 		this.elem = elem
-		this.hidden = !this.elem.classList.contains(hiddenModifier)
+		this.hidden = !this.elem.classList.contains(this.hiddenModifier)
 	}
 
 	show() {
-		this.elem.classList.remove(hiddenModifier)
+		this.elem.classList.remove(this.hiddenModifier)
 		this.hidden = false
 	}
 
+	expand() {
+		this.show()
+		this.elem.setAttribute('aria-expanded', 'true')
+	}
+
 	hide() {
-		this.elem.classList.add(hiddenModifier)
+		this.elem.classList.add(this.hiddenModifier)
 		this.hidden = true
+	}
+
+	collapse() {
+		this.hide()
+		this.elem.setAttribute('aria-expanded', 'false')
 	}
 }
 
@@ -65,17 +76,18 @@ if (!requiredElems.includes(null)) {
 	const navSearchPanelElem = new Element(navSearchPanel)
 
 	navSearchToggleElem.show()
+	navSearchPanelElem.collapse()
 
 	if (searchBox.value){
 		navSearchToggleElem.activate()
 		navSearchToggleOpenElem.hide()
 		navSearchToggleCloseElem.show()
-		navSearchPanelElem.show()
+		navSearchPanelElem.expand()
 	} else {
 		navSearchToggleElem.deactivate()
 		navSearchToggleOpenElem.show()
 		navSearchToggleCloseElem.hide()
-		navSearchPanelElem.hide()
+		navSearchPanelElem.collapse()
 	}
 
 	navSearchToggle.addEventListener('click', () => {
@@ -83,12 +95,12 @@ if (!requiredElems.includes(null)) {
 			navSearchToggleElem.activate()
 			navSearchToggleOpenElem.hide()
 			navSearchToggleCloseElem.show()
-			navSearchPanelElem.show()
+			navSearchPanelElem.expand()
 		} else {
 			navSearchToggleElem.deactivate()
 			navSearchToggleOpenElem.show()
 			navSearchToggleCloseElem.hide()
-			navSearchPanelElem.hide()
+			navSearchPanelElem.collapse()
 		}
 	})
 }
