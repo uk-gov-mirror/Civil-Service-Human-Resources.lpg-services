@@ -214,5 +214,6 @@ export async function getOrgHierarchy(
 
 export async function getOrganisationalUnitsForSearch(user: User): Promise<FormattedOrganisation[]> {
 	const orgs = await cslService.getAllOrganisationsDropdown(user)
+	console.log(orgs)
 	return orgs.sort((a, b) => a.id - b.id).slice(0, 20)
 }

@@ -108,14 +108,14 @@
 	}
 	&:hover {
 		&:after {
-			background: white;
+			background: $nav-link-color;
 		}
 	}
 
 	&.active {
-		color: $nsg-light-green;
+		color: $nav-link-color;
 		&:after {
-			background: $nsg-light-green;
+			background: $nav-link-color;
 		}
 	}
 
