@@ -8,14 +8,7 @@ import * as cors from 'cors'
 import * as express from 'express'
 import * as asyncHandler from 'express-async-handler'
 import * as session from 'express-session'
-import {
-	AUTHENTICATION,
-	BACKEND_SERVER_PATH,
-	NSG_FLAG,
-	NSG_ROUTER_BASE,
-	STATIC_DIR,
-	YOUR_LEARNING_BASE,
-} from './lib/config'
+import {AUTHENTICATION, BACKEND_SERVER_PATH, NSG_FLAG, STATIC_DIR} from './lib/config'
 import * as config from './lib/config'
 import * as corsConfig from './lib/config/corsConfig'
 import * as luscaConfig from './lib/config/luscaConfig'
@@ -316,13 +309,12 @@ app.get('/skills/quiz-history', asyncHandler(skillsController.quizHistory))
 
 app.use('/book', bookingRouter.router)
 
-app.use(NSG_ROUTER_BASE, nsgController.router)
-app.get(YOUR_LEARNING_BASE, asyncHandler(homeController.home))
-
 if (!NSG_FLAG) {
 	app.get('/home', asyncHandler(homeController.home))
+	app.use('/nsg-homepage', nsgController.router)
 } else {
 	app.use('/home', nsgController.router)
+	app.get('/your-learning', asyncHandler(homeController.home))
 }
 
 redirectTo.registerPOST(app)

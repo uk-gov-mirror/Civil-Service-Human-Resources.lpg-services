@@ -1,9 +1,8 @@
 import {within} from '@testing-library/dom'
 import {Express} from 'express'
-import {NSG_ROUTER_BASE} from '../../../src/lib/config'
 import {CategoryHomepage} from '../../../src/lib/service/cslService/models/learning/categories/categoryHomepage'
 import {CategoryPage} from '../../../src/lib/service/cslService/models/learning/categories/categoryPage'
-import {CategoryParent} from '../../../src/lib/service/cslService/models/learning/categories/categoryParent'
+import {CategoryLink} from '../../../src/lib/service/cslService/models/learning/categories/categoryLink'
 import * as index from '../../../src/ui/controllers/nsg/controller'
 import * as sinon from 'sinon'
 import {client} from '../../../src/lib/service/cslService/baseConfig'
@@ -15,7 +14,7 @@ import {getDOM} from '../helpers'
 describe('Homepage controller tests', () => {
 	const sandbox = sinon.createSandbox()
 	const app = getApp()
-	app.use(NSG_ROUTER_BASE, index.router)
+	app.use('/nsg-homepage', index.router)
 
 	let cslServiceStub: sinon.SinonStubbedInstance<typeof client>
 
@@ -36,7 +35,7 @@ describe('Homepage controller tests', () => {
 		homepageObject.categories = []
 		cslServiceStub._get.resolves(homepageObject)
 
-		const res = await makeRequest(app, NSG_ROUTER_BASE)
+		const res = await makeRequest(app, '/nsg-homepage')
 		within(res).getByRole('heading', {name: 'Welcome to the National School of Government and Public Services.'})
 		within(res).getByText(
 			'The National School provides world-class learning and development for civil servants, supporting public sector excellence and preparing our people for the future.'
@@ -50,26 +49,28 @@ describe('Homepage controller tests', () => {
 				title: 'Category 1',
 				description: 'this is category 1',
 				url: 'category-1',
+				categories: [],
 			},
 			{
 				title: 'Category 2',
 				description: 'this is category 2',
 				url: 'category-2',
+				categories: [],
 			},
 		]
 		cslServiceStub._get.resolves(homepageObject)
 
-		const res = await makeRequest(app, NSG_ROUTER_BASE)
+		const res = await makeRequest(app, '/nsg-homepage')
 		assertCategories(res, [
 			{
 				expTitle: 'Category 1',
 				expDescription: 'this is category 1',
-				expUrl: `${NSG_ROUTER_BASE}/categories/category-1`,
+				expUrl: `/nsg-homepage/categories/category-1`,
 			},
 			{
 				expTitle: 'Category 2',
 				expDescription: 'this is category 2',
-				expUrl: `${NSG_ROUTER_BASE}/categories/category-2`,
+				expUrl: `/nsg-homepage/categories/category-2`,
 			},
 		])
 	})
@@ -78,7 +79,7 @@ describe('Homepage controller tests', () => {
 		const categoryPage = new CategoryPage()
 		categoryPage.title = 'Subcategory 1'
 		categoryPage.description = 'This is Subcategory 1'
-		const parent = new CategoryParent()
+		const parent = new CategoryLink()
 		parent.link = 'category-1'
 		parent.text = 'Category 1'
 		categoryPage.parents = [parent]
@@ -87,20 +88,21 @@ describe('Homepage controller tests', () => {
 				title: 'Sub Subcategory 1',
 				description: 'this is sub-subcategory 1',
 				url: 'sub-subcategory-1',
+				categories: [],
 			},
 		]
 		cslServiceStub._get.resolves(categoryPage)
 
-		const res = await makeRequest(app, `${NSG_ROUTER_BASE}/categories/subcategory-1`)
+		const res = await makeRequest(app, `/nsg-homepage/categories/subcategory-1`)
 		within(res).getByRole('heading', {name: 'Subcategory 1'})
 		within(res).getByText('This is Subcategory 1')
 		assertBreadcrumbs(res, [
 			{
-				expHref: NSG_ROUTER_BASE,
+				expHref: '/nsg-homepage',
 				expText: 'Home',
 			},
 			{
-				expHref: `${NSG_ROUTER_BASE}/categories/category-1`,
+				expHref: `/nsg-homepage/categories/category-1`,
 				expText: 'Category 1',
 			},
 		])
@@ -108,7 +110,7 @@ describe('Homepage controller tests', () => {
 			{
 				expTitle: 'Sub Subcategory 1',
 				expDescription: 'this is sub-subcategory 1',
-				expUrl: `${NSG_ROUTER_BASE}/categories/sub-subcategory-1`,
+				expUrl: `/nsg-homepage/categories/sub-subcategory-1`,
 			},
 		])
 	})

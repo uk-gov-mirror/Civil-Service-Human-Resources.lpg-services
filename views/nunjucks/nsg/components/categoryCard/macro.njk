@@ -10,7 +10,18 @@
                 </p>
             </div>
             <div class='category-card__action-block'>
-                <a class='category-card__action-link' href='{{ params.fullUrl }}'>View subjects</a>
+                {% if params.categories.length > 0 %}
+                    <h3 class='category-card__heading category-card__heading--small'>Subjects</h3>
+                    <ul class='category-card__action-link-list'>
+                        {% for subCategory in params.categories %}
+                            <li>
+                                <a class='category-card__action-link' href='{{ subCategory.href }}'>{{ subCategory.text }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <a class='category-card__action-link' href='{{ params.fullUrl }}'>View subjects</a>
+                {% endif %}
             </div>
         </div>
     </div>

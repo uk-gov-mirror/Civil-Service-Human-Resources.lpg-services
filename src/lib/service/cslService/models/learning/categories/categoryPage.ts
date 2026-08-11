@@ -1,13 +1,13 @@
 import {Transform, Type} from 'class-transformer'
-import {CategoryParent} from './categoryParent'
+import {CategoryLink} from './categoryLink'
 import {Category} from './category'
 
 export class CategoryPage {
-	@Type(() => CategoryParent)
+	@Type(() => CategoryLink)
 	@Transform(({value}) => {
-		return (value as CategoryParent[]).reverse()
+		return (value as CategoryLink[]).reverse()
 	})
-	parents: CategoryParent[]
+	parents: CategoryLink[]
 	@Type(() => Category)
 	categories: Category[]
 	title: string

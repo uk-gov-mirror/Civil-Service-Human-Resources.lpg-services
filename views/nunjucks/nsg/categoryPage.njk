@@ -9,7 +9,7 @@
 
 {% block content %}
     {% set breadcrumbs = page.parents %}
-    {% set breadcrumbs = (breadcrumbs.unshift({"href": "/nsg-homepage", "text": "Home"}), breadcrumbs) %}
+    {% set breadcrumbs = (breadcrumbs.unshift({"href": NSG_ROUTER_BASE, "text": "Home"}), breadcrumbs) %}
     {% set breadcrumbs = (breadcrumbs.push({"text": page.title}), breadcrumbs) %}
     {{ govukBreadcrumbs({
         items: breadcrumbs,
@@ -26,7 +26,8 @@
             {{ categoryCard({
                 title: category.title,
                 description: category.description,
-                fullUrl: category.url
+                fullUrl: category.url,
+                categories: category.categories
             }) }}
         {% endfor %}
     </div>

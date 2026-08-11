@@ -10,7 +10,6 @@ import {
 	DOUBLE_CLICK_PREVENTION_TIMEOUT_MS,
 	NSG_FLAG,
 	NSG_URL,
-	YOUR_LEARNING_BASE,
 } from '../../config'
 import * as datetime from '../../datetime'
 import {appropriateFileSize, extension, extensionAndSize, fileName} from '../../filehelpers'
@@ -31,7 +30,7 @@ const nunjucksEndpoints = [
 	'/courses/:courseId',
 	'/learning-record',
 	'/',
-	'/home',
+	'/home*',
 	'/search',
 	'/course-catalogue*',
 	'/nsg-homepage*',
@@ -76,7 +75,8 @@ export const register = (app: Express) => {
 
 	env.addGlobal('NSG_FLAG', NSG_FLAG)
 	env.addGlobal('NSG_URL', NSG_URL)
-	env.addGlobal('YOUR_LEARNING_URL', YOUR_LEARNING_BASE)
+	env.addGlobal('NSG_ROUTER_BASE', NSG_FLAG ? '/home' : '/nsg-homepage')
+	env.addGlobal('YOUR_LEARNING_URL', NSG_FLAG ? '/your-learning' : '/home')
 
 	env.addGlobal('AtoZ', () => {
 		return 'abcdefghijklmnopqrstuvwxyz'.split('')
