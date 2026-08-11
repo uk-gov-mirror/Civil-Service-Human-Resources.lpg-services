@@ -1,5 +1,5 @@
 import {Expose, Transform} from 'class-transformer'
-import {NSG_ROUTER_BASE} from '../../../../../config'
+import {NSG_FLAG} from '../../../../../config'
 
 export class CategoryLink {
 	text: string
@@ -7,7 +7,7 @@ export class CategoryLink {
 
 	@Expose({name: 'href'})
 	@Transform(({obj}) => {
-		return `${NSG_ROUTER_BASE}/categories/${obj.link}`
+		return `${NSG_FLAG ? '/home' : '/nsg-homepage'}/categories/${obj.link}`
 	})
 	href: string
 }
