@@ -94,7 +94,7 @@
   &:focus {
     outline: none;
     text-decoration: none;
-    color: $font-color;
+    color: $font-color !important;
   }
 }
 
