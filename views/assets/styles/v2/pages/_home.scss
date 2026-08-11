@@ -1,0 +1,50 @@
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+@use '../common/variables' as *;
+
+.nsg-body {
+  background-color: $nsg-mid-green;
+}
+
+.nsg-homepage-main {
+  @include govuk-responsive-padding(9, 'top');
+  @include govuk-responsive-padding(0, 'bottom');
+  @include govuk-responsive-margin(3, 'top');
+}
+
+.nsg-homepage-wide-container {
+  @include govuk-width-container(1200px);
+}
+
+.nsg-footer {
+  border-color: $nsg-dark-green;
+
+  .govuk-footer__link {
+    color: $footer-link;
+
+    &:hover {
+      color: $footer-link-hover;
+    }
+  }
+
+  .govuk-footer__copyright-logo {
+    &:before {
+      mask-image: url("../../../img/govuk-crest.png");
+    }
+  }
+}
+
+.icon-banner__container {
+  background-color: $nsg-mid-green-tint-3;
+}
+
+.icon-banner {
+  @include govuk-responsive-margin(9, 'top');
+  width: 100%;
+  height: 60px;
+  background-color: $nsg-mid-green;
+  mask-image: url('../../../img/nsg-icons/home-banner.svg');
+  mask-repeat: repeat-x;
+  mask-position: 0 center;
+
+  color: $nsg-mid-green;
+}

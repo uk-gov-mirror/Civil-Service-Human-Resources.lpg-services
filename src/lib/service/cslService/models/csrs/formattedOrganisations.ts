@@ -3,5 +3,5 @@ import {FormattedOrganisation} from './formattedOrganisation'
 
 export class FormattedOrganisations {
 	@Type(() => FormattedOrganisation)
-	public formattedOrganisationalUnitNames: FormattedOrganisation[]
+	public names: FormattedOrganisation[]
 }

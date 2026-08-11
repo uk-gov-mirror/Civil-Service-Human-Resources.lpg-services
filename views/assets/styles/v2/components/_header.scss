@@ -1,0 +1,50 @@
+@use "../common/variables" as *;
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+
+#global-cookie-message {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: govuk-colour('blue', 'tint-80');
+  p {
+    @extend .govuk-width-container;
+    @extend .govuk-body-s;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.phase-banner--nsg {
+  background-color: $nsg-dark-green-tint-1;
+  max-width: 1200px;
+  border-bottom: 0;
+
+  .govuk-phase-banner__content__tag {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .govuk-phase-banner__content {
+    color: govuk-colour('white');
+  }
+
+  .govuk-link {
+    color: $nsg-light-green;
+
+    &:focus {
+      color: govuk-colour("black");
+    }
+  }
+}
+
+.phase-banner-container {
+  background-color: $nsg-dark-green-tint-1;
+}
+
+.phase-banner--wide {
+  max-width: 1200px;
+}
+
+.phase-banner__content {
+  word-break: normal;
+}

@@ -1,0 +1,14 @@
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+
+/* Compatibility between v1 and v2 */
+
+@mixin media($media-type: "all") {
+  $media-query: "";
+  @if $media-type != "all" {
+    $media-query: "#{$media-type}";
+  }
+  $media-query: govuk-from-breakpoint($media-type);
+  @media #{$media-query} {
+    @content;
+  }
+}

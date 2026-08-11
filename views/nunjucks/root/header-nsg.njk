@@ -1,0 +1,22 @@
+{% from components + "/mojHeader/macro.njk" import mojHeader %}
+{% from components + "/phaseBanner/macro.njk" import phaseBanner %}
+
+{{ mojHeader({
+    organisationLabel: {
+        text: "National School of Government and Public Services",
+        href: NSG_URL
+    },
+    serviceLabel: {
+        text: "Civil Service Learning",
+        href: "/"
+    },
+    containerClasses: headerContainerClasses
+}) }}
+
+{{phaseBanner({
+    tag: "BETA",
+    contentHtml: 'Your <a href="{{ feedbackRoot }}" target="_blank" rel="noopener noreferrer" title="The Civil Service Learning feedback survey will open in another window">feedback</a> will help us to improve.',
+    bannerClasses: phaseBannerClasses
+}) }}
+
+{% include "./nav.njk" %}

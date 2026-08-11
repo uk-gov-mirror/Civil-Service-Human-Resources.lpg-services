@@ -1,132 +1,3 @@
-#global-header {
-	background-color: $black;
-	width: 100%;
-
-	.header-wrapper {
-		background-color: $black;
-		//max-width: 990px; //only use with logo image
-		margin: 0 auto;
-		padding-top: 8px;
-		padding-bottom: 6px;
-		@extend %contain-floats;
-		@include media(tablet) {
-			padding-left: $gutter-half;
-			padding-right: $gutter-half;
-		}
-		@include ie-lte(8) {
-			width: 990px;
-		}
-
-		.header-global {
-			@extend %contain-floats;
-			.header-logo {
-				@extend %contain-floats;
-				float: left;
-
-				@include media(desktop) {
-					width: 33.33%;
-				}
-				@media screen and (max-width: 379px) {
-					width: auto;
-					float: none;
-				}
-			}
-			.header-logo {
-				margin-top: 4px;
-			}
-		}
-	}
-	&.with-proposition {
-		.header-wrapper {
-			.header-global {
-				@include media(desktop) {
-					float: left;
-					width: 33.33%;
-
-					.header-logo,
-					.site-search {
-						width: 100%;
-					}
-				}
-			}
-			.header-proposition {
-				@include media(desktop) {
-					width: 66.66%;
-					float: left;
-				}
-				.content {
-					margin: 0 15px;
-					margin-top: 4px;
-					font-weight: 700;
-					display: inline-block;
-				}
-			}
-		}
-	}
-
-	#logo {
-		float: left;
-		overflow: visible;
-		color: $white;
-		font-weight: bold;
-		font-size: 30px;
-		line-height: 1;
-		text-decoration: none;
-		text-rendering: optimizeLegibility;
-		border-bottom: 1px solid transparent;
-		background-size: 36px 32px;
-		background-position: 0 0;
-
-		img {
-			width: 36px;
-			height: 32px;
-			margin: 2px 1px 0 0; // top margin aligns bottom of img with bottom of "G"
-			vertical-align: bottom;
-			visibility: hidden;
-		}
-
-		&:hover,
-		&:focus {
-			text-decoration: none;
-			border-bottom-color: $white;
-		}
-		&:focus {
-			color: black;
-			border-bottom: 0px;
-		}
-	}
-	.header-proposition {
-		padding-top: 10px;
-		@include media(desktop) {
-			padding-top: 0;
-		}
-		#proposition-name {
-			@include core-24;
-			font-weight: bold;
-			color: $white;
-			text-decoration: none;
-		}
-		a#proposition-name:hover {
-			text-decoration: underline;
-		}
-		a#proposition-name:focus {
-			color: $text-colour;
-			border-bottom: 0px;
-			text-decoration: none;
-		}
-	}
-}
-
-/* Global header bar */
-#global-header-bar {
-	@extend %site-width-container;
-	height: 10px;
-	background-color: $civil-service;
-	@include ie-lte(8) {
-		font-size: 0;
-	}
-}
-
 /* Global cookie message */
 
 #global-cookie-message {
@@ -146,13 +17,13 @@ a.menu {
 	@include core-16;
 	color: $black;
 	display: block;
-	float: right;
 	text-decoration: none;
 	padding-top: 6px;
 	margin-right: 15px;
 	font-weight: bold;
 	position: relative;
 	top: 5px;
+	text-align: right;
 
 	@include media(desktop) {
 		display: none;
@@ -204,7 +75,7 @@ a.menu {
 			border-left: 3px solid $flash-message;
 
 			@include media(desktop) {
-				border-bottom: 3px solid $flash-message;
+				border-bottom: 3px solid $nav-active-link-underline-color;
 				border-left: none;
 				padding-bottom: 7px;
 			}
@@ -222,13 +93,13 @@ a.menu {
 			border-left: 3px solid $flash-message;
 
 			@include media(desktop) {
-				border-bottom: 3px solid $flash-message;
+				border-bottom: 3px solid $nav-active-link-underline-color;
 				border-left: none;
 				padding-bottom: 7px;
 			}
 
 			a {
-				color: $flash-message;
+				color: $nav-active-link-color;
 				margin-left: -3px;
 
 				@include media(desktop) {
@@ -243,7 +114,6 @@ a.menu {
 			border-bottom: 0;
 			margin-right: 15px;
 			font-weight: 700;
-			color: #0b0c0c;
 			&.clear-child {
 				clear: left;
 			}
@@ -255,20 +125,23 @@ a.menu {
 	}
 
 	a {
-		color: $black;
+		color: $nav-link-color;
+
+		&:focus{
+			color: #000;
+		}
 		text-decoration: none;
 		@include bold-16;
+		padding-left: 15px;
+		font-size: 16px;
 
 		@include media(desktop) {
 			@include bold-16;
 			line-height: 23px;
+			padding: 0;
 		}
-
-		&.active {
-			color: $proposition-active-nav;
-		}
+		
 		&:hover {
-			color: $flash-message;
 			text-decoration: none;
 		}
 	}
@@ -286,15 +159,37 @@ a.menu {
 }
 
 @media screen and (min-width: 769px) {
-	#proposition-menu {
-		border-bottom: 1px solid $border;
+	#global-header .header-wrapper .header-global .header-logo a .element-wrapper{
+		display: flex;
+		align-items: center;
+
+		.service-name{
+			margin-top: 0px;
+			margin-left: 10px;
+		}
 	}
+
+
 }
 
 .nav-container {
-	margin: 0 15px;
+	max-width: 100%;
 	border-bottom: 1px solid $border;
 	padding-bottom: 15px;
+	background-color: $nav-background-color;
+	padding: 9px 0;
+	margin: 0;
+
+	.nav-content-container{
+		max-width: 960px;
+		margin: 0 auto;
+
+		@include media(desktop) {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
 
 	@include media(641px) {
 		margin: 0 30px;
@@ -302,12 +197,15 @@ a.menu {
 
 	@include media(desktop) {
 		border-bottom: none;
-		padding-bottom: 0;
 	}
 
 	@include media(1020px) {
 		margin: 0 auto;
 	}
+}
+
+a.js-header-toggle.menu{
+	color: $nav-mobile-menu-link-color;
 }
 
 a.js-header-toggle.menu.js-hidden {
@@ -336,8 +234,35 @@ a.js-header-toggle.menu.js-hidden {
 .govuk-header__logotype-crown {
 	display: inline-block;
 	position: relative;
-	top: -4px;
 	margin-right: 2px;
 	fill: currentcolor;
 	vertical-align: top;
+}
+
+.search-form-container{
+	form {
+		display: flex;
+		align-items: center;
+		padding: 0 15px;
+
+		margin-top: 15px;
+
+		@include media(desktop) {
+			margin-top: 0;
+			padding: 0;
+		}
+
+		input.search-box__input{
+			width: 100%;
+
+			@include media(desktop) {
+				width: 180px;
+			}
+		}
+
+		button.button{
+			margin-left: 5px;
+			width: 90px;
+		}
+	}
 }

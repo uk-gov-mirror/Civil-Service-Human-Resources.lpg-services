@@ -381,10 +381,10 @@ export async function getOrganisationsDropdown(user: User, params: GetOrganisati
 			user
 		)
 		const formattedOrganisations = plainToInstance(FormattedOrganisations, resp)
-		typeahead = new FormattedOrganisationList(cacheKey, formattedOrganisations.formattedOrganisationalUnitNames)
+		typeahead = new FormattedOrganisationList(cacheKey, formattedOrganisations.names)
 		await formattedOrganisationListCache.set(cacheKey, typeahead)
 	}
-	return typeahead.formattedOrganisations
+	return typeahead.names
 }
 
 export async function getOrganisationalUnits(params: GetOrganisationalUnitParams, user: User) {

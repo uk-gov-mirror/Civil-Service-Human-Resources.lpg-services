@@ -17,6 +17,8 @@ COPY views/nunjucks ./views/nunjucks
 
 ## Public assets
 COPY views/assets/styles/main.css ./views/assets/styles/main.css
+COPY views/assets/styles/main-nsg.css ./views/assets/styles/main-nsg.css
+COPY views/assets/styles/main.v2.css ./views/assets/styles/main.v2.css
 COPY views/assets/styles/video-js.min.css ./views/assets/styles/video-js.min.css
 COPY views/assets/js/video.js ./views/assets/js/video.js
 COPY views/assets/js/video.min.js ./views/assets/js/video.min.js

@@ -1,0 +1,79 @@
+@use "node_modules/govuk-frontend/dist/govuk/index" as *;
+@use "../common/variables" as *;
+@use "../common/compat" as *;
+
+.govuk-service-navigation {
+  .govuk-width-container {
+    @include govuk-width-container(1200px);
+  }
+}
+
+
+.nsg-navigation {
+  background-color: $nsg-dark-green;
+  border: 0;
+
+  .govuk-service-navigation__list.hidden {
+    display: none;
+  }
+
+  .govuk-width-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .govuk-service-navigation__toggle {
+    color: govuk-colour("white");
+
+    &:focus {
+      color: govuk-colour("black");
+    }
+  }
+
+  .govuk-service-navigation__item {
+    border-color: govuk-colour("white");
+    @include govuk-responsive-margin(3, "right");
+
+    .govuk-service-navigation__link {
+      color: govuk-colour("white");
+      font-weight: $govuk-font-weight-bold;
+      font-size: $govuk-root-font-size;
+      &:focus {
+        color: govuk-colour("black");
+      }
+    }
+  }
+}
+
+.search-form-container {
+
+  @include govuk-media-query($from: desktop, $until: 1050px) {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  @include govuk-media-query($from: mobile, $until: tablet) {
+    width: 100%;
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    @include media(desktop) {
+      margin: 0;
+      padding: 0;
+    }
+
+    .govuk-button {
+      margin-left: 5px;
+      margin-bottom: 0;
+      width: 90px;
+    }
+  }
+}

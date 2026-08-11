@@ -43,10 +43,15 @@
 @import 'components/tile';
 @import 'components/section-link';
 @import "components/learning-card";
+@import "components/mojHeader";
 
+.phase-banner-container{
+	background-color: #E7E7E7;
+}
 .phase-banner {
 	@extend %site-width-container;
 	@extend %contain-floats;
+	border-bottom: 0;
 }
 
 .phase-banner__content {
