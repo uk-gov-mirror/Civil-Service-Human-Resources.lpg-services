@@ -45,7 +45,7 @@ function loadJson(filePath: string) {
 			const data = fs.readFileSync(filePath, 'utf8')
 			console.log(`Loaded config file ${filePath}. Data: ${data}`)
 			if (data.length > 0) {
-				return JSON.parse(data);
+				return JSON.parse(data)
 			} else {
 				return {}
 			}
