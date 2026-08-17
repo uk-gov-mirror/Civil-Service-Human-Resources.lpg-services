@@ -8,7 +8,7 @@ import * as cors from 'cors'
 import * as express from 'express'
 import * as asyncHandler from 'express-async-handler'
 import * as session from 'express-session'
-import {AUTHENTICATION, BACKEND_SERVER_PATH, NSG_FLAG, STATIC_DIR} from './lib/config'
+import {ASSET_VERSION, AUTHENTICATION, BACKEND_SERVER_PATH, NSG_FLAG, STATIC_DIR} from './lib/config'
 import * as config from './lib/config'
 import * as corsConfig from './lib/config/corsConfig'
 import * as luscaConfig from './lib/config/luscaConfig'
@@ -133,6 +133,7 @@ app.use(compression({threshold: 0}))
 
 app.locals.staticAssetDomain = ''
 app.locals.staticAssetRoot = ''
+app.locals.assetVersion = ASSET_VERSION
 
 app.locals.feedbackDomain = ''
 app.locals.feedbackRoot = ''

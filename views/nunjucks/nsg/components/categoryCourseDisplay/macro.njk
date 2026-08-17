@@ -1,0 +1,39 @@
+{% import components + "/learningCard/header/macro.njk" as learningCardHeader %}
+{% import components + "/learningCard/content/macro.njk" as learningCardContent %}
+
+{% macro learningCard(params) %}
+    <div class='category-card__column category-card__column--half'>
+        <div class='learning-card'>
+            <div class='learning-card__header'>
+                <h3 class='learning-card__heading'>{{ params.title }}</h3>
+                <span class='badge badge--info'>{{ i18n(params.status) }}</span>
+            </div>
+            <div class='learning-card__content'>
+                <div class='learning-card__content_section'>{{ params.shortDescription }}</div>
+            </div>
+            <div class="learning-card__actions">
+                <a class='learning-card__action' href="/courses/{{ params.id }}">View course details</a>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro categoryCourseDisplay(params) %}
+    <div class='category-card category-card--courses {{ params.classes }}'>
+        <div class='category-card__header-block'>
+            <h2 class='category-card__heading category-card__heading--small'>Courses</h2>
+        </div>
+        <div class='category-card__content'>
+            {% for row in params.rows %}
+                <div class='category-card__row'>
+                    {{ learningCard(row[0]) }}
+                    {% if row[1] === undefined %}
+                        <div class='category-card__column category-card__column--half'></div>
+                    {% else %}
+                        {{ learningCard(row[1]) }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}

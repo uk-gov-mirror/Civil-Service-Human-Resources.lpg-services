@@ -10,6 +10,7 @@ import {
 	DOUBLE_CLICK_PREVENTION_TIMEOUT_MS,
 	NSG_FLAG,
 	NSG_URL,
+	ASSET_VERSION,
 } from '../../config'
 import * as datetime from '../../datetime'
 import {appropriateFileSize, extension, extensionAndSize, fileName} from '../../filehelpers'
@@ -67,7 +68,8 @@ export const register = (app: Express) => {
 			try {
 				i18nConfig.__(text)
 			} catch {
-				logger.error(`i18n text ${text} was not found`)
+				logger.error(`ERROR: i18n text ${text} was not found`)
+				return 'UNDEFINED'
 			}
 		}
 		return i18nConfig.__(text)
@@ -77,6 +79,11 @@ export const register = (app: Express) => {
 	env.addGlobal('NSG_URL', NSG_URL)
 	env.addGlobal('NSG_ROUTER_BASE', NSG_FLAG ? '/home' : '/nsg-homepage')
 	env.addGlobal('YOUR_LEARNING_URL', NSG_FLAG ? '/your-learning' : '/home')
+	// env.addGlobal('ASSET_VERSION', `?ver=${ASSET_VERSION}`)
+
+	env.addGlobal('assets', (file: string) => {
+		return `${app.locals.staticAssetRoot}/${file}?ver=${ASSET_VERSION}`
+	})
 
 	env.addGlobal('AtoZ', () => {
 		return 'abcdefghijklmnopqrstuvwxyz'.split('')

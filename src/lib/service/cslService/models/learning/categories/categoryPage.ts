@@ -1,4 +1,6 @@
 import {Transform, Type} from 'class-transformer'
+import {Response} from '../../../../../utils/search'
+import {BasicCourse} from '../learningPlan/basicCourse'
 import {CategoryLink} from './categoryLink'
 import {Category} from './category'
 
@@ -12,4 +14,19 @@ export class CategoryPage {
 	categories: Category[]
 	title: string
 	description: string
+	@Type(() => Response)
+	courses: Response<BasicCourse>
+
+	getCourses() {
+		return this.courses === undefined ? [] : this.courses.results
+	}
+
+	getRows() {
+		const rows = []
+		for (let i = 0; i < this.getCourses().length; i += 2) {
+			const chunk = this.getCourses().slice(i, i + 2)
+			rows.push(chunk)
+		}
+		return rows
+	}
 }

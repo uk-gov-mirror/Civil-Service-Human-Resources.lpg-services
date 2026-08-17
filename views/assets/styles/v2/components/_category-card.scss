@@ -11,6 +11,12 @@
   }
 }
 
+.category-card--courses {
+  .govuk-grid-column-one-half {
+    border-bottom: 1px solid $border;
+  }
+}
+
 .category-card--first {
   grid-column-start: 2;
   @media (max-width: 1100px) {
@@ -57,4 +63,72 @@
 .category-card__action-link-list {
   margin-bottom: 0;
   @include govuk-responsive-padding(5, "left");
+}
+
+.category-card__column {
+  @include govuk-responsive-padding(2, "top");
+  @include govuk-responsive-padding(2, "bottom");
+  @include govuk-responsive-padding(7, "left");
+  @include govuk-responsive-padding(7, "right");
+  border-bottom: 1px solid $border;
+  @include govuk-media-query($from: desktop) {
+    border-left: 1px solid $border;
+    &:first-child {
+      border-left: 0;
+    }
+    &:only-child {
+      border-right: 1px solid $border;
+    }
+  }
+}
+
+.category-card__column--half {
+  max-width: 100%;
+  width: 100%;
+  @include govuk-media-query($from: desktop) {
+    max-width: 50%;
+    width: 50%;
+  }
+}
+
+.category-card__row {
+  display: flex;
+  flex-wrap: wrap;
+  @include govuk-media-query($from: desktop) {
+    flex-wrap: nowrap;
+  }
+
+  &:last-child {
+    .category-card__column {
+      @include govuk-media-query($from: desktop) {
+        @include govuk-responsive-padding(5, "bottom");
+      }
+      border-bottom: 0;
+    }
+  }
+}
+
+.category-card--courses {
+  @include govuk-responsive-margin(7, "bottom");
+
+  .learning-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include govuk-responsive-margin(2, "bottom")
+  }
+
+  .learning-card__heading {
+    @extend .govuk-heading-s;
+    margin: 0;
+  }
+
+  .learning-card__content_section {
+    @extend .govuk-body;
+    @include govuk-responsive-margin(2, "bottom")
+  }
+
+  .learning-card__action {
+    @extend .govuk-link;
+  }
 }
