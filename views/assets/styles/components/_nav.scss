@@ -25,6 +25,12 @@
   }
 }
 
+@mixin focus {
+  outline: none;
+  text-decoration: none;
+  color: $font-color !important;
+}
+
 
 .nav {
   margin-top: 10px;
@@ -70,6 +76,9 @@
     @include highlight;
     .nav-item {
       color: $nav-active-link-color !important;
+      &:focus {
+        @include focus;
+      }
     }
   }
 
@@ -77,6 +86,9 @@
     @include highlight;
     .nav-item {
       color: $nav-active-link-color !important;
+      &:focus {
+        @include focus;
+      }
     }
   }
 
@@ -92,9 +104,7 @@
   }
 
   &:focus {
-    outline: none;
-    text-decoration: none;
-    color: $font-color !important;
+    @include focus;
   }
 }
 
