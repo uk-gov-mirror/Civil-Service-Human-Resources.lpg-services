@@ -16,9 +16,6 @@ COPY views/page ./views/page
 COPY views/nunjucks ./views/nunjucks
 
 ## Public assets
-### Asset version
-COPY views/assets/asset-version.json ./views/assets/asset-version.json
-
 COPY views/assets/styles/main.css ./views/assets/styles/main.css
 COPY views/assets/styles/main-nsg.css ./views/assets/styles/main-nsg.css
 COPY views/assets/styles/main.v2.css ./views/assets/styles/main.v2.css

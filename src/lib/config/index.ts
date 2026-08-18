@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv'
-import * as fs from 'fs'
 import * as path from 'path'
 import 'reflect-metadata'
 import {getDayJs} from '../utils/datetime'
@@ -36,25 +35,6 @@ function set<T>(defaultValue: T, envValues: Record<string, T> = {}): T {
 		return defaultValue
 	}
 	return val
-}
-
-function loadJson(filePath: string) {
-	console.log(`Loading config file ${filePath}`)
-	try {
-		if (fs.existsSync(filePath)) {
-			const data = fs.readFileSync(filePath, 'utf8')
-			console.log(`Loaded config file ${filePath}. Data: ${data}`)
-			if (data.length > 0) {
-				return JSON.parse(data)
-			} else {
-				return {}
-			}
-		} else {
-			console.log(`Cannot find config file ${filePath}`)
-		}
-	} catch (err) {
-		console.log(`Failed to load ${filePath}:`, err)
-	}
 }
 
 const env: Record<string, string> = new Proxy({}, {get: getEnv})
@@ -171,9 +151,6 @@ export const INTEREST_REDIS = set({
 
 export const STATIC_ASSET_ROOT = env.STATIC_ASSET_ROOT
 export const STATIC_ASSET_TTL = env.STATIC_ASSET_TTL
-export const ASSET_VERSION_FILENAME =
-	env.ASSET_VERSION_FILENAME || path.join(__dirname, '../../../views/assets/asset-version.json')
-export const ASSET_VERSION: string = loadJson(ASSET_VERSION_FILENAME).id || ''
 
 export const TOKEN_EXPIRY_BUFFER = Number(env.TOKEN_EXPIRY_BUFFER) || 30
 
