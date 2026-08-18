@@ -9,45 +9,45 @@
     <meta property="og:image" content="{($req.app.locals.staticAssetRoot)}/img/opengraph-image.png">
     <title>{title} &ndash; {$i18n('proposition_name')}</title>
     {#if $config.NSG_FLAG}
-        <link rel="stylesheet" href="{($req.app.locals.staticAssetRoot)}/styles/main-nsg.css">
+    <link rel="stylesheet" href="{($req.app.locals.staticAssetRoot)}/styles/main-nsg.css?ver={($req.app.locals.assetVersion)}">
     {:else}
-        <link rel="stylesheet" href="{($req.app.locals.staticAssetRoot)}/styles/main.css">
+    <link rel="stylesheet" href="{($req.app.locals.staticAssetRoot)}/styles/main.css?ver={($req.app.locals.assetVersion)}">
     {/if}
-        <link rel="stylesheet" href="{($req.app.locals.staticAssetRoot)}/styles/video-js.min.css">
+    <link rel="stylesheet" href="{($req.app.locals.staticAssetRoot)}/styles/video-js.min.css?ver={($req.app.locals.assetVersion)}">
     <script async src="https://www.googletagmanager.com/gtag/js?id={($config.GOOGLE_ANALYTICS_ID)}"></script> {@html $config.GOOGLE_ANALYTICS_CODE}
 </head>
 <body>
-    <SkipLink />
-    <div id="global-cookie-message">
-        <p>
-            Civil Service Learning uses cookies to make the site simpler.
-            <a href="/cookies"> Find out more about cookies</a>
-        </p>
-    </div>
-    <Header/>
-    <Layout {_csrf}>        
-        <slot> </slot>
-    </Layout>
-    <script>document.body.className = document.body.className.replace('', 'js-enabled');</script>
-    <script src="{($req.app.locals.staticAssetRoot)}/js/main-bundle.min.js"></script>
+<SkipLink />
+<div id="global-cookie-message">
+    <p>
+        Civil Service Learning uses cookies to make the site simpler.
+        <a href="/cookies"> Find out more about cookies</a>
+    </p>
+</div>
+<Header/>
+<Layout {_csrf}>
+    <slot> </slot>
+</Layout>
+<script>document.body.className = document.body.className.replace('', 'js-enabled');</script>
+<script src="{($req.app.locals.staticAssetRoot)}/js/main-bundle.min.js?ver={($req.app.locals.assetVersion)}"></script>
 </body>
 </html>
 
 <script>
-	import Layout from './Layout.html';
-	import Header from './Header.html';
+    import Layout from './Layout.html';
+    import Header from './Header.html';
     import SkipLink from './SkipLink.html';
 
-	export default {
-		data() {
-			return {
+    export default {
+        data() {
+            return {
 
-			}
-		},
-		components: {
-			Layout,
-			Header,
+            }
+        },
+        components: {
+            Layout,
+            Header,
             SkipLink,
-		}
-	};
+        }
+    };
 </script>

@@ -51,12 +51,6 @@ steps:
       command: 'custom'
       customCommand: 'run build'
 
-  - task: Npm@1
-    displayName: 'Generate asset version'
-    inputs:
-      command: 'custom'
-      customCommand: 'run generate-asset-version'
-
   - task: Docker@2
     inputs:
       containerRegistry: 'lpgregistry ACR'
