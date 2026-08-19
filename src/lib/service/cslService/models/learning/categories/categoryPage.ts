@@ -1,6 +1,5 @@
 import {Transform, Type} from 'class-transformer'
-import {Response} from '../../../../../utils/search'
-import {BasicCourse} from '../learningPlan/basicCourse'
+import {BasicCourseResponse} from '../learningPlan/basicCourseResponse'
 import {CategoryLink} from './categoryLink'
 import {Category} from './category'
 
@@ -14,8 +13,8 @@ export class CategoryPage {
 	categories: Category[]
 	title: string
 	description: string
-	@Type(() => Response)
-	courses: Response<BasicCourse>
+	@Type(() => BasicCourseResponse)
+	courses: BasicCourseResponse
 
 	getCourses() {
 		return this.courses === undefined ? [] : this.courses.results

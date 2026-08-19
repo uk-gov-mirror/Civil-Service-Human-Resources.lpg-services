@@ -111,15 +111,26 @@
 .category-card--courses {
   @include govuk-responsive-margin(7, "bottom");
 
+  .learning-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   .learning-card__header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    @include govuk-responsive-margin(2, "bottom")
+    align-items: start;
+    @include govuk-responsive-margin(2, "bottom");
+
+    .badge {
+      @include govuk-responsive-margin(2, "left")
+    }
   }
 
   .learning-card__heading {
     @extend .govuk-heading-s;
+    max-width: 70%;
     margin: 0;
   }
 

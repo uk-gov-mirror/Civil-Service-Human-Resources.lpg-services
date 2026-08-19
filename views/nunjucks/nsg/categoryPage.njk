@@ -39,29 +39,15 @@
         }) }}
 {#        <p class='govuk-body'>Showing {{ params.start }} – {{ params.end }} of {{ params.total }} items</p>#}
         <div class='category__pagination'>
-            <p class='govuk-body'>Showing 1 – 3 of 3 items</p>
+            <p class='govuk-body'>Showing {{ pagination.start }} – {{ pagination.end }} of {{ pagination.total }} items</p>
             {{ govukPagination({
                 previous: {
-                    href: "#"
+                    href: pagination.prevLink
                 },
                 next: {
-                    href: "#"
+                    href: pagination.nextLink
                 },
-                items: [
-                    {
-                        number: 1,
-                        href: "#"
-                    },
-                    {
-                        number: 2,
-                        current: true,
-                        href: "#"
-                    },
-                    {
-                        number: 3,
-                        href: "#"
-                    }
-                ]
+                items: pagination.numberedPages
             }) }}
         </div>
     {% endif %}

@@ -13,7 +13,7 @@
                         {% for numberedPage in params.numberedPages %}
                             <li>
                                 {% if numberedPage.link %}
-                                    <a aria-label="Page {{ numberedPage.number }}" href="{{ numberedPage.link }}">{{ numberedPage.number }}</a>
+                                    <a aria-label="Page {{ numberedPage.number }}" href="{{ numberedPage.href }}">{{ numberedPage.number }}</a>
                                 {% elseif numberedPage.ellipses %}
                                     ...
                                 {% else %}

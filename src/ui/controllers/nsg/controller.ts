@@ -1,9 +1,12 @@
+import {plainToInstance} from 'class-transformer'
 import {Router} from 'express'
 import * as express from 'express'
 import {User} from '../../../lib/model'
 import {getCategoryHomepage, getCategoryPage} from '../../../lib/service/cslService/cslServiceClient'
 import {Category} from '../../../lib/service/cslService/models/learning/categories/category'
 import * as asyncHandler from 'express-async-handler'
+import {getPagination, Pagination, transformNumberedPagesToGovuk} from '../../../lib/utils/search'
+import {CoursePaginationQuery} from './model/coursePaginationQuery'
 
 export const router: express.Router = Router()
 
@@ -30,6 +33,12 @@ export async function index(req: express.Request, res: express.Response) {
 
 export async function categoryPage(req: express.Request, res: express.Response) {
 	const url = req.params.url
+	const query = plainToInstance(CoursePaginationQuery, {...req.query, categoryUrl: url})
 	const page = await getCategoryPage(req.user, url)
-	return res.render('nsg/categoryPage.njk', {page})
+	let pagination: Pagination | undefined
+	if (page.getCourses().length > 0) {
+		pagination = getPagination(query, page.courses)
+		pagination.numberedPages = transformNumberedPagesToGovuk(pagination.numberedPages)
+	}
+	return res.render('nsg/categoryPage.njk', {page, pagination})
 }
