@@ -114,7 +114,7 @@
   .learning-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    height: 100%;
   }
 
   .learning-card__header {
@@ -134,9 +134,20 @@
     margin: 0;
   }
 
+  .learning-card__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+
   .learning-card__content_section {
     @extend .govuk-body;
     @include govuk-responsive-margin(2, "bottom")
+  }
+
+  .learning-card__actions {
+    justify-self: flex-end;
   }
 
   .learning-card__action {

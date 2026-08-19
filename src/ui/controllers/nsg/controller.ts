@@ -18,7 +18,7 @@ router.use((req: express.Request, res: express.Response, next: express.NextFunct
 })
 
 router.get('/', asyncHandler(index))
-router.get('/categories/:url', asyncHandler(categoryPage))
+router.get(['/categories/:url', '/categories/:url/courses'], asyncHandler(categoryPage))
 
 export async function index(req: express.Request, res: express.Response) {
 	const homepage = await getCategoryHomepage(req.user)
@@ -34,7 +34,7 @@ export async function index(req: express.Request, res: express.Response) {
 export async function categoryPage(req: express.Request, res: express.Response) {
 	const url = req.params.url
 	const query = plainToInstance(CoursePaginationQuery, {...req.query, categoryUrl: url})
-	const page = await getCategoryPage(req.user, url)
+	const page = await getCategoryPage(req.user, url, query.p-1)
 	let pagination: Pagination | undefined
 	if (page.getCourses().length > 0) {
 		pagination = getPagination(query, page.courses)
