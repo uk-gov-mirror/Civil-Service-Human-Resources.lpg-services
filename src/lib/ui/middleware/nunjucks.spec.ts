@@ -12,4 +12,34 @@ describe('Nunjucks middleware tests', () => {
 		const rendered = nunjucks.renderString('{{ feedbackRoot }}', {})
 		expect(rendered).to.equal(FEEDBACK_URL)
 	})
+
+	it('should render header.njk phase banner with populated feedbackRoot URL', () => {
+		const app = express()
+		nunjucksMiddleware.register(app)
+
+		const rendered = nunjucks.render('root/header.njk', {
+			signedInUser: {
+				hasCompleteProfile: () => false,
+				isAdmin: () => false,
+				isReporter: () => false,
+			},
+		})
+		expect(rendered).to.include(`href="${FEEDBACK_URL}"`)
+		expect(rendered).to.not.include('href="{{ feedbackRoot }}"')
+	})
+
+	it('should render header-nsg.njk phase banner with populated feedbackRoot URL', () => {
+		const app = express()
+		nunjucksMiddleware.register(app)
+
+		const rendered = nunjucks.render('root/header-nsg.njk', {
+			signedInUser: {
+				hasCompleteProfile: () => false,
+				isAdmin: () => false,
+				isReporter: () => false,
+			},
+		})
+		expect(rendered).to.include(`href="${FEEDBACK_URL}"`)
+		expect(rendered).to.not.include('href="{{ feedbackRoot }}"')
+	})
 })
