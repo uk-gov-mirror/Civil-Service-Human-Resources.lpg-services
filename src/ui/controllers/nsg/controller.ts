@@ -1,29 +1,27 @@
-import {NextFunction, Request, Response, Router} from 'express'
+import {plainToInstance} from 'class-transformer'
+import {Router} from 'express'
 import * as express from 'express'
-import {ResourceNotFoundError} from '../../../lib/exception/ResourceNotFoundError'
+import {NSG_FLAG} from '../../../lib/config'
 import {User} from '../../../lib/model'
 import {getCategoryHomepage, getCategoryPage} from '../../../lib/service/cslService/cslServiceClient'
 import {Category} from '../../../lib/service/cslService/models/learning/categories/category'
 import * as asyncHandler from 'express-async-handler'
+import {getPagination, Pagination, transformNumberedPagesToGovuk} from '../../../lib/utils/search'
+import {CoursePaginationQuery} from './model/coursePaginationQuery'
 
 export const router: express.Router = Router()
 
 router.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-	if (!(req.user as User).hasRole('LEARNING_TAG_MANAGER')) {
-		return res.redirect('/')
+	if (!NSG_FLAG) {
+		if (!(req.user as User).hasRole('LEARNING_TAG_MANAGER')) {
+			return res.redirect('/')
+		}
 	}
 	next()
 })
 
 router.get('/', asyncHandler(index))
-router.get('/categories/:url', asyncHandler(categoryPage))
-
-router.use(async (error: any, request: Request, response: Response, next: NextFunction) => {
-	if (error instanceof ResourceNotFoundError) {
-		return response.render('nsg/notFound.njk')
-	}
-	next()
-})
+router.get(['/categories/:url', '/categories/:url/courses'], asyncHandler(categoryPage))
 
 export async function index(req: express.Request, res: express.Response) {
 	const homepage = await getCategoryHomepage(req.user)
@@ -38,6 +36,12 @@ export async function index(req: express.Request, res: express.Response) {
 
 export async function categoryPage(req: express.Request, res: express.Response) {
 	const url = req.params.url
-	const page = await getCategoryPage(req.user, url)
-	return res.render('nsg/categoryPage.njk', {page})
+	const query = plainToInstance(CoursePaginationQuery, {...req.query, categoryUrl: url})
+	const page = await getCategoryPage(req.user, url, query.p)
+	let pagination: Pagination | undefined
+	if (page.getCourses().length > 0) {
+		pagination = getPagination(query, page.courses)
+		pagination.numberedPages = transformNumberedPagesToGovuk(pagination.numberedPages)
+	}
+	return res.render('nsg/categoryPage.njk', {page, pagination})
 }

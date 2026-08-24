@@ -69,7 +69,8 @@ export const register = (app: Express) => {
 			try {
 				i18nConfig.__(text)
 			} catch {
-				logger.error(`i18n text ${text} was not found`)
+				logger.error(`ERROR: i18n text ${text} was not found`)
+				return 'UNDEFINED'
 			}
 		}
 		return i18nConfig.__(text)

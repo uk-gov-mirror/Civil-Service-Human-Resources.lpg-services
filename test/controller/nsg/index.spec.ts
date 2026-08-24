@@ -114,4 +114,46 @@ describe('Homepage controller tests', () => {
 			},
 		])
 	})
+
+	it('should render courses within a category page', async () => {
+		const categoryPage = new CategoryPage()
+		categoryPage.title = 'Subcategory 1'
+		categoryPage.description = 'This is Subcategory 1'
+		const parent = new CategoryLink()
+		parent.link = 'category-1'
+		parent.text = 'Category 1'
+		categoryPage.parents = [parent]
+		categoryPage.courses = {
+			page: 0,
+			size: 20,
+			totalResults: 23,
+			results: Array.from({length: 20}, (_, i) => i).map(i => {
+				return {
+					title: `Course ${i}`,
+					status: 'IN_PROGRESS',
+					id: `${i}`,
+					costInPounds: 0,
+					duration: 1,
+					moduleCount: 1,
+					type: 'blended',
+					shortDescription: `Course ${i}`,
+				}
+			}),
+		}
+		categoryPage.categories = [
+			{
+				title: 'Sub Subcategory 1',
+				description: 'this is sub-subcategory 1',
+				url: 'sub-subcategory-1',
+				categories: [],
+			},
+		]
+		cslServiceStub._get.resolves(categoryPage)
+		const res = await makeRequest(app, `/nsg-homepage/categories/subcategory-1`)
+		within(res).getByRole('heading', {name: 'Courses'})
+		within(res).getByRole('heading', {name: 'Course 1'})
+		within(res).getByText('Showing 1 – 20 of 23 items')
+		within(res).getByRole('link', {name: 'Page 2'})
+		within(res).getByRole('link', {name: 'Next page'})
+	})
 })

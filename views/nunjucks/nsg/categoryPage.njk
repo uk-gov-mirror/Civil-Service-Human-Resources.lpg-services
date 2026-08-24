@@ -1,5 +1,7 @@
 {% from "./components/categoryCard/macro.njk" import categoryCard %}
+{% from "./components/categoryCourseDisplay/macro.njk" import categoryCourseDisplay %}
 {% from "breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "pagination/macro.njk" import govukPagination %}
 
 {% extends "./baseLayout.njk" %}
 
@@ -31,4 +33,21 @@
             }) }}
         {% endfor %}
     </div>
+    {% if page.getRows().length > 0 %}
+        {{ categoryCourseDisplay({
+            rows: page.getRows()
+        }) }}
+        <div class='category__pagination'>
+            <p class='govuk-body'>Showing {{ pagination.start }} – {{ pagination.end }} of {{ pagination.total }} items</p>
+            {{ govukPagination({
+                previous: {
+                    href: pagination.prevLink
+                },
+                next: {
+                    href: pagination.nextLink
+                },
+                items: pagination.numberedPages
+            }) }}
+        </div>
+    {% endif %}
 {% endblock %}
