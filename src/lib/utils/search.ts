@@ -38,7 +38,9 @@ export type Pagination = PaginationBase<PaginationNumberedPage>
 
 export type GovukPagination = PaginationBase<GovUkPaginationNumberedPage>
 
-export const transformNumberedPagesToGovuk = (numberedPages: PaginationNumberedPage[]): GovUkPaginationNumberedPage[] => {
+export const transformNumberedPagesToGovuk = (
+	numberedPages: PaginationNumberedPage[]
+): GovUkPaginationNumberedPage[] => {
 	return numberedPages.map(np => {
 		return {number: np.number, current: np.link === undefined, href: np.link, ellipses: np.ellipses}
 	})

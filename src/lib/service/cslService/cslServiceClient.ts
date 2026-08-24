@@ -415,8 +415,8 @@ export async function getCategoryPage(user: User, url: string, page: number) {
 		{
 			url: `/learning/categories/${url}`,
 			params: {
-				page
-			}
+				page,
+			},
 		},
 		user
 	)

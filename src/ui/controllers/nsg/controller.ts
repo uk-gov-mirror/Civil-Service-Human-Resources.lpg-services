@@ -13,9 +13,9 @@ export const router: express.Router = Router()
 
 router.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
 	if (!NSG_FLAG) {
-			if (!(req.user as User).hasRole('LEARNING_TAG_MANAGER')) {
-				return res.redirect('/')
-			}
+		if (!(req.user as User).hasRole('LEARNING_TAG_MANAGER')) {
+			return res.redirect('/')
+		}
 	}
 	next()
 })
