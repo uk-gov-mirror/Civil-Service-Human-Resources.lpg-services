@@ -138,7 +138,7 @@ describe('Homepage controller tests', () => {
 					type: 'blended',
 					shortDescription: `Course ${i}`,
 				}
-			})
+			}),
 		}
 		categoryPage.categories = [
 			{
