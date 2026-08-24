@@ -10,6 +10,7 @@ import {
 	DOUBLE_CLICK_PREVENTION_TIMEOUT_MS,
 	NSG_FLAG,
 	NSG_URL,
+	FEEDBACK_URL,
 } from '../../config'
 import * as datetime from '../../datetime'
 import {appropriateFileSize, extension, extensionAndSize, fileName} from '../../filehelpers'
@@ -53,6 +54,7 @@ export const register = (app: Express) => {
 		partials,
 		lpgManagementUrl: LPG_MANAGEMENT_URL,
 		doubleClickPreventionTimeout: DOUBLE_CLICK_PREVENTION_TIMEOUT_MS,
+		feedbackRoot: FEEDBACK_URL,
 	}
 	logger.debug(`Registering nunjucks globals: ${JSON.stringify(globals)}`)
 	Object.keys(globals).forEach(key => {
