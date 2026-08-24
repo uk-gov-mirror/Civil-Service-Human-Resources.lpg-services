@@ -4,6 +4,7 @@ import {SearchParams} from '../../../../lib/utils/search'
 
 export class CoursePaginationQuery implements SearchParams {
 	@Transform(({value}) => {
+		value = value - 1
 		return +value
 	})
 	p: number = 0
@@ -15,6 +16,6 @@ export class CoursePaginationQuery implements SearchParams {
 		if (page) {
 			urlParts.push(`p=${page}`)
 		}
-		return  `${NSG_FLAG ? '/home' : '/nsg-homepage'}/categories/${this.categoryUrl}/courses?` + urlParts.join('&')
+		return `${NSG_FLAG ? '/home' : '/nsg-homepage'}/categories/${this.categoryUrl}/courses?` + urlParts.join('&')
 	}
 }

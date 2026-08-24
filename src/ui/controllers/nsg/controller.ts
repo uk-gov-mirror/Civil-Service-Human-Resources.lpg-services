@@ -1,6 +1,7 @@
 import {plainToInstance} from 'class-transformer'
 import {Router} from 'express'
 import * as express from 'express'
+import {NSG_FLAG} from '../../../lib/config'
 import {User} from '../../../lib/model'
 import {getCategoryHomepage, getCategoryPage} from '../../../lib/service/cslService/cslServiceClient'
 import {Category} from '../../../lib/service/cslService/models/learning/categories/category'
@@ -11,8 +12,10 @@ import {CoursePaginationQuery} from './model/coursePaginationQuery'
 export const router: express.Router = Router()
 
 router.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-	if (!(req.user as User).hasRole('LEARNING_TAG_MANAGER')) {
-		return res.redirect('/')
+	if (!NSG_FLAG) {
+			if (!(req.user as User).hasRole('LEARNING_TAG_MANAGER')) {
+				return res.redirect('/')
+			}
 	}
 	next()
 })
@@ -34,7 +37,7 @@ export async function index(req: express.Request, res: express.Response) {
 export async function categoryPage(req: express.Request, res: express.Response) {
 	const url = req.params.url
 	const query = plainToInstance(CoursePaginationQuery, {...req.query, categoryUrl: url})
-	const page = await getCategoryPage(req.user, url, query.p-1)
+	const page = await getCategoryPage(req.user, url, query.p)
 	let pagination: Pagination | undefined
 	if (page.getCourses().length > 0) {
 		pagination = getPagination(query, page.courses)

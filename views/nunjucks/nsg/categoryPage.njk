@@ -37,7 +37,6 @@
         {{ categoryCourseDisplay({
             rows: page.getRows()
         }) }}
-{#        <p class='govuk-body'>Showing {{ params.start }} – {{ params.end }} of {{ params.total }} items</p>#}
         <div class='category__pagination'>
             <p class='govuk-body'>Showing {{ pagination.start }} – {{ pagination.end }} of {{ pagination.total }} items</p>
             {{ govukPagination({

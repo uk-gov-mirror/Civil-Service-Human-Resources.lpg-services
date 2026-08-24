@@ -6,11 +6,12 @@
         <div class='learning-card'>
             <div class='learning-card__header'>
                 <h3 class='learning-card__heading'>{{ params.title }}</h3>
-                <span class='badge badge--info'>{{ i18n(params.status) }}</span>
+                {% if params.status !== "NULL" %}
+                    <span class='badge badge--info'>{{ i18n(params.status) }}</span>
+                {% endif %}
             </div>
             <div class='learning-card__content'>
-{#                <div class='learning-card__content_section'>{{ params.shortDescription }}</div>#}
-                <div class='learning-card__content_section'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci aut, delectus distinctio dolore ea, eveniet, excepturi exercitationem fugiat illum labore nam sapiente? Autem ducimus earum in odit repellendus, voluptatum.</div>
+                <div class='learning-card__content_section'>{{ params.shortDescription }}</div>
                 <div class="learning-card__actions">
                     <a class='learning-card__action' href="/courses/{{ params.id }}">View course details</a>
                 </div>
