@@ -36,7 +36,7 @@ describe('Homepage controller tests', () => {
 			results: [],
 			page: 0,
 			size: 0,
-			totalResults: 0
+			totalResults: 0,
 		}
 	}
 
