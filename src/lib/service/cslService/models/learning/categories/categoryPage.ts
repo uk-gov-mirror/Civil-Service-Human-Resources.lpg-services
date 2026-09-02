@@ -2,6 +2,7 @@ import {Transform, Type} from 'class-transformer'
 import {BasicCourseResponse} from '../learningPlan/basicCourseResponse'
 import {CategoryLink} from './categoryLink'
 import {Category} from './category'
+import {HyperlinkResponse} from './hyperlinkResponse'
 
 export class CategoryPage {
 	@Type(() => CategoryLink)
@@ -13,19 +14,32 @@ export class CategoryPage {
 	categories: Category[]
 	title: string
 	description: string
+	courseCount: number
 	@Type(() => BasicCourseResponse)
 	courses: BasicCourseResponse
 
-	getCourses() {
-		return this.courses === undefined ? [] : this.courses.results
-	}
+	linkCount: number
+	@Type(() => HyperlinkResponse)
+	links: HyperlinkResponse
 
-	getRows() {
+	getContentRows() {
 		const rows = []
-		for (let i = 0; i < this.getCourses().length; i += 2) {
-			const chunk = this.getCourses().slice(i, i + 2)
+		for (let i = 0; i < this.getContent().length; i += 2) {
+			const chunk = this.getContent().slice(i, i + 2)
 			rows.push(chunk)
 		}
 		return rows
+	}
+
+	getContentResponse() {
+		return this.courses.results.length > 0 ? this.courses : this.links
+	}
+
+	getContent() {
+		return this.getContentResponse().results
+	}
+
+	getDisplay() {
+		return this.courses.results.length > 0 ? 'courses' : 'links'
 	}
 }

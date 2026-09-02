@@ -1,6 +1,7 @@
 import {Transform} from 'class-transformer'
 import {NSG_FLAG} from '../../../../lib/config'
 import {SearchParams} from '../../../../lib/utils/search'
+import {contentTypes} from '../controller'
 
 export class CoursePaginationQuery implements SearchParams {
 	@Transform(({value}) => {
@@ -9,6 +10,8 @@ export class CoursePaginationQuery implements SearchParams {
 	})
 	p: number = 0
 
+	contentType?: contentTypes
+
 	categoryUrl: string
 
 	getAsUrlParams(page?: number) {
@@ -16,6 +19,7 @@ export class CoursePaginationQuery implements SearchParams {
 		if (page) {
 			urlParts.push(`p=${page}`)
 		}
-		return `${NSG_FLAG ? '/home' : '/nsg-homepage'}/categories/${this.categoryUrl}/courses?` + urlParts.join('&')
+		const urlContentType = this.contentType === undefined ? '' : `/${this.contentType}`
+		return `${NSG_FLAG ? '/home' : '/nsg-homepage'}/categories/${this.categoryUrl}${urlContentType}?` + urlParts.join('&')
 	}
 }

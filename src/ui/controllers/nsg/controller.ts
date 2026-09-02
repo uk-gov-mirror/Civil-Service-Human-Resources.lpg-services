@@ -11,6 +11,8 @@ import {CoursePaginationQuery} from './model/coursePaginationQuery'
 
 export const router: express.Router = Router()
 
+export type contentTypes = 'courses' | 'links'
+
 router.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
 	if (!NSG_FLAG) {
 		if (!(req.user as User).hasRole('LEARNING_TAG_MANAGER')) {
@@ -21,7 +23,9 @@ router.use((req: express.Request, res: express.Response, next: express.NextFunct
 })
 
 router.get('/', asyncHandler(index))
-router.get(['/categories/:url', '/categories/:url/courses'], asyncHandler(categoryPage))
+router.get('/categories/:url', asyncHandler(categoryPage()))
+router.get('/categories/:url/courses', asyncHandler(categoryPage('courses')))
+router.get('/categories/:url/links', asyncHandler(categoryPage('links')))
 
 export async function index(req: express.Request, res: express.Response) {
 	const homepage = await getCategoryHomepage(req.user)
@@ -34,14 +38,14 @@ export async function index(req: express.Request, res: express.Response) {
 	return res.render('nsg/index.njk', {rows, cardsPerRow})
 }
 
-export async function categoryPage(req: express.Request, res: express.Response) {
-	const url = req.params.url
-	const query = plainToInstance(CoursePaginationQuery, {...req.query, categoryUrl: url})
-	const page = await getCategoryPage(req.user, url, query.p)
-	let pagination: Pagination | undefined
-	if (page.getCourses().length > 0) {
-		pagination = getPagination(query, page.courses)
+function categoryPage(contentType?: contentTypes) {
+	return async (req: express.Request, res: express.Response) => {
+		const url = req.params.url
+		const query = plainToInstance(CoursePaginationQuery, {...req.query, categoryUrl: url, contentType})
+		const page = await getCategoryPage(req.user, url, query.p, contentType)
+		const pagination: Pagination = getPagination(query, page.getContentResponse())
 		pagination.numberedPages = transformNumberedPagesToGovuk(pagination.numberedPages)
+		res.locals.url = url
+		return res.render('nsg/categoryPage.njk', {page, pagination})
 	}
-	return res.render('nsg/categoryPage.njk', {page, pagination})
 }
