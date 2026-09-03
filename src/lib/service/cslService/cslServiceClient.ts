@@ -420,21 +420,5 @@ export async function getCategoryPage(user: User, url: string, page: number, con
 		},
 		user
 	)
-	const resp = plainToInstance(CategoryPage, res)
-	// resp.courses = new BasicCourseResponse()
-	// resp.courses.page = 0
-	// resp.courses.size = 0
-	// resp.courses.results = []
-	// resp.courseCount = 24
-	// resp.linkCount = 10
-	// resp.links = new HyperlinkResponse()
-	// resp.links.page = 0
-	// resp.links.size = 10
-	// resp.links.results = [
-	// 	{title: 'Link 1', description: 'Link 1', href: 'https://link.com'},
-	// 	{title: 'Link 2', description: 'Link 2', href: 'https://link.com'},
-	// 	{title: 'Link 3', description: 'Link 3', href: 'https://link.com'},
-	// 	{title: 'Link 4', description: 'Link 4', href: 'https://link.com'},
-	// ]
-	return resp
+	return plainToInstance(CategoryPage, res)
 }
