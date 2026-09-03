@@ -410,10 +410,10 @@ export async function getCategoryHomepage(user: User) {
 	return plainToInstance(CategoryHomepage, res)
 }
 
-export async function getCategoryPage(user: User, url: string, page: number) {
+export async function getCategoryPage(user: User, url: string, page: number, contentType?: string) {
 	const res = await client._get(
 		{
-			url: `/learning/categories/${url}`,
+			url: `/learning/categories/${url}` + (contentType === undefined ? '' : `/${contentType}`),
 			params: {
 				page,
 			},

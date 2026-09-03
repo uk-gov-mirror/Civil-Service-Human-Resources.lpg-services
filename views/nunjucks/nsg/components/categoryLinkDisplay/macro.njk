@@ -1,36 +1,36 @@
 {% from "../learningCard/macro.njk" import learningCard %}
 {% from "../contentDisplay/macro.njk" import contentDisplay %}
 
-{% macro courseLearningCard(params) %}
+{% macro linkLearningCard(params) %}
     {{ learningCard({
         title: params.title,
-        status: params.status,
-        description: params.shortDescription,
+        description: params.description,
         action: {
-            href: '/courses/' + params.id,
-            text: 'View course details'
+            href: params.href,
+            text: "Go to " + params.title + " (Opens in a new tab)",
+            newTab: true
         }
     }) }}
 {% endmacro %}
 
-{% macro categoryCourseDisplay(params) %}
-
+{% macro categoryLinkDisplay(params) %}
     {% set content %}
         {% for row in params.rows %}
             <div class='category-card__row'>
-                {{ courseLearningCard(row[0]) }}
+                {{ linkLearningCard(row[0]) }}
                 {% if row[1] === undefined %}
                     <div class='category-card__column category-card__column--half'></div>
                 {% else %}
-                    {{ courseLearningCard(row[1]) }}
+                    {{ linkLearningCard(row[1]) }}
                 {% endif %}
             </div>
         {% endfor %}
     {% endset %}
 
     {{ contentDisplay({
-        heading: "Courses",
+        heading: "Links",
         content: content
     }) }}
 
 {% endmacro %}
+

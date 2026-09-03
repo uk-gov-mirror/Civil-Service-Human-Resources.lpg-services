@@ -46,6 +46,16 @@ export const transformNumberedPagesToGovuk = (
 	})
 }
 
+export function getPaginationWithoutResults(
+	params: SearchParams,
+	totalResults: number,
+	size: number,
+	page: number,
+	results: any[]
+) {
+	return getPagination(params, {totalResults, size, page, results})
+}
+
 export function getPagination(params: SearchParams, searchResults: Response<any>): Pagination {
 	let prevLink: string | undefined
 	let nextLink: string | undefined

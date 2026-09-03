@@ -3,6 +3,7 @@ import {Express} from 'express'
 import {CategoryHomepage} from '../../../src/lib/service/cslService/models/learning/categories/categoryHomepage'
 import {CategoryPage} from '../../../src/lib/service/cslService/models/learning/categories/categoryPage'
 import {CategoryLink} from '../../../src/lib/service/cslService/models/learning/categories/categoryLink'
+import {Response} from '../../../src/lib/utils/search'
 import * as index from '../../../src/ui/controllers/nsg/controller'
 import * as sinon from 'sinon'
 import {client} from '../../../src/lib/service/cslService/baseConfig'
@@ -28,6 +29,38 @@ describe('Homepage controller tests', () => {
 
 	async function makeRequest(e: Express, url: string) {
 		return getDOM(e, url, {roles: 'LEARNING_TAG_MANAGER'})
+	}
+
+	const getEmptyContentResponse = <T>(): Response<T> => {
+		return {
+			results: [],
+			page: 0,
+			size: 0,
+			totalResults: 0,
+		}
+	}
+
+	const genericCategoryPage = () => {
+		const categoryPage = new CategoryPage()
+		categoryPage.title = 'Subcategory 1'
+		categoryPage.description = 'This is Subcategory 1'
+		const parent = new CategoryLink()
+		parent.link = 'category-1'
+		parent.text = 'Category 1'
+		categoryPage.parents = [parent]
+		categoryPage.categories = [
+			{
+				title: 'Sub Subcategory 1',
+				description: 'this is sub-subcategory 1',
+				url: 'sub-subcategory-1',
+				categories: [],
+			},
+		]
+		categoryPage.courses = getEmptyContentResponse()
+		categoryPage.courseCount = 0
+		categoryPage.links = getEmptyContentResponse()
+		categoryPage.linkCount = 0
+		return categoryPage
 	}
 
 	it('should render the homepage title card', async () => {
@@ -76,21 +109,7 @@ describe('Homepage controller tests', () => {
 	})
 
 	it('should render the subcategories for a tier 1', async () => {
-		const categoryPage = new CategoryPage()
-		categoryPage.title = 'Subcategory 1'
-		categoryPage.description = 'This is Subcategory 1'
-		const parent = new CategoryLink()
-		parent.link = 'category-1'
-		parent.text = 'Category 1'
-		categoryPage.parents = [parent]
-		categoryPage.categories = [
-			{
-				title: 'Sub Subcategory 1',
-				description: 'this is sub-subcategory 1',
-				url: 'sub-subcategory-1',
-				categories: [],
-			},
-		]
+		const categoryPage = genericCategoryPage()
 		cslServiceStub._get.resolves(categoryPage)
 
 		const res = await makeRequest(app, `/nsg-homepage/categories/subcategory-1`)
@@ -115,45 +134,85 @@ describe('Homepage controller tests', () => {
 		])
 	})
 
-	it('should render courses within a category page', async () => {
-		const categoryPage = new CategoryPage()
-		categoryPage.title = 'Subcategory 1'
-		categoryPage.description = 'This is Subcategory 1'
-		const parent = new CategoryLink()
-		parent.link = 'category-1'
-		parent.text = 'Category 1'
-		categoryPage.parents = [parent]
-		categoryPage.courses = {
-			page: 0,
-			size: 20,
-			totalResults: 23,
-			results: Array.from({length: 20}, (_, i) => i).map(i => {
-				return {
-					title: `Course ${i}`,
-					status: 'IN_PROGRESS',
-					id: `${i}`,
-					costInPounds: 0,
-					duration: 1,
-					moduleCount: 1,
-					type: 'blended',
-					shortDescription: `Course ${i}`,
-				}
-			}),
-		}
-		categoryPage.categories = [
-			{
-				title: 'Sub Subcategory 1',
-				description: 'this is sub-subcategory 1',
-				url: 'sub-subcategory-1',
-				categories: [],
-			},
-		]
-		cslServiceStub._get.resolves(categoryPage)
-		const res = await makeRequest(app, `/nsg-homepage/categories/subcategory-1`)
-		within(res).getByRole('heading', {name: 'Courses'})
-		within(res).getByRole('heading', {name: 'Course 1'})
-		within(res).getByText('Showing 1 – 20 of 23 items')
-		within(res).getByRole('link', {name: 'Page 2'})
-		within(res).getByRole('link', {name: 'Next page'})
+	describe('content', () => {
+		it('should render courses within a category page', async () => {
+			const categoryPage = genericCategoryPage()
+			categoryPage.courseCount = 23
+			categoryPage.courses = {
+				page: 0,
+				size: 20,
+				totalResults: 23,
+				results: Array.from({length: 20}, (_, i) => i).map(i => {
+					return {
+						title: `Course ${i}`,
+						status: 'IN_PROGRESS',
+						id: `${i}`,
+						costInPounds: 0,
+						duration: 1,
+						moduleCount: 1,
+						type: 'blended',
+						shortDescription: `Course ${i}`,
+					}
+				}),
+			}
+			categoryPage.linkCount = 0
+			cslServiceStub._get.resolves(categoryPage)
+			const res = await makeRequest(app, `/nsg-homepage/categories/subcategory-1`)
+			within(res).getByRole('heading', {name: 'Courses'})
+			within(res).getByRole('heading', {name: 'Course 1'})
+			within(res).getByText('Showing 1 – 20 of 23 items')
+			within(res).getByRole('link', {name: 'Page 2'})
+			within(res).getByRole('link', {name: 'Next page'})
+		})
+
+		it('should render links within a category page', async () => {
+			const categoryPage = genericCategoryPage()
+			categoryPage.linkCount = 23
+			categoryPage.links = {
+				page: 0,
+				size: 20,
+				totalResults: 23,
+				results: Array.from({length: 20}, (_, i) => i).map(i => {
+					return {
+						title: `Link ${i}`,
+						href: `https://link${i}`,
+						description: `Link ${i}`,
+					}
+				}),
+			}
+			cslServiceStub._get.resolves(categoryPage)
+			const res = await makeRequest(app, `/nsg-homepage/categories/subcategory-1`)
+			within(res).getByRole('heading', {name: 'Links'})
+			within(res).getByRole('heading', {name: 'Link 1'})
+			within(res).getByText('Showing 1 – 20 of 23 items')
+			within(res).getByRole('link', {name: 'Page 2'})
+			within(res).getByRole('link', {name: 'Next page'})
+		})
+
+		it('should render links and courses in tabs within a category page (link view)', async () => {
+			const categoryPage = genericCategoryPage()
+			categoryPage.linkCount = 23
+			categoryPage.links = {
+				page: 0,
+				size: 20,
+				totalResults: 23,
+				results: Array.from({length: 20}, (_, i) => i).map(i => {
+					return {
+						title: `Link ${i}`,
+						href: `https://link${i}`,
+						description: `Link ${i}`,
+					}
+				}),
+			}
+			categoryPage.courseCount = 3
+			cslServiceStub._get.resolves(categoryPage)
+			const res = await makeRequest(app, `/nsg-homepage/categories/subcategory-1/links`)
+			within(res).getByRole('heading', {name: 'Links (23)'})
+			within(res).getByRole('heading', {name: 'Courses (3)'})
+			within(res).getByRole('heading', {name: 'Link 1'})
+			within(res).getByText('Showing 1 – 20 of 23 items')
+			within(res).getByRole('link', {name: 'Page 2'})
+			within(res).getByRole('link', {name: 'Next page'})
+		})
 	})
 })

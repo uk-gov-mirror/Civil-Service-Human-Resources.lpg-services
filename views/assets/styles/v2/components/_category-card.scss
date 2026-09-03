@@ -44,6 +44,55 @@
   }
 }
 
+.category-card__header-block--tabs {
+  padding: 0;
+  background-color: $nsg-mid-green;
+}
+
+.category-card__header-tabs {
+  display: flex;
+}
+
+.category-card__header-tab {
+  background-color: $nsg-dark-green;
+  @include govuk-responsive-padding(2, "top");
+  @include govuk-responsive-padding(2, "bottom");
+  @include govuk-responsive-padding(4, "left");
+  @include govuk-responsive-padding(4, "right");
+  @include govuk-responsive-margin(2, "all");
+  .category-card__header-tab__heading > a {
+    @include govuk-link-common;
+    color: govuk-colour('white');
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+    &:visited {
+      color: govuk-colour('white');
+    }
+    &:focus {
+      color: govuk-colour('black');
+    }
+  }
+}
+
+.category-card__header-tab--active {
+  background-color: govuk-colour('white');
+  @include govuk-responsive-padding(4, "top");
+  margin: 0;
+  .category-card__header-tab__heading > a {
+    &:visited {
+      color: govuk-colour('black');
+    }
+    color: govuk-colour('black');
+  }
+}
+
+.category-card__header-tab__heading {
+  @extend .govuk-heading-s;
+  margin-bottom: 0;
+}
+
 .category-card__heading--small {
   @extend .govuk-heading-s;
 }
@@ -124,13 +173,13 @@
     @include govuk-responsive-margin(2, "bottom");
 
     .badge {
-      @include govuk-responsive-margin(2, "left")
+      @include govuk-responsive-margin(2, "left");
+      min-width: unset;
     }
   }
 
   .learning-card__heading {
     @extend .govuk-heading-s;
-    max-width: 60%;
     margin: 0;
   }
 
