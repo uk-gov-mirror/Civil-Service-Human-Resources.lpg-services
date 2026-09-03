@@ -38,10 +38,10 @@
         </div>
     {% endif %}
 
-    {% if page.getContentRows().length > 0 %}
+    {% if page.rows.length > 0 %}
         {% if page.courseCount > 0 and page.linkCount > 0 %}
             {{ categoryContentTabs({
-                rows: page.getContentRows(),
+                rows: page.rows,
                 display: page.getDisplay(),
                 courseCount: page.courseCount,
                 linkCount: page.linkCount,
@@ -49,15 +49,15 @@
             }) }}
         {% elif page.getDisplay() === 'courses' %}
             {{ categoryCourseDisplay({
-                rows: page.getContentRows()
+                rows: page.rows
             }) }}
         {% elif page.getDisplay() === 'links' %}
             {{ categoryLinkDisplay({
-                rows: page.getContentRows()
+                rows: page.rows
             }) }}
         {% endif %}
     {% endif %}
-    {% if page.getContentRows().length > 0 %}
+    {% if page.rows.length > 0 %}
         <div class='category__pagination'>
             <p class='govuk-body'>Showing {{ pagination.start }} – {{ pagination.end }} of {{ pagination.total }} items</p>
             {{ govukPagination({

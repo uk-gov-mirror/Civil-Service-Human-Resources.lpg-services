@@ -1,7 +1,9 @@
-import {Transform, Type} from 'class-transformer'
+import {Expose, Transform, Type} from 'class-transformer'
+import {BasicCourse} from '../learningPlan/basicCourse'
 import {BasicCourseResponse} from '../learningPlan/basicCourseResponse'
 import {CategoryLink} from './categoryLink'
 import {Category} from './category'
+import {Hyperlink} from './hyperlink'
 import {HyperlinkResponse} from './hyperlinkResponse'
 
 export class CategoryPage {
@@ -22,21 +24,21 @@ export class CategoryPage {
 	@Type(() => HyperlinkResponse)
 	links: HyperlinkResponse
 
-	getContentRows() {
+	// Generated data
+	@Expose()
+	@Transform(({obj}) => {
+		const contentResponse = obj.courses.results.length > 0 ? obj.courses : obj.links
 		const rows = []
-		for (let i = 0; i < this.getContent().length; i += 2) {
-			const chunk = this.getContent().slice(i, i + 2)
+		for (let i = 0; i < contentResponse.results.length; i += 2) {
+			const chunk = contentResponse.results.slice(i, i + 2)
 			rows.push(chunk)
 		}
 		return rows
-	}
+	})
+	public rows: (BasicCourse[] | Hyperlink[])[]
 
 	getContentResponse() {
 		return this.courses.results.length > 0 ? this.courses : this.links
-	}
-
-	getContent() {
-		return this.getContentResponse().results
 	}
 
 	getDisplay() {
